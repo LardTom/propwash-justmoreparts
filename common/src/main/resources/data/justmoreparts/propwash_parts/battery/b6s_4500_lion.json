@@ -1,0 +1,24 @@
+{
+  "format": 1,
+  "mass_g": 445.9,
+  "cells": 6,
+  "capacity_mah": 4500,
+  "cell_resistance_ohm": 0.016,
+  "c_rating": 10,
+  "chemistry": "propwash:lion",
+  "pack_mm": [
+    74.0,
+    67.0,
+    46.0
+  ],
+  "connector": "XT60",
+  "durability": 1.5,
+  "recycle": {
+    "item": "propwash:lipo_cell",
+    "count": 3
+  },
+  "sort": 323,
+  "visual": {
+    "accent": "#6a4bc4"
+  }
+}

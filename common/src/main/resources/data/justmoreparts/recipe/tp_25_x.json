@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "group": "propwash_frame",
+  "key": {
+    "C": "propwash:carbon_plate",
+    "N": "minecraft:iron_nugget",
+    "T": "minecraft:stick"
+  },
+  "pattern": [
+    "T T",
+    "NCN",
+    "T T"
+  ],
+  "result": {
+    "id": "justmoreparts:tp_25_x"
+  }
+}

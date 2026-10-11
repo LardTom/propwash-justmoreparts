@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "group": "propwash_battery",
+  "ingredients": [
+    "propwash:lipo_cell",
+    "minecraft:glowstone_dust",
+    "minecraft:glowstone_dust",
+    "minecraft:copper_nugget",
+    "minecraft:copper_nugget"
+  ],
+  "result": {
+    "id": "justmoreparts:b1s_550_hv"
+  }
+}

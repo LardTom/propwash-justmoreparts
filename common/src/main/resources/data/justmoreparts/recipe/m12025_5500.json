@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "group": "propwash_motor",
+  "key": {
+    "L": "propwash:copper_coil",
+    "K": "minecraft:amethyst_shard",
+    "N": "minecraft:iron_nugget"
+  },
+  "pattern": [
+    "LKL",
+    "N N"
+  ],
+  "result": {
+    "id": "justmoreparts:m12025_5500",
+    "count": 2
+  }
+}

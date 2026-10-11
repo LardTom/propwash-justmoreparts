@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "group": "propwash_prop",
+  "key": {
+    "B": "minecraft:dried_kelp",
+    "C": "minecraft:lime_dye",
+    "N": "minecraft:iron_nugget"
+  },
+  "pattern": [
+    " C ",
+    "BNB",
+    "BBB"
+  ],
+  "result": {
+    "id": "justmoreparts:p89_25_5b_pc_duct",
+    "count": 4
+  }
+}

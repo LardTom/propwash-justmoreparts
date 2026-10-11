@@ -1,0 +1,18 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "justmoreparts:part/prop/p31_14_3b_bi_paint",
+    "tints": [
+      {
+        "type": "minecraft:custom_model_data",
+        "index": 0,
+        "default": 16739764
+      },
+      {
+        "type": "minecraft:custom_model_data",
+        "index": 1,
+        "default": 16750281
+      }
+    ]
+  }
+}

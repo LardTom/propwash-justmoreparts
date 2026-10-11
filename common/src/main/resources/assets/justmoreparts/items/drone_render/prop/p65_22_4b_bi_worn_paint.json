@@ -1,0 +1,18 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "justmoreparts:part/prop/p65_22_4b_bi_worn_paint",
+    "tints": [
+      {
+        "type": "minecraft:custom_model_data",
+        "index": 0,
+        "default": 6549678
+      },
+      {
+        "type": "minecraft:custom_model_data",
+        "index": 1,
+        "default": 9435333
+      }
+    ]
+  }
+}

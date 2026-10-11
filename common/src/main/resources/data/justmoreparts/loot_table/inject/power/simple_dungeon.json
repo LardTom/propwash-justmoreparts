@@ -1,0 +1,50 @@
+{
+  "type": "minecraft:chest",
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:empty",
+          "weight": 88
+        },
+        {
+          "type": "minecraft:item",
+          "name": "justmoreparts:b2s_650",
+          "weight": 2
+        },
+        {
+          "type": "minecraft:item",
+          "name": "justmoreparts:b3s_650",
+          "weight": 2
+        },
+        {
+          "type": "minecraft:item",
+          "name": "justmoreparts:b4s_450",
+          "weight": 2
+        },
+        {
+          "type": "minecraft:item",
+          "name": "justmoreparts:b4s_850",
+          "weight": 2
+        },
+        {
+          "type": "minecraft:item",
+          "name": "justmoreparts:aio_tp_4s_20a",
+          "weight": 2
+        },
+        {
+          "type": "minecraft:item",
+          "name": "justmoreparts:aio_tp_6s_20a",
+          "weight": 1
+        },
+        {
+          "type": "minecraft:item",
+          "name": "justmoreparts:aio_20_4s_35a",
+          "weight": 1
+        }
+      ]
+    }
+  ],
+  "random_sequence": "justmoreparts:inject/power/simple_dungeon"
+}

@@ -1,0 +1,49 @@
+{
+  "format": 1,
+  "mass_g": 9.5,
+  "role": "toothpick",
+  "shape": "true_x",
+  "wheelbase_mm": 110,
+  "props_mm": [
+    55,
+    65
+  ],
+  "motor_mounts": [
+    "propwash:m14"
+  ],
+  "stack_mounts": [
+    "propwash:whoop_aio"
+  ],
+  "accessory_mounts": [],
+  "battery": {
+    "on_top": true,
+    "plate_mm": 9.0
+  },
+  "electronics_mm": 5.5,
+  "camera": {
+    "pos": [
+      0.0,
+      14.1,
+      -33.1
+    ],
+    "tilt_deg": 22.0
+  },
+  "aero": {
+    "frontal_area_m2": 0.0045,
+    "drag_coefficient": 0.9
+  },
+  "impact_tolerance": 8.5,
+  "battery_fit": {
+    "cells": [
+      2,
+      4
+    ],
+    "max_mass_g": 60.0,
+    "preferred_min_cells": 3,
+    "preferred_min_capacity_mah": 0
+  },
+  "visual": {
+    "accent": "#ff7b29"
+  },
+  "sort": 604
+}

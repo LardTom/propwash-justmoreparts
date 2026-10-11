@@ -1,0 +1,43 @@
+{
+  "model": {
+    "type": "minecraft:select",
+    "property": "minecraft:display_context",
+    "cases": [
+      {
+        "when": "none",
+        "model": {
+          "type": "minecraft:model",
+          "model": "justmoreparts:part/motor/m0702_23000"
+        }
+      }
+    ],
+    "fallback": {
+      "type": "minecraft:model",
+      "model": "justmoreparts:part/motor/m0702_23000",
+      "transformation": {
+        "left_rotation": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "right_rotation": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "scale": [
+          2.953,
+          2.953,
+          2.953
+        ],
+        "translation": [
+          -0.9765,
+          -0.9765,
+          -0.9765
+        ]
+      }
+    }
+  }
+}

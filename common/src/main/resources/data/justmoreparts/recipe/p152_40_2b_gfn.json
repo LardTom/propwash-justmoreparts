@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "group": "propwash_prop",
+  "key": {
+    "B": "minecraft:dried_kelp",
+    "C": "minecraft:yellow_dye",
+    "M": "minecraft:glass_pane",
+    "N": "minecraft:iron_ingot"
+  },
+  "pattern": [
+    "MC ",
+    "BNB"
+  ],
+  "result": {
+    "id": "justmoreparts:p152_40_2b_gfn",
+    "count": 4
+  }
+}

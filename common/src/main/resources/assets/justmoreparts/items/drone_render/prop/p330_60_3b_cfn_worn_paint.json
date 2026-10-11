@@ -1,0 +1,13 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "justmoreparts:part/prop/p330_60_3b_cfn_worn_paint",
+    "tints": [
+      {
+        "type": "minecraft:custom_model_data",
+        "index": 0,
+        "default": 8883092
+      }
+    ]
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "group": "propwash_battery",
+  "ingredients": [
+    "propwash:lipo_cell",
+    "minecraft:glowstone_dust",
+    "minecraft:string"
+  ],
+  "result": {
+    "id": "justmoreparts:b1s_250_hv"
+  }
+}

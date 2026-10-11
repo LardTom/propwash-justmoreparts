@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "group": "propwash_stack",
+  "key": {
+    "B": "propwash:circuit_board",
+    "r": "minecraft:redstone",
+    "c": "minecraft:copper_ingot",
+    "I": "minecraft:iron_ingot"
+  },
+  "pattern": [
+    "BrB",
+    "cIc",
+    "BrB"
+  ],
+  "result": {
+    "id": "justmoreparts:stack_30_4s_55a"
+  }
+}

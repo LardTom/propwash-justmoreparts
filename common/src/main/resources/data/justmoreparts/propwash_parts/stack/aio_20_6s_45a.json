@@ -1,0 +1,16 @@
+{
+  "format": 1,
+  "mass_g": 11.0,
+  "mount": "propwash:s20",
+  "esc_continuous_a": 45.0,
+  "esc_burst_a": 55.0,
+  "cells": [
+    3,
+    6
+  ],
+  "all_in_one": true,
+  "sort": 407,
+  "visual": {
+    "accent": "#e0572b"
+  }
+}

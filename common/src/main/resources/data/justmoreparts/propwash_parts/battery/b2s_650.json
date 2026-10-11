@@ -1,0 +1,13 @@
+{
+  "format": 1,
+  "mass_g": 35.6,
+  "cells": 2,
+  "capacity_mah": 650,
+  "cell_resistance_ohm": 0.018,
+  "c_rating": 80,
+  "connector": "XT30",
+  "sort": 307,
+  "visual": {
+    "accent": "#1f6fb8"
+  }
+}

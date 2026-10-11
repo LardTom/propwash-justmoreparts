@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "group": "propwash_prop",
+  "key": {
+    "B": "minecraft:dried_kelp",
+    "C": "minecraft:magenta_dye",
+    "M": "minecraft:slime_ball",
+    "N": "minecraft:iron_nugget"
+  },
+  "pattern": [
+    "MC ",
+    "BNB",
+    "BBB"
+  ],
+  "result": {
+    "id": "justmoreparts:p40_14_5b_soft",
+    "count": 4
+  }
+}

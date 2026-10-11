@@ -1,0 +1,73 @@
+{
+  "format": 1,
+  "mass_g": 980.0,
+  "rarity": "rare",
+  "role": "x_class",
+  "shape": "true_x",
+  "wheelbase_mm": 700,
+  "props_mm": [
+    280,
+    305
+  ],
+  "motor_mounts": [
+    "justmoreparts:m31",
+    "justmoreparts:m42"
+  ],
+  "stack_mounts": [
+    "propwash:s30"
+  ],
+  "accessory_mounts": [
+    "top",
+    "bottom"
+  ],
+  "battery": {
+    "on_top": true,
+    "plate_mm": 55.0
+  },
+  "electronics_mm": 25.0,
+  "camera": {
+    "pos": [
+      0.0,
+      26.0,
+      -157.0
+    ],
+    "tilt_deg": 28.0
+  },
+  "aero": {
+    "frontal_area_m2": 0.032,
+    "drag_coefficient": 1.0
+  },
+  "impact_tolerance": 6.5,
+  "battery_fit": {
+    "cells": [
+      6,
+      8
+    ],
+    "max_mass_g": 1800.0,
+    "preferred_min_cells": 8,
+    "preferred_min_capacity_mah": 3000
+  },
+  "visual": {
+    "accent": "#f778ba"
+  },
+  "accessory_anchors": {
+    "top": {
+      "pos": [
+        0.0,
+        61.0,
+        -130.0
+      ],
+      "tilt_deg": 20.0
+    },
+    "bottom": {
+      "pos": [
+        0.0,
+        -5.0,
+        -110.0
+      ],
+      "tilt_deg": 30.0,
+      "length_mm": 60.0
+    }
+  },
+  "sort": 619
+}

@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "group": "propwash_prop",
+  "key": {
+    "B": "minecraft:dried_kelp",
+    "C": "minecraft:purple_dye",
+    "M": "minecraft:honeycomb",
+    "N": "minecraft:iron_nugget"
+  },
+  "pattern": [
+    "MC ",
+    "BNB",
+    "B B"
+  ],
+  "result": {
+    "id": "justmoreparts:p45_17_4b_bi",
+    "count": 4
+  }
+}

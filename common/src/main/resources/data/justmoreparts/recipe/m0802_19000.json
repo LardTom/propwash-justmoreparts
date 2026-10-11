@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "group": "propwash_motor",
+  "key": {
+    "N": "minecraft:iron_nugget",
+    "K": "minecraft:redstone",
+    "L": "propwash:copper_coil"
+  },
+  "pattern": [
+    "NKN",
+    " L "
+  ],
+  "result": {
+    "id": "justmoreparts:m0802_19000",
+    "count": 2
+  }
+}

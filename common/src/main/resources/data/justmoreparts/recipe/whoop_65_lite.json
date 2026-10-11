@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "group": "propwash_frame",
+  "key": {
+    "K": "minecraft:dried_kelp",
+    "P": "minecraft:paper"
+  },
+  "pattern": [
+    "K K",
+    " P ",
+    "K K"
+  ],
+  "result": {
+    "id": "justmoreparts:whoop_65_lite"
+  }
+}

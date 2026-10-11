@@ -1,0 +1,42 @@
+{
+  "type": "minecraft:chest",
+  "pools": [
+    {
+      "entries": [
+        {
+          "type": "minecraft:empty",
+          "weight": 70
+        },
+        {
+          "type": "minecraft:item",
+          "name": "justmoreparts:m3115_900",
+          "weight": 4
+        },
+        {
+          "type": "minecraft:item",
+          "name": "justmoreparts:m3115_640",
+          "weight": 3
+        },
+        {
+          "type": "minecraft:item",
+          "name": "justmoreparts:m22075_1850",
+          "weight": 4,
+          "modifier": {
+            "type": "minecraft:set_count",
+            "count": 2
+          }
+        },
+        {
+          "type": "minecraft:item",
+          "name": "justmoreparts:m2807_1500",
+          "weight": 3,
+          "modifier": {
+            "type": "minecraft:set_count",
+            "count": 2
+          }
+        }
+      ],
+      "rolls": 1
+    }
+  ]
+}

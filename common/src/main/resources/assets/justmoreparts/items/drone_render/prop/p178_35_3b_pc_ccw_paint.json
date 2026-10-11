@@ -1,0 +1,13 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "justmoreparts:part/prop/p178_35_3b_pc_ccw_paint",
+    "tints": [
+      {
+        "type": "minecraft:custom_model_data",
+        "index": 0,
+        "default": 16733253
+      }
+    ]
+  }
+}

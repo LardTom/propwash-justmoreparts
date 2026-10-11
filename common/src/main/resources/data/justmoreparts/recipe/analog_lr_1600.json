@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "group": "propwash_video",
+  "key": {
+    "A": "minecraft:lightning_rod",
+    "E": "propwash:circuit_board",
+    "I": "minecraft:iron_ingot",
+    "L": "propwash:copper_coil",
+    "O": "minecraft:copper_ingot",
+    "Q": "minecraft:glass_pane"
+  },
+  "pattern": [
+    "QAQ",
+    "ELE",
+    "OIO"
+  ],
+  "result": {
+    "id": "justmoreparts:analog_lr_1600"
+  }
+}

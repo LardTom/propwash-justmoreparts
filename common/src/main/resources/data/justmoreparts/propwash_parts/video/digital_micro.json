@@ -1,0 +1,16 @@
+{
+  "format": 1,
+  "mass_g": 4.8,
+  "link": "digital",
+  "latency_ms": 24,
+  "range_blocks": 220,
+  "image_quality": 0.78,
+  "camera_width_mm": 14.0,
+  "camera_fov_deg": 126,
+  "vtx_power_mw": 200,
+  "power_w": 5.1,
+  "visual": {
+    "accent": "#6e7781"
+  },
+  "sort": 503
+}

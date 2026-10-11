@@ -1,0 +1,16 @@
+{
+  "format": 1,
+  "mass_g": 6.2,
+  "mount": "propwash:whoop_aio",
+  "esc_continuous_a": 20.0,
+  "esc_burst_a": 25.0,
+  "cells": [
+    2,
+    6
+  ],
+  "all_in_one": true,
+  "sort": 405,
+  "visual": {
+    "accent": "#d93a5c"
+  }
+}

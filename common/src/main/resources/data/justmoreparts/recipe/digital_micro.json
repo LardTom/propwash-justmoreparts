@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "group": "propwash_video",
+  "key": {
+    "H": "propwash:hd_chip",
+    "T": "minecraft:tinted_glass"
+  },
+  "pattern": [
+    "T",
+    "H"
+  ],
+  "result": {
+    "id": "justmoreparts:digital_micro"
+  }
+}

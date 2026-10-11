@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "group": "propwash_stack",
+  "key": {
+    "B": "propwash:circuit_board",
+    "q": "minecraft:quartz",
+    "G": "minecraft:gold_ingot",
+    "c": "minecraft:copper_ingot"
+  },
+  "pattern": [
+    "BqB",
+    "GcG",
+    "BqB"
+  ],
+  "result": {
+    "id": "justmoreparts:stack_30_6s_80a"
+  }
+}

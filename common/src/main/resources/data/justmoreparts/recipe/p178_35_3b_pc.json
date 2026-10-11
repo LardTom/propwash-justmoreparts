@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "group": "propwash_prop",
+  "key": {
+    "B": "minecraft:dried_kelp",
+    "C": "minecraft:red_dye",
+    "N": "minecraft:iron_ingot"
+  },
+  "pattern": [
+    " C ",
+    "BNB",
+    " B "
+  ],
+  "result": {
+    "id": "justmoreparts:p178_35_3b_pc",
+    "count": 4
+  }
+}

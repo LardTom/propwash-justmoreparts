@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "group": "propwash_battery",
+  "key": {
+    "L": "propwash:lipo_cell",
+    "s": "minecraft:glowstone_dust",
+    "n": "minecraft:copper_nugget"
+  },
+  "pattern": [
+    "LL",
+    "sn"
+  ],
+  "result": {
+    "id": "justmoreparts:b2s_300_hv"
+  }
+}

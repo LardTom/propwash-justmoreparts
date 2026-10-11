@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "group": "propwash_battery",
+  "ingredients": [
+    "justmoreparts:b6s_4500_lion",
+    "justmoreparts:b6s_4500_lion",
+    "minecraft:copper_ingot",
+    "minecraft:iron_nugget"
+  ],
+  "result": {
+    "id": "justmoreparts:b6s_8400_lion"
+  }
+}

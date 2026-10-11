@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "group": "propwash_motor",
+  "key": {
+    "I": "minecraft:iron_ingot",
+    "L": "propwash:copper_coil",
+    "K": "minecraft:redstone",
+    "Q": "minecraft:quartz"
+  },
+  "pattern": [
+    "ILI",
+    "LKL",
+    " Q "
+  ],
+  "result": {
+    "id": "justmoreparts:m23065_2020",
+    "count": 2
+  }
+}

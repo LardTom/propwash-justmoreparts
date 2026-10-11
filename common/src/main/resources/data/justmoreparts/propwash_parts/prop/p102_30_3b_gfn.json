@@ -1,0 +1,12 @@
+{
+  "format": 1,
+  "mass_g": 2.9,
+  "diameter_mm": 102,
+  "pitch_in": 3.0,
+  "blades": 3,
+  "ct": 0.1703,
+  "cp": 0.1268,
+  "material": "glass_fiber_nylon",
+  "sort": 219,
+  "visual": {"accent": "#5c8a6a"}
+}

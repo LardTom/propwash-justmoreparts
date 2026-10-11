@@ -1,0 +1,18 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "justmoreparts:part/frame/whoop_75_duct_paint",
+    "tints": [
+      {
+        "type": "minecraft:custom_model_data",
+        "index": 0,
+        "default": 2960947
+      },
+      {
+        "type": "minecraft:custom_model_data",
+        "index": 1,
+        "default": 4375380
+      }
+    ]
+  }
+}

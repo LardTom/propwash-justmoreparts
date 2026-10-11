@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "group": "propwash_video",
+  "key": {
+    "A": "minecraft:lightning_rod",
+    "E": "propwash:circuit_board",
+    "L": "propwash:copper_coil",
+    "Q": "minecraft:glass_pane",
+    "R": "minecraft:redstone"
+  },
+  "pattern": [
+    "QAR",
+    "ELE"
+  ],
+  "result": {
+    "id": "justmoreparts:analog_race_800"
+  }
+}

@@ -1,0 +1,41 @@
+# eclipse
+bin
+*.launch
+.settings
+.metadata
+.project
+
+# idea
+out
+*.ipr
+*.iws
+*.iml
+.idea/*
+!.idea/scopes
+
+# gradle
+/build/
+/*/build/
+/build-logic/build/
+.gradle
+
+# laufzeit
+eclipse
+run
+runs/
+**/runs/
+*.log
+
+# lokale werkzeuge
+.classpath/
+.DS_Store
+
+# python
+__pycache__/
+*.pyc
+
+# junit
+logs/
+
+# release-artefakte
+/release/

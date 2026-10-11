@@ -1,0 +1,159 @@
+plugins {
+    id 'net.fabricmc.fabric-loom' version '1.18.1' apply false
+    id 'net.neoforged.moddev' version '2.0.147' apply false
+}
+
+ext.jmpRunDirs = [
+        client     : 'runs/client',
+        selftest   : 'runs/selftest-client',
+        smoke      : 'runs/smoke-client',
+        server     : 'runs/server',
+        serverSmoke: 'runs/smoke-server',
+        webExport  : 'runs/web-export',
+]
+ext.jmpWebExportDir = file('build/web-export')
+
+def mutedOptions = [
+        'soundCategory_master'  : '0.001',
+        'soundCategory_music'   : '0.0',
+        'soundCategory_record'  : '0.0',
+        'soundCategory_weather' : '0.0',
+        'soundCategory_block'   : '0.0',
+        'soundCategory_hostile' : '0.0',
+        'soundCategory_neutral' : '0.0',
+        'soundCategory_player'  : '0.0',
+        'soundCategory_ambient' : '0.0',
+        'soundCategory_voice'   : '0.0',
+        'soundCategory_ui'      : '0.0',
+        'pauseOnLostFocus'      : 'false',
+        'onboardAccessibility'  : 'false',
+]
+def selftestOptions = [
+        'renderDistance'    : '6',
+        'simulationDistance': '5',
+        'tutorialStep'      : 'none',
+]
+def optionsDataVersion = '5023'
+
+tasks.register('prepareRuns') {
+    group = 'justmoreparts'
+    description = 'Schreibt stumme options.txt in die Client-Run-Verzeichnisse von Fabric und NeoForge.'
+    def targets = []
+    ['fabric', 'neoforge'].each { loader ->
+        targets << [dir: file("${loader}/${jmpRunDirs.client}"), options: mutedOptions]
+        targets << [dir: file("${loader}/${jmpRunDirs.selftest}"), options: mutedOptions + selftestOptions]
+        targets << [dir: file("${loader}/${jmpRunDirs.smoke}"), options: mutedOptions + selftestOptions]
+    }
+    outputs.upToDateWhen { false }
+    doLast {
+        targets.each { target ->
+            File dir = target.dir
+            Map<String, String> options = target.options
+            dir.mkdirs()
+            File file = new File(dir, 'options.txt')
+            List<String> lines = file.exists() ? file.readLines('UTF-8') : ["version:${optionsDataVersion}".toString()]
+            Set<String> seen = []
+            List<String> patched = lines.collect { line ->
+                int colon = line.indexOf(':')
+                String key = colon > 0 ? line.substring(0, colon) : null
+                if (key != null && options.containsKey(key)) {
+                    seen << key
+                    return "${key}:${options[key]}".toString()
+                }
+                return line
+            }
+            options.each { key, value ->
+                if (!seen.contains(key)) {
+                    patched << "${key}:${value}".toString()
+                }
+            }
+            file.setText(patched.join('\n') + '\n', 'UTF-8')
+            logger.lifecycle("prepareRuns: ${project.relativePath(file)} stumm geschaltet")
+        }
+    }
+}
+
+tasks.register('prepareServerSmoke') {
+    group = 'justmoreparts'
+    description = 'Legt eula.txt und server.properties für Server-Rauchtest und Web-Export beider Loader an.'
+    def dirs = ['fabric', 'neoforge'].collectMany { loader ->
+        [file("${loader}/${jmpRunDirs.serverSmoke}"), file("${loader}/${jmpRunDirs.webExport}")]
+    }
+    outputs.upToDateWhen { false }
+    doLast {
+        dirs.each { File dir ->
+            dir.mkdirs()
+            new File(dir, 'eula.txt').setText('eula=true\n', 'UTF-8')
+            new File(dir, 'server.properties').setText([
+                    'online-mode=false',
+                    "server-port=${25611 + (System.getenv('PROPWASH_MC_SLOT') ?: '0').toInteger()}".toString(),
+                    'level-type=minecraft\\:flat',
+                    'generator-settings={"layers"\\:[{"block"\\:"minecraft\\:bedrock","height"\\:1},{"block"\\:"minecraft\\:dirt","height"\\:2},{"block"\\:"minecraft\\:grass_block","height"\\:1}],"biome"\\:"minecraft\\:plains"}',
+                    'generate-structures=false',
+                    'spawn-protection=16',
+                    'view-distance=6',
+                    'simulation-distance=5',
+                    'sync-chunk-writes=false',
+            ].join('\n') + '\n', 'UTF-8')
+            new File(dir, 'world').deleteDir()
+        }
+    }
+}
+
+configurations {
+    junitConsole {
+        canBeResolved = true
+        canBeConsumed = false
+        transitive = false
+        attributes {
+            attribute(Bundling.BUNDLING_ATTRIBUTE, objects.named(Bundling, Bundling.SHADOWED))
+        }
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    junitConsole('org.junit.platform:junit-platform-console-standalone:1.11.3')
+}
+
+tasks.register('writeJunitConsole') {
+    group = 'justmoreparts'
+    description = 'Legt den JUnit-Konsolenstarter für tools/fastcheck.sh test unter .classpath/junit-console.jar ab.'
+    def source = configurations.junitConsole
+    def target = file('.classpath/junit-console.jar')
+    inputs.files(source)
+    outputs.file(target)
+    doLast {
+        target.parentFile.mkdirs()
+        target.bytes = source.singleFile.bytes
+    }
+}
+
+subprojects {
+    plugins.withId('java') {
+        tasks.register('writeClasspath') {
+            group = 'justmoreparts'
+            description = 'Schreibt die Kompilier-Klassenpfade für tools/fastcheck.sh nach .classpath/.'
+            dependsOn(rootProject.tasks.named('writeJunitConsole'))
+            def mainCp = project.sourceSets.main.compileClasspath
+            def testCp = project.sourceSets.test.compileClasspath
+            def outDir = rootProject.file('.classpath')
+            def name = project.name
+            dependsOn(mainCp, testCp)
+            doLast {
+                outDir.mkdirs()
+                new File(outDir, "${name}.txt").text = mainCp.asPath
+                new File(outDir, "${name}-test.txt").text = testCp.asPath
+            }
+        }
+    }
+}
+
+tasks.register('webExport') {
+    group = 'justmoreparts'
+    description = 'Schreibt den Web-Export (Teile, Regeln, Presets, Sharecode-Tabellen, Texte, Modelle) nach build/web-export/ (Fabric-Server).'
+    dependsOn(':fabric:runWebExport')
+}

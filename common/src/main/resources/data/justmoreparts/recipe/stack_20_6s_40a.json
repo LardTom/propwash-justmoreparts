@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "group": "propwash_stack",
+  "key": {
+    "i": "minecraft:iron_nugget",
+    "B": "propwash:circuit_board",
+    "q": "minecraft:quartz",
+    "c": "minecraft:copper_ingot"
+  },
+  "pattern": [
+    "iBi",
+    "qcq",
+    "iBi"
+  ],
+  "result": {
+    "id": "justmoreparts:stack_20_6s_40a"
+  }
+}

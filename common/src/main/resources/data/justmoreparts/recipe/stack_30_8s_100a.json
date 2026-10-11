@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "group": "propwash_stack",
+  "key": {
+    "B": "propwash:circuit_board",
+    "a": "minecraft:amethyst_shard",
+    "G": "minecraft:gold_ingot",
+    "d": "minecraft:diamond"
+  },
+  "pattern": [
+    "BaB",
+    "GdG",
+    "BaB"
+  ],
+  "result": {
+    "id": "justmoreparts:stack_30_8s_100a"
+  }
+}

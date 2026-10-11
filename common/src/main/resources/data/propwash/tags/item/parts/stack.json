@@ -1,0 +1,17 @@
+{
+  "replace": false,
+  "values": [
+    "justmoreparts:aio_20_4s_35a",
+    "justmoreparts:aio_20_6s_45a",
+    "justmoreparts:aio_tp_4s_20a",
+    "justmoreparts:aio_tp_6s_20a",
+    "justmoreparts:aio_whoop_1s_6a",
+    "justmoreparts:aio_whoop_2s_12a",
+    "justmoreparts:stack_20_6s_40a",
+    "justmoreparts:stack_30_4s_55a",
+    "justmoreparts:stack_30_6s_60a",
+    "justmoreparts:stack_30_6s_80a",
+    "justmoreparts:stack_30_8s_100a",
+    "justmoreparts:stack_30_8s_65a"
+  ]
+}

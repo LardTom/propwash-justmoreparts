@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "group": "propwash_video",
+  "key": {
+    "A": "minecraft:lightning_rod",
+    "H": "propwash:hd_chip",
+    "P": "minecraft:repeater",
+    "T": "minecraft:tinted_glass"
+  },
+  "pattern": [
+    "TA",
+    "HP"
+  ],
+  "result": {
+    "id": "justmoreparts:digital_low_latency"
+  }
+}

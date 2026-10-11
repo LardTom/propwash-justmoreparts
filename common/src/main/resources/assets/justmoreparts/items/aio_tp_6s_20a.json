@@ -1,0 +1,19 @@
+{
+  "model": {
+    "type": "minecraft:select",
+    "property": "minecraft:display_context",
+    "cases": [
+      {
+        "when": "none",
+        "model": {
+          "type": "minecraft:model",
+          "model": "justmoreparts:part/stack/aio_tp_6s_20a"
+        }
+      }
+    ],
+    "fallback": {
+      "type": "minecraft:model",
+      "model": "justmoreparts:part/stack/aio_tp_6s_20a"
+    }
+  }
+}

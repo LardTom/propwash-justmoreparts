@@ -1,0 +1,11 @@
+{
+  "format": 1,
+  "mass_g": 3.3,
+  "diameter_mm": 89,
+  "pitch_in": 2.5,
+  "blades": 5,
+  "ct": 0.2662,
+  "cp": 0.3048,
+  "sort": 216,
+  "visual": {"accent": "#96ef8a"}
+}

@@ -1,0 +1,40 @@
+{
+  "type": "minecraft:chest",
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:empty",
+          "weight": 88
+        },
+        {
+          "type": "minecraft:item",
+          "name": "justmoreparts:b4s_1500",
+          "weight": 3
+        },
+        {
+          "type": "minecraft:item",
+          "name": "justmoreparts:b6s_850",
+          "weight": 3
+        },
+        {
+          "type": "minecraft:item",
+          "name": "justmoreparts:b6s_1500",
+          "weight": 2
+        },
+        {
+          "type": "minecraft:item",
+          "name": "justmoreparts:stack_30_4s_55a",
+          "weight": 2
+        },
+        {
+          "type": "minecraft:item",
+          "name": "justmoreparts:stack_30_6s_60a",
+          "weight": 2
+        }
+      ]
+    }
+  ],
+  "random_sequence": "justmoreparts:inject/power/pillager_outpost"
+}

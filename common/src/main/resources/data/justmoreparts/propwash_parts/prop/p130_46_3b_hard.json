@@ -1,0 +1,13 @@
+{
+  "format": 1,
+  "mass_g": 4.1,
+  "diameter_mm": 130,
+  "pitch_in": 4.6,
+  "blades": 3,
+  "ct": 0.12,
+  "cp": 0.06,
+  "stiffness": 1.12,
+  "durability": 0.8,
+  "sort": 224,
+  "visual": {"accent": "#b86316"}
+}

@@ -1,0 +1,14 @@
+{
+  "format": 1,
+  "mass_g": 18.8,
+  "cells": 1,
+  "capacity_mah": 750,
+  "cell_resistance_ohm": 0.022,
+  "c_rating": 75,
+  "chemistry": "propwash:lihv",
+  "connector": "BT3.0",
+  "sort": 304,
+  "visual": {
+    "accent": "#b8307e"
+  }
+}

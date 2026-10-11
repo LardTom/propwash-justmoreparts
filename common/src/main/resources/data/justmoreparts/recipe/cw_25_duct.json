@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "group": "propwash_frame",
+  "key": {
+    "C": "propwash:carbon_plate",
+    "K": "minecraft:dried_kelp",
+    "N": "minecraft:iron_nugget"
+  },
+  "pattern": [
+    "K K",
+    "CNC",
+    "K K"
+  ],
+  "result": {
+    "id": "justmoreparts:cw_25_duct"
+  }
+}

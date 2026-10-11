@@ -1,0 +1,20 @@
+{
+  "format": 1,
+  "mass_g": 312.0,
+  "rarity": "rare",
+  "cells": 6,
+  "capacity_mah": 3000,
+  "cell_resistance_ohm": 0.007,
+  "c_rating": 25,
+  "chemistry": "justmoreparts:lihv_ss",
+  "connector": "XT60",
+  "durability": 1.2,
+  "recycle": {
+    "item": "propwash:lipo_cell",
+    "count": 3
+  },
+  "sort": 322,
+  "visual": {
+    "accent": "#c8b88a"
+  }
+}

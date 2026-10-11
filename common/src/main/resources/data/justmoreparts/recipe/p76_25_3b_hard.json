@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "group": "propwash_prop",
+  "key": {
+    "B": "minecraft:dried_kelp",
+    "C": "minecraft:blue_dye",
+    "M": "minecraft:flint",
+    "N": "minecraft:iron_nugget"
+  },
+  "pattern": [
+    "MC ",
+    "BNB",
+    " B "
+  ],
+  "result": {
+    "id": "justmoreparts:p76_25_3b_hard",
+    "count": 4
+  }
+}

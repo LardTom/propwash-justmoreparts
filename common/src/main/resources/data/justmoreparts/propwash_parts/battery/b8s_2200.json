@@ -1,0 +1,18 @@
+{
+  "format": 1,
+  "mass_g": 449.1,
+  "rarity": "uncommon",
+  "cells": 8,
+  "capacity_mah": 2200,
+  "cell_resistance_ohm": 0.004,
+  "c_rating": 100,
+  "connector": "XT90",
+  "recycle": {
+    "item": "propwash:lipo_cell",
+    "count": 4
+  },
+  "sort": 326,
+  "visual": {
+    "accent": "#d6b82a"
+  }
+}

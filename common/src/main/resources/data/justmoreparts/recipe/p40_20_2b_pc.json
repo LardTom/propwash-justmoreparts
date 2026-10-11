@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "group": "propwash_prop",
+  "key": {
+    "B": "minecraft:dried_kelp",
+    "C": "minecraft:magenta_dye",
+    "N": "minecraft:iron_nugget"
+  },
+  "pattern": [
+    " C ",
+    "BNB"
+  ],
+  "result": {
+    "id": "justmoreparts:p40_20_2b_pc",
+    "count": 4
+  }
+}

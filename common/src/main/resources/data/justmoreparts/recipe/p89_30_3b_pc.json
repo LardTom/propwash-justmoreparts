@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "group": "propwash_prop",
+  "key": {
+    "B": "minecraft:dried_kelp",
+    "C": "minecraft:lime_dye",
+    "N": "minecraft:iron_nugget"
+  },
+  "pattern": [
+    " C ",
+    "BNB",
+    " B "
+  ],
+  "result": {
+    "id": "justmoreparts:p89_30_3b_pc",
+    "count": 4
+  }
+}

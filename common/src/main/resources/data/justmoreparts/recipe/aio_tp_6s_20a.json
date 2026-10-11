@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "group": "propwash_stack",
+  "key": {
+    "q": "minecraft:quartz",
+    "B": "propwash:circuit_board",
+    "n": "minecraft:copper_nugget",
+    "c": "minecraft:copper_ingot"
+  },
+  "pattern": [
+    "qBq",
+    "ncn"
+  ],
+  "result": {
+    "id": "justmoreparts:aio_tp_6s_20a"
+  }
+}

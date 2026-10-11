@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "group": "propwash_video",
+  "key": {
+    "E": "propwash:circuit_board",
+    "Q": "minecraft:glass_pane"
+  },
+  "pattern": [
+    "Q",
+    "E"
+  ],
+  "result": {
+    "id": "justmoreparts:analog_whoop_25mw"
+  }
+}

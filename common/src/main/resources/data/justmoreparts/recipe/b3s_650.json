@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "group": "propwash_battery",
+  "key": {
+    "L": "propwash:lipo_cell",
+    "c": "minecraft:copper_ingot",
+    "r": "minecraft:redstone"
+  },
+  "pattern": [
+    "LLL",
+    "crc"
+  ],
+  "result": {
+    "id": "justmoreparts:b3s_650"
+  }
+}

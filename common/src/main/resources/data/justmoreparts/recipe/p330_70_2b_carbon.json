@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "group": "propwash_prop",
+  "key": {
+    "B": "propwash:carbon_plate",
+    "C": "minecraft:black_dye",
+    "M": "minecraft:quartz",
+    "N": "minecraft:gold_ingot"
+  },
+  "pattern": [
+    "MC ",
+    "BNB"
+  ],
+  "result": {
+    "id": "justmoreparts:p330_70_2b_carbon",
+    "count": 2
+  }
+}

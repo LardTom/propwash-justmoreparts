@@ -1,0 +1,14 @@
+{
+  "format": 1,
+  "mass_g": 16.3,
+  "cells": 2,
+  "capacity_mah": 300,
+  "cell_resistance_ohm": 0.045,
+  "c_rating": 45,
+  "chemistry": "propwash:lihv",
+  "connector": "A30",
+  "sort": 305,
+  "visual": {
+    "accent": "#3fc2d9"
+  }
+}

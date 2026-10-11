@@ -1,0 +1,20 @@
+{
+  "format": 1,
+  "mass_g": 641.7,
+  "rarity": "rare",
+  "cells": 8,
+  "capacity_mah": 5000,
+  "cell_resistance_ohm": 0.006,
+  "c_rating": 20,
+  "chemistry": "justmoreparts:lihv_ss",
+  "connector": "AS150",
+  "durability": 1.2,
+  "recycle": {
+    "item": "propwash:lipo_cell",
+    "count": 4
+  },
+  "sort": 329,
+  "visual": {
+    "accent": "#a8986a"
+  }
+}

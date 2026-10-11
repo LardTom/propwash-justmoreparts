@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "group": "propwash_frame",
+  "key": {
+    "B": "minecraft:iron_block",
+    "C": "propwash:carbon_plate",
+    "I": "minecraft:iron_ingot"
+  },
+  "pattern": [
+    "CIC",
+    "IBI",
+    "CIC"
+  ],
+  "result": {
+    "id": "justmoreparts:xclass_10"
+  }
+}

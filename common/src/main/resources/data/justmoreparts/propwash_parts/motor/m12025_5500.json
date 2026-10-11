@@ -1,0 +1,20 @@
+{
+  "format": 1,
+  "mass_g": 4.7,
+  "stator": "1202.5",
+  "kv": 5500,
+  "mount": "propwash:m14",
+  "max_current_a": 9.0,
+  "resistance_ohm": 0.35,
+  "cells": [
+    3,
+    4
+  ],
+  "thermal": {
+    "cooling_w_per_k_per_rad_s": 0.00008
+  },
+  "sort": 108,
+  "visual": {
+    "accent": "#5d6bd6"
+  }
+}

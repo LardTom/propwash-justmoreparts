@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "group": "propwash_stack",
+  "ingredients": [
+    "propwash:circuit_board",
+    "minecraft:copper_nugget",
+    "minecraft:iron_nugget"
+  ],
+  "result": {
+    "id": "justmoreparts:aio_whoop_1s_6a"
+  }
+}

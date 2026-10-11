@@ -1,0 +1,12 @@
+{
+  "replace": false,
+  "values": [
+    "justmoreparts:analog_lr_1600",
+    "justmoreparts:analog_race_800",
+    "justmoreparts:analog_whoop_25mw",
+    "justmoreparts:digital_hd_pro",
+    "justmoreparts:digital_low_latency",
+    "justmoreparts:digital_lr",
+    "justmoreparts:digital_micro"
+  ]
+}

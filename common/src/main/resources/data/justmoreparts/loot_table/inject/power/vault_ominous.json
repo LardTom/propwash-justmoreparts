@@ -1,0 +1,45 @@
+{
+  "type": "minecraft:chest",
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:empty",
+          "weight": 80
+        },
+        {
+          "type": "minecraft:item",
+          "name": "justmoreparts:b6s_4500_lion",
+          "weight": 4
+        },
+        {
+          "type": "minecraft:item",
+          "name": "justmoreparts:b6s_3000_ss",
+          "weight": 4
+        },
+        {
+          "type": "minecraft:item",
+          "name": "justmoreparts:b8s_2200",
+          "weight": 3
+        },
+        {
+          "type": "minecraft:item",
+          "name": "justmoreparts:b8s_4500_lion",
+          "weight": 3
+        },
+        {
+          "type": "minecraft:item",
+          "name": "justmoreparts:stack_30_8s_65a",
+          "weight": 3
+        },
+        {
+          "type": "minecraft:item",
+          "name": "justmoreparts:b6s_5000",
+          "weight": 3
+        }
+      ]
+    }
+  ],
+  "random_sequence": "justmoreparts:inject/power/vault_ominous"
+}

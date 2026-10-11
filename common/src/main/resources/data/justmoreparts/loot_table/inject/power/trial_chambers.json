@@ -1,0 +1,40 @@
+{
+  "type": "minecraft:chest",
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:empty",
+          "weight": 88
+        },
+        {
+          "type": "minecraft:item",
+          "name": "justmoreparts:aio_20_4s_35a",
+          "weight": 3
+        },
+        {
+          "type": "minecraft:item",
+          "name": "justmoreparts:aio_20_6s_45a",
+          "weight": 3
+        },
+        {
+          "type": "minecraft:item",
+          "name": "justmoreparts:aio_tp_6s_20a",
+          "weight": 2
+        },
+        {
+          "type": "minecraft:item",
+          "name": "justmoreparts:b4s_1100",
+          "weight": 2
+        },
+        {
+          "type": "minecraft:item",
+          "name": "justmoreparts:b6s_850",
+          "weight": 2
+        }
+      ]
+    }
+  ],
+  "random_sequence": "justmoreparts:inject/power/trial_chambers"
+}

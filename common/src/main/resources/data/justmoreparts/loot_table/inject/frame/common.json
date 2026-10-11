@@ -1,0 +1,49 @@
+{
+  "type": "minecraft:chest",
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:empty",
+          "weight": 72
+        },
+        {
+          "type": "minecraft:item",
+          "name": "justmoreparts:whoop_65_lite",
+          "weight": 4
+        },
+        {
+          "type": "minecraft:item",
+          "name": "justmoreparts:whoop_75_duct",
+          "weight": 4
+        },
+        {
+          "type": "minecraft:item",
+          "name": "justmoreparts:whoop_85_duct",
+          "weight": 3
+        },
+        {
+          "type": "minecraft:item",
+          "name": "justmoreparts:tp_2_x",
+          "weight": 3
+        },
+        {
+          "type": "minecraft:item",
+          "name": "justmoreparts:tp_25_x",
+          "weight": 3
+        },
+        {
+          "type": "minecraft:item",
+          "name": "justmoreparts:analog_whoop_25mw",
+          "weight": 4
+        },
+        {
+          "type": "minecraft:item",
+          "name": "justmoreparts:digital_micro",
+          "weight": 2
+        }
+      ]
+    }
+  ]
+}

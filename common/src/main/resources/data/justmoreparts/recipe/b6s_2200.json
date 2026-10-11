@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "group": "propwash_battery",
+  "key": {
+    "L": "propwash:lipo_cell",
+    "G": "minecraft:gold_ingot"
+  },
+  "pattern": [
+    "LLL",
+    "LLL",
+    "GGG"
+  ],
+  "result": {
+    "id": "justmoreparts:b6s_2200"
+  }
+}

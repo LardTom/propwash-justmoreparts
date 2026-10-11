@@ -1,0 +1,23 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "justmoreparts:part/frame/cw_35_duct_paint",
+    "tints": [
+      {
+        "type": "minecraft:custom_model_data",
+        "index": 0,
+        "default": 2237737
+      },
+      {
+        "type": "minecraft:custom_model_data",
+        "index": 1,
+        "default": 2631722
+      },
+      {
+        "type": "minecraft:custom_model_data",
+        "index": 2,
+        "default": 14524708
+      }
+    ]
+  }
+}

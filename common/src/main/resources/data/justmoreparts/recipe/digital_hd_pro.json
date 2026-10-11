@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "group": "propwash_video",
+  "key": {
+    "A": "minecraft:lightning_rod",
+    "D": "minecraft:diamond",
+    "G": "minecraft:gold_ingot",
+    "H": "propwash:hd_chip",
+    "T": "minecraft:tinted_glass"
+  },
+  "pattern": [
+    "TAT",
+    "GHG",
+    " D "
+  ],
+  "result": {
+    "id": "justmoreparts:digital_hd_pro"
+  }
+}

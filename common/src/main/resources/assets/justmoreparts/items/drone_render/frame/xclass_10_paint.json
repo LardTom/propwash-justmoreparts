@@ -1,0 +1,42 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "justmoreparts:part/frame/xclass_10_paint",
+    "tints": [
+      {
+        "type": "minecraft:custom_model_data",
+        "index": 0,
+        "default": 2237737
+      },
+      {
+        "type": "minecraft:custom_model_data",
+        "index": 1,
+        "default": 13950181
+      }
+    ],
+    "transformation": {
+      "left_rotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "right_rotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "scale": [
+        1.22,
+        1.22,
+        1.22
+      ],
+      "translation": [
+        -0.11,
+        -0.11,
+        -0.11
+      ]
+    }
+  }
+}

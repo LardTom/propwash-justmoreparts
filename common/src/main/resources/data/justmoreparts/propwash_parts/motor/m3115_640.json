@@ -1,0 +1,24 @@
+{
+  "format": 1,
+  "mass_g": 90.0,
+  "rarity": "uncommon",
+  "stator": "3115",
+  "kv": 640,
+  "mount": "justmoreparts:m31",
+  "max_current_a": 55.0,
+  "resistance_ohm": 0.0706,
+  "cells": [
+    6,
+    8
+  ],
+  "thermal": {
+    "cooling_w_per_k": 0.26,
+    "cooling_w_per_k_per_rad_s": 0.00043,
+    "derate_start_c": 140.0,
+    "max_temp_c": 160.0
+  },
+  "sort": 128,
+  "visual": {
+    "accent": "#4f9fcf"
+  }
+}

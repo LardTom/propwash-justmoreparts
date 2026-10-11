@@ -1,0 +1,117 @@
+plugins {
+    id 'multiloader-loader'
+    id 'net.neoforged.moddev'
+}
+
+dependencies {
+    implementation("de.lardtom:propwash-neoforge-${minecraft_version}:${propwash_version}")
+}
+
+neoForge {
+    version = neoforge_version
+    runs {
+        configureEach {
+            ideName = "NeoForge ${it.name.capitalize()} (${project.path})"
+        }
+        client {
+            client()
+            gameDirectory = this.mkdir(this.file(rootProject.jmpRunDirs.client))
+        }
+        clientSelftest {
+            client()
+            sourceSet = sourceSets.devtest
+            gameDirectory = this.mkdir(this.file(rootProject.jmpRunDirs.selftest))
+            systemProperty('justmoreparts.selftest', 'true')
+        }
+        clientSmoke {
+            client()
+            sourceSet = sourceSets.devtest
+            gameDirectory = this.mkdir(this.file(rootProject.jmpRunDirs.smoke))
+            systemProperty('justmoreparts.smoketest', 'true')
+        }
+        serverSmoke {
+            server()
+            sourceSet = sourceSets.devtest
+            gameDirectory = this.mkdir(this.file(rootProject.jmpRunDirs.serverSmoke))
+            systemProperty('justmoreparts.serversmoke', 'true')
+            programArgument('--nogui')
+        }
+        webExport {
+            server()
+            sourceSet = sourceSets.devtest
+            gameDirectory = this.mkdir(this.file(rootProject.jmpRunDirs.webExport))
+            systemProperty('justmoreparts.webexport', rootProject.jmpWebExportDir.absolutePath)
+            programArgument('--nogui')
+        }
+        server {
+            server()
+            this.file(rootProject.jmpRunDirs.server).createParentDirectories()
+            gameDirectory = this.mkdir(this.file(rootProject.jmpRunDirs.server))
+        }
+    }
+    mods {
+        "${mod_id}" {
+            sourceSet sourceSets.main
+            sourceSet sourceSets.devtest
+        }
+    }
+}
+
+tasks.matching { it.name in ['runClient', 'runServer', 'runClientSelftest', 'runClientSmoke'] }.configureEach {
+    dependsOn(rootProject.tasks.named('prepareRuns'))
+}
+tasks.matching { it.name in ['runServerSmoke', 'runWebExport'] }.configureEach {
+    dependsOn(rootProject.tasks.named('prepareServerSmoke'))
+}
+
+[runClientSelftest: [dir: rootProject.jmpRunDirs.selftest, label: 'Selbsttest (NeoForge)'],
+ runClientSmoke   : [dir: rootProject.jmpRunDirs.smoke, label: 'Rauchtest (NeoForge)'],
+ runServerSmoke   : [dir: rootProject.jmpRunDirs.serverSmoke, label: 'Server-Rauchtest (NeoForge)', scanLog: true],
+ runWebExport     : [dir: rootProject.jmpRunDirs.webExport, label: 'Web-Export (NeoForge)', scanLog: true]].each { taskName, cfg ->
+    tasks.matching { it.name == taskName }.configureEach { task ->
+        def resultFile = file("${cfg.dir}/justmoreparts-selftest-result.txt")
+        task.group = 'justmoreparts'
+        task.doFirst { resultFile.delete() }
+        task.doLast {
+            if (!resultFile.exists()) {
+                throw new GradleException("${cfg.label}: keine Ergebnisdatei – Spiel abgestürzt oder vorzeitig beendet?")
+            }
+            def result = resultFile.getText('UTF-8').trim()
+            if (!result.startsWith('PASS')) {
+                throw new GradleException("${cfg.label} fehlgeschlagen: ${result}")
+            }
+            if (cfg.scanLog) {
+                def logFile = file("${cfg.dir}/logs/latest.log")
+                if (!logFile.exists()) {
+                    throw new GradleException("${cfg.label}: kein logs/latest.log")
+                }
+                def bad = logFile.readLines('UTF-8').findAll { line ->
+                    line =~ /\/(ERROR|FATAL)\]/ || line.contains('MixinApplyError') || line.contains('InvalidMixinException') ||
+                            line.contains('InvalidInjectionException') || line.contains('Mixin apply failed')
+                }
+                if (!bad.isEmpty()) {
+                    throw new GradleException("${cfg.label}: ${bad.size()} Fehlerzeilen im Log, erste: ${bad.first()}")
+                }
+            }
+            logger.lifecycle("${cfg.label}: ${result}")
+        }
+    }
+}
+
+def loaderAttribute = Attribute.of('io.github.mcgradleconventions.loader', String)
+['apiElements', 'runtimeElements', 'sourcesElements'].each { variant ->
+    configurations.named(variant) {
+        attributes {
+            attribute(loaderAttribute, 'neoforge')
+        }
+    }
+}
+sourceSets.configureEach {
+    [it.compileClasspathConfigurationName, it.runtimeClasspathConfigurationName, it.getTaskName(null, 'jarJar')].each { variant ->
+        configurations.named(variant) {
+            attributes {
+                attribute(loaderAttribute, 'neoforge')
+            }
+        }
+    }
+}

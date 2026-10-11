@@ -1,0 +1,107 @@
+{
+  "format": 1,
+  "mass_g": 84.0,
+  "role": "race",
+  "shape": "stretched_x",
+  "wheelbase_mm": 236,
+  "props_mm": [
+    115,
+    130
+  ],
+  "motor_mounts": [
+    "propwash:m22"
+  ],
+  "stack_mounts": [
+    "propwash:s30",
+    "propwash:s20"
+  ],
+  "accessory_mounts": [
+    "top",
+    "bottom"
+  ],
+  "battery": {
+    "on_top": false,
+    "plate_mm": -2.8
+  },
+  "electronics_mm": 10.0,
+  "camera": {
+    "pos": [
+      0.0,
+      16.5,
+      -47.5
+    ],
+    "tilt_deg": 40.0
+  },
+  "aero": {
+    "frontal_area_m2": 0.0085,
+    "drag_coefficient": 0.72
+  },
+  "impact_tolerance": 6.5,
+  "battery_fit": {
+    "cells": [
+      4,
+      6
+    ],
+    "max_mass_g": 230.0,
+    "preferred_min_cells": 4,
+    "preferred_min_capacity_mah": 0
+  },
+  "arms": {
+    "front_left": {
+      "pos": [
+        -70.0,
+        0.0,
+        -95.0
+      ],
+      "spin": "cw"
+    },
+    "front_right": {
+      "pos": [
+        70.0,
+        0.0,
+        -95.0
+      ],
+      "spin": "ccw"
+    },
+    "rear_left": {
+      "pos": [
+        -70.0,
+        0.0,
+        95.0
+      ],
+      "spin": "ccw"
+    },
+    "rear_right": {
+      "pos": [
+        70.0,
+        0.0,
+        95.0
+      ],
+      "spin": "cw"
+    }
+  },
+  "durability": 0.8,
+  "visual": {
+    "accent": "#0969da"
+  },
+  "accessory_anchors": {
+    "top": {
+      "pos": [
+        0.0,
+        28.5,
+        -70.0
+      ],
+      "tilt_deg": 20.0
+    },
+    "bottom": {
+      "pos": [
+        0.0,
+        -2.0,
+        -50.0
+      ],
+      "tilt_deg": 30.0,
+      "length_mm": 28.0
+    }
+  },
+  "sort": 612
+}

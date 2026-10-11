@@ -1,0 +1,13 @@
+{
+  "format": 1,
+  "mass_g": 28.0,
+  "rarity": "rare",
+  "diameter_mm": 330,
+  "pitch_in": 7.0,
+  "blades": 2,
+  "ct": 0.0935,
+  "cp": 0.0365,
+  "material": "carbon",
+  "sort": 237,
+  "visual": {"accent": "#6e7482"}
+}

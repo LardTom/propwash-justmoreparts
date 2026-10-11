@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "group": "propwash_frame",
+  "key": {
+    "C": "propwash:carbon_plate",
+    "M": "minecraft:compass"
+  },
+  "pattern": [
+    "C C",
+    " M ",
+    "C C"
+  ],
+  "result": {
+    "id": "justmoreparts:lr_4_x"
+  }
+}

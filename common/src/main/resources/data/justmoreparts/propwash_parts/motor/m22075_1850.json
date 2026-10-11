@@ -1,0 +1,21 @@
+{
+  "format": 1,
+  "mass_g": 35.5,
+  "stator": "2207.5",
+  "kv": 1850,
+  "mount": "propwash:m22",
+  "max_current_a": 50.0,
+  "resistance_ohm": 0.0468,
+  "cells": [
+    6,
+    6
+  ],
+  "thermal": {
+    "derate_start_c": 145.0,
+    "max_temp_c": 165.0
+  },
+  "sort": 118,
+  "visual": {
+    "accent": "#1e9e8e"
+  }
+}

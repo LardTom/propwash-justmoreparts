@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "group": "propwash_video",
+  "key": {
+    "A": "minecraft:lightning_rod",
+    "H": "propwash:hd_chip",
+    "I": "minecraft:iron_ingot",
+    "O": "minecraft:copper_ingot",
+    "T": "minecraft:tinted_glass",
+    "X": "minecraft:ender_pearl"
+  },
+  "pattern": [
+    "TAT",
+    "HXH",
+    "OIO"
+  ],
+  "result": {
+    "id": "justmoreparts:digital_lr"
+  }
+}

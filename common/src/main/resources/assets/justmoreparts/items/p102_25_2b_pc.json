@@ -1,0 +1,74 @@
+{
+  "model": {
+    "type": "minecraft:select",
+    "property": "minecraft:display_context",
+    "cases": [
+      {
+        "when": "none",
+        "model": {
+          "type": "minecraft:select",
+          "property": "minecraft:custom_model_data",
+          "index": 0,
+          "cases": [
+            {
+              "when": "ccw",
+              "model": {
+                "type": "minecraft:model",
+                "model": "justmoreparts:part/prop/p102_25_2b_pc_ccw"
+              }
+            },
+            {
+              "when": "blur",
+              "model": {
+                "type": "minecraft:model",
+                "model": "justmoreparts:part/prop/p102_25_2b_pc_blur"
+              }
+            },
+            {
+              "when": "ccw_blur",
+              "model": {
+                "type": "minecraft:model",
+                "model": "justmoreparts:part/prop/p102_25_2b_pc_blur"
+              }
+            }
+          ],
+          "fallback": {
+            "type": "minecraft:model",
+            "model": "justmoreparts:part/prop/p102_25_2b_pc"
+          }
+        }
+      }
+    ],
+    "fallback": {
+      "type": "minecraft:range_dispatch",
+      "property": "propwash:prop_damage",
+      "entries": [
+        {
+          "threshold": 1.0,
+          "model": {
+            "type": "minecraft:model",
+            "model": "justmoreparts:part/prop/p102_25_2b_pc_worn"
+          }
+        },
+        {
+          "threshold": 2.0,
+          "model": {
+            "type": "minecraft:model",
+            "model": "justmoreparts:part/prop/p102_25_2b_pc_damaged"
+          }
+        },
+        {
+          "threshold": 3.0,
+          "model": {
+            "type": "minecraft:model",
+            "model": "justmoreparts:part/prop/p102_25_2b_pc_broken"
+          }
+        }
+      ],
+      "fallback": {
+        "type": "minecraft:model",
+        "model": "justmoreparts:part/prop/p102_25_2b_pc"
+      }
+    }
+  }
+}

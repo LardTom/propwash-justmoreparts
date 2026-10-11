@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:chest",
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:empty",
+          "weight": 94
+        },
+        {
+          "type": "minecraft:item",
+          "name": "justmoreparts:b1s_250_hv",
+          "weight": 3
+        },
+        {
+          "type": "minecraft:item",
+          "name": "justmoreparts:b1s_380_hv",
+          "weight": 2
+        },
+        {
+          "type": "minecraft:item",
+          "name": "justmoreparts:aio_whoop_1s_6a",
+          "weight": 1
+        }
+      ]
+    }
+  ],
+  "random_sequence": "justmoreparts:inject/power/village_house"
+}

@@ -1,0 +1,17 @@
+{
+  "format": 1,
+  "mass_g": 97.7,
+  "cells": 6,
+  "capacity_mah": 550,
+  "cell_resistance_ohm": 0.018,
+  "c_rating": 80,
+  "connector": "XT30",
+  "recycle": {
+    "item": "propwash:lipo_cell",
+    "count": 3
+  },
+  "sort": 315,
+  "visual": {
+    "accent": "#ff8fa3"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "justmoreparts:part/motor/m3115_900_paint",
+    "tints": [
+      {
+        "type": "minecraft:custom_model_data",
+        "index": 0,
+        "default": 16600140
+      },
+      {
+        "type": "minecraft:custom_model_data",
+        "index": 1,
+        "default": 2368808
+      }
+    ]
+  }
+}

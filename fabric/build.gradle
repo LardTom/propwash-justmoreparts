@@ -1,0 +1,134 @@
+plugins {
+    id 'multiloader-loader'
+    id 'net.fabricmc.fabric-loom'
+}
+
+dependencies {
+    minecraft("com.mojang:minecraft:${minecraft_version}")
+    implementation("net.fabricmc:fabric-loader:${fabric_loader_version}")
+    implementation("net.fabricmc.fabric-api:fabric-api:${fabric_version}")
+    implementation("de.lardtom:propwash-fabric-${minecraft_version}:${propwash_version}")
+}
+
+loom {
+    mods {
+        "${mod_id}" {
+            sourceSet sourceSets.main
+            sourceSet sourceSets.devtest
+        }
+    }
+    runs {
+        client {
+            client()
+            setConfigName('Fabric Client')
+            ideConfigGenerated(true)
+            runDir(rootProject.jmpRunDirs.client)
+        }
+        server {
+            server()
+            setConfigName('Fabric Server')
+            ideConfigGenerated(true)
+            runDir(rootProject.jmpRunDirs.server)
+        }
+        clientSelftest {
+            client()
+            source(sourceSets.devtest)
+            setConfigName('Fabric Client Selftest')
+            ideConfigGenerated(true)
+            runDir(rootProject.jmpRunDirs.selftest)
+            property('justmoreparts.selftest', 'true')
+            if (project.hasProperty('jmpScreenshots')) {
+                property('justmoreparts.screenshots', rootProject.file('docs/screenshots').absolutePath)
+            }
+        }
+        clientSmoke {
+            client()
+            source(sourceSets.devtest)
+            setConfigName('Fabric Client Smoke')
+            ideConfigGenerated(true)
+            runDir(rootProject.jmpRunDirs.smoke)
+            property('justmoreparts.smoketest', 'true')
+        }
+        serverSmoke {
+            server()
+            source(sourceSets.devtest)
+            setConfigName('Fabric Server Smoke')
+            ideConfigGenerated(true)
+            runDir(rootProject.jmpRunDirs.serverSmoke)
+            property('justmoreparts.serversmoke', 'true')
+        }
+        webExport {
+            server()
+            source(sourceSets.devtest)
+            setConfigName('Fabric Web Export')
+            ideConfigGenerated(true)
+            runDir(rootProject.jmpRunDirs.webExport)
+            property('justmoreparts.webexport', rootProject.jmpWebExportDir.absolutePath)
+        }
+    }
+}
+
+tasks.matching { it.name in ['runClient', 'runServer', 'runClientSelftest', 'runClientSmoke'] }.configureEach {
+    dependsOn(rootProject.tasks.named('prepareRuns'))
+}
+tasks.matching { it.name in ['runServerSmoke', 'runWebExport'] }.configureEach {
+    dependsOn(rootProject.tasks.named('prepareServerSmoke'))
+}
+
+tasks.matching { it.name in ['runClientSelftest', 'runClientSmoke', 'runServerSmoke', 'runWebExport'] }.configureEach {
+    doFirst {
+        sourceSets.devtest.output.resourcesDir.mkdirs()
+    }
+}
+
+[runClientSelftest: [dir: rootProject.jmpRunDirs.selftest, label: 'Selbsttest (Fabric)'],
+ runClientSmoke   : [dir: rootProject.jmpRunDirs.smoke, label: 'Rauchtest (Fabric)'],
+ runServerSmoke   : [dir: rootProject.jmpRunDirs.serverSmoke, label: 'Server-Rauchtest (Fabric)', scanLog: true],
+ runWebExport     : [dir: rootProject.jmpRunDirs.webExport, label: 'Web-Export (Fabric)', scanLog: true]].each { taskName, cfg ->
+    tasks.matching { it.name == taskName }.configureEach { task ->
+        def resultFile = file("${cfg.dir}/justmoreparts-selftest-result.txt")
+        task.group = 'justmoreparts'
+        task.doFirst { resultFile.delete() }
+        task.doLast {
+            if (!resultFile.exists()) {
+                throw new GradleException("${cfg.label}: keine Ergebnisdatei – Spiel abgestürzt oder vorzeitig beendet?")
+            }
+            def result = resultFile.getText('UTF-8').trim()
+            if (!result.startsWith('PASS')) {
+                throw new GradleException("${cfg.label} fehlgeschlagen: ${result}")
+            }
+            if (cfg.scanLog) {
+                def logFile = file("${cfg.dir}/logs/latest.log")
+                if (!logFile.exists()) {
+                    throw new GradleException("${cfg.label}: kein logs/latest.log")
+                }
+                def bad = logFile.readLines('UTF-8').findAll { line ->
+                    line =~ /\/(ERROR|FATAL)\]/ || line.contains('MixinApplyError') || line.contains('InvalidMixinException') ||
+                            line.contains('InvalidInjectionException') || line.contains('Mixin apply failed')
+                }
+                if (!bad.isEmpty()) {
+                    throw new GradleException("${cfg.label}: ${bad.size()} Fehlerzeilen im Log, erste: ${bad.first()}")
+                }
+            }
+            logger.lifecycle("${cfg.label}: ${result}")
+        }
+    }
+}
+
+def loaderAttribute = Attribute.of('io.github.mcgradleconventions.loader', String)
+['apiElements', 'runtimeElements', 'sourcesElements', 'includeInternal', 'modCompileClasspath'].each { variant ->
+    configurations.named(variant) {
+        attributes {
+            attribute(loaderAttribute, 'fabric')
+        }
+    }
+}
+sourceSets.configureEach {
+    [it.compileClasspathConfigurationName, it.runtimeClasspathConfigurationName].each { variant ->
+        configurations.named(variant) {
+            attributes {
+                attribute(loaderAttribute, 'fabric')
+            }
+        }
+    }
+}

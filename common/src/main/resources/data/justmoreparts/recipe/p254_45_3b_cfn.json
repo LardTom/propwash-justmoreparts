@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "group": "propwash_prop",
+  "key": {
+    "B": "minecraft:dried_kelp",
+    "C": "minecraft:gray_dye",
+    "M": "propwash:carbon_plate",
+    "N": "minecraft:gold_ingot"
+  },
+  "pattern": [
+    "MC ",
+    "BNB",
+    " B "
+  ],
+  "result": {
+    "id": "justmoreparts:p254_45_3b_cfn",
+    "count": 2
+  }
+}
