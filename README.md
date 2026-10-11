@@ -1,145 +1,151 @@
+Deutsche Version: [README.de.md](README.de.md)
+
 # Propwash: Just More Parts
 
-Addon für **Propwash FPV** (Minecraft 26.3, Fabric und NeoForge): **143 weitere realistische Drohnenteile** vom
-65-mm-Whoop über 2–3,5″-Toothpicks und Cinewhoops, 5″-Freestyle und -Race, 6–8″-Long-Range bis zur 13″-X-Class, **neue
-Rahmenformen** (Stretched-X, Squashed-X, Deadcat, H-Frame, Ducts, X-Class) und **Sharecodes**, mit denen man Baupläne,
-Lackierung, Flug-Tuning und OSD-Layout als kurzen Text teilt.
+An add-on for **Propwash FPV** (Minecraft 26.3, Fabric and NeoForge): **143 more realistic drone parts**, from the
+65 mm whoop through 2–3.5″ toothpicks and cinewhoops, 5″ freestyle and race, 6–8″ long range, up to the 13″ X-Class,
+**new frame shapes** (Stretched-X, Squashed-X, Deadcat, H-Frame, Ducts, X-Class) and **share codes** that let you
+share a build, paint job, flight tune and OSD layout as a short piece of text.
 
-JMP bringt keine eigene Flugphysik mit: Jedes Teil ist ein Datensatz mit echten Kennzahlen (Masse, Statorgröße und KV,
-Wicklungswiderstand, Wärmegrenzen, Schub- und Leistungsbeiwerte, Steifigkeit, Zellzahl, Kapazität, C-Rate,
-Innenwiderstand, Radstand, Arm-Geometrie, Luftwiderstand …), und **Propwash rechnet daraus das Flugverhalten**. Vor- und
-Nachteile entstehen deshalb von selbst: Ein Zweiblatt fliegt länger, ein Fünfblatt zieht mehr Strom, ein Li-Ion-Akku hält
-ewig und hat keinen Punch, ein Deadcat hat (fast) keine Props im Bild. Die Shift-Hilfe jedes Teils nennt seine Stärken und
-Schwächen — und jede dieser Aussagen ist im Prüfstand mit Propwashs eigener Analyse belegt.
+JMP brings no flight physics of its own: every part is a data set with real figures (weight, stator size and KV,
+winding resistance, heat limits, thrust and power coefficients, stiffness, cell count, capacity, C-rating, internal
+resistance, wheelbase, arm geometry, drag …), and **Propwash computes the flight behavior from that**. Strengths and
+weaknesses fall out on their own: a two-blade prop flies longer, a five-blade prop draws more current, a Li-Ion
+battery lasts forever and has no punch, a deadcat has (almost) no props in the picture. Every part's Shift tooltip
+names its strengths and weaknesses — and every one of those statements is backed by Propwash's own analysis on the
+test bench.
 
-Version **1.1.0** · Autor: lardtom · Lizenz: siehe [Lizenz](#lizenz).
+Version **1.1.0** · Author: lardtom · License: see [License](#license).
 
-## Voraussetzungen
+## Requirements
 - Minecraft 26.3, Java 25
-- **Propwash FPV 0.4.0 oder neuer** (Parts-API 1.4) — Pflicht auf Client **und** Server
-- Fabric Loader 0.19.5 + Fabric API 0.161.0+26.3 **oder** NeoForge 26.3.0.10-beta
+- **Propwash FPV 0.4.0 or newer** (Parts API 1.4) — required on client **and** server
+- Fabric Loader 0.19.5 + Fabric API 0.161.0+26.3 **or** NeoForge 26.3.0.10-beta
 
-JMP ist eine eigene Mod mit eigener Mod-Id (`justmoreparts`) und benutzt nur die öffentliche API von Propwash. Welten,
-Drohnen und Einstellungen von Propwash bleiben unverändert; ohne JMP zeigt Propwash fehlende Teile als Platzhalter.
+JMP is its own mod with its own mod ID (`justmoreparts`) and only uses Propwash's public API. Propwash's worlds,
+drones and settings stay unchanged; without JMP, Propwash shows missing parts as placeholders.
 
-## Inhalt
+## Contents
 
-| Kategorie | Anzahl | Spannweite |
+| Category | Count | Range |
 |---|---|---|
-| Motoren | 34 | 0702 bis 4214, mehrere KV-Stufen je Stator (27000 KV bis 330 KV), neue Halterungen 31xx und 42xx |
-| Propeller | 38 | 31 mm bis 13″, 2–5 Blätter, PC, weiches/hartes PC, Bi-Blend, Glasfaser-/Carbonfaser-Nylon, Vollcarbon, Duct-Props |
-| Akkus | 30 | 1S 250 mAh bis 8S 5000 mAh: LiHV, LiPo, Li-Ion (18650/21700, auch 6S2P), Semi-Solid |
-| Zellchemie | 1 | Semi-Solid-LiHV (bis 4,45 V je Zelle): leicht, aber nur 20–25 C |
-| Stacks/AIOs | 12 | 1S-Whoop-AIO bis 30×30-8S-Stack mit 100 A |
-| Videosysteme | 7 | analog 25 mW bis 1,6 W, digital von Micro bis Long Range, mit dem Sichtfeld ihrer Kamera (110–133°) |
-| Rahmen | 22 | Whoops 65–85 mm, Toothpicks 2–3,5″, Cinewhoops 2,5/3,5″, 5″ True-X/Squashed/Stretched/Deadcat/H-Frame, Long Range 4–8″, X-Class 10/12/13″ und 13″-H |
-| Presets | 22 | je Klasse fertige, lackierte Drohnen im eigenen Kreativ-Tab |
+| Motors | 34 | 0702 to 4214, several KV ratings per stator (27000 KV to 330 KV), new 31xx and 42xx mounts |
+| Propellers | 38 | 31 mm to 13″, 2–5 blades, PC, soft/hard PC, bi-blend, glass-/carbon-fiber nylon, solid carbon, duct props |
+| Batteries | 30 | 1S 250 mAh to 8S 5000 mAh: LiHV, LiPo, Li-Ion (18650/21700, also 6S2P), semi-solid |
+| Cell chemistry | 1 | Semi-solid LiHV (up to 4.45 V per cell): light, but only 20–25C |
+| Stacks/AIOs | 12 | 1S whoop AIO up to a 30×30 8S stack with 100 A |
+| Video systems | 7 | analog 25 mW to 1.6 W, digital from micro to long range, with each camera's field of view (110–133°) |
+| Frames | 22 | whoops 65–85 mm, toothpicks 2–3.5″, cinewhoops 2.5/3.5″, 5″ True-X/Squashed/Stretched/Deadcat/H-Frame, long range 4–8″, X-Class 10/12/13″ and 13″ H |
+| Presets | 22 | ready-made, painted drones for every class, in their own creative tab |
 
-Außerdem:
-- **Überleben:** Rezepte für jedes Teil (Aufwand steigt mit der Größe) und Truhen-Beute vom Dorfhaus bis zur Endsiedlung;
-  X-Class-Teile sind ungewöhnlich oder selten und liegen erst in späten Strukturen.
-- **Eigene Modelle im Propwash-Stil** mit Lack-Varianten für Motoren, Propeller (mit Schadensstufen), Akkus, Stacks,
-  Rahmen und Videosysteme, gebaut aus denselben Bausteinen wie Propwashs eigene Teile und mit derselben Anzeige in Hand,
-  Inventar, Rahmen und am Boden; auch die X-Class-Rahmen haben an der Drohne ein echtes Modell in voller Größe.
-- **Flugschul-Szenen:** „Rahmenformen im Vergleich“ (fünf 5″-Formen mit gleichen Teilen) und „Builds teilen“. Die
-  Flugschul-Taste (M) über einem JMP-Teil öffnet seine Lektionen wie bei Propwashs eigenen Teilen: Werkbank und
-  Herstellen für jedes Teil, dazu je nach Art Rahmenformen, Schäden und Props tauschen, Akkus und Ladegerät,
-  Konfigurator oder Videosysteme; Presets zusätzlich „Builds teilen“.
-- **Deutsch und Englisch** für alle Namen, Hilfen und Fenster; die Teilnamen folgen demselben Schema wie die
-  Propwash-Teile (`6S-Akku 2200 mAh`, `1404-Motor, 3800 KV`, `40-mm-Propeller (3 Blätter, 1,7″ Steigung, PC)`,
-  Regeln in [`docs/design/part-naming.md`](docs/design/part-naming.md)).
+Also:
+- **Survival:** recipes for every part (cost grows with size) and chest loot from village houses to end cities;
+  X-Class parts are uncommon or rare and only appear in late-game structures.
+- **Its own models in Propwash's style** with paint variants for motors, propellers (with damage stages), batteries,
+  stacks, frames and video systems, built from the same building blocks as Propwash's own parts and shown the same
+  way in hand, in the inventory, on the frame and on the ground; the X-Class frames also get a true full-size model
+  on the drone.
+- **Flight School scenes:** "Frame shapes compared" (five 5″ shapes with the same parts) and "Sharing builds". The
+  Flight School key (`M`) held over a JMP part opens its lessons just like Propwash's own parts: workbench and
+  crafting for every part, plus, depending on the kind, frame shapes, damage and swapping props, batteries and the
+  charger, the configurator or video systems; presets additionally get "Sharing builds".
+- **German and English** for every name, tooltip and window; part names follow the same scheme as Propwash's own
+  parts (`6S Battery 2200 mAh`, `1404 Motor, 3800 KV`, `40 mm Propeller (3 blades, 1.7″ pitch, PC)`, rules in
+  [`docs/design/part-naming.md`](docs/design/part-naming.md)).
 
-## Rahmenformen kurz erklärt
-Die Unterschiede rechnet Propwash aus der Arm-Geometrie, Masse, Kameralage und dem Luftwiderstand jedes Rahmens:
-- **True-X:** alle Arme gleich lang — ausgewogen in Roll und Nick.
-- **Stretched-X:** Motoren weiter vorne/hinten als seitlich — mehr Roll-Autorität, trägeres Nicken; schlank und schnell
-  geradeaus (Race). Die Vorderprops laufen nah an der Kamera vorbei: mehr Props im Bild als beim True-X.
-- **Squashed-X:** Motoren weiter seitlich — mehr Nick-Autorität, spritzigere Flips, weniger Props im Bild, dafür trägere
-  Rolls.
-- **Deadcat:** vordere Arme gespreizt — keine Props im Kamerabild (der 7″-Long-Range zeigt mit 130°-Brille nur die
-  Propspitzen an den Bildrändern, rund 2 %), dafür etwas schwerer, und Roll und Nick reagieren unterschiedlich.
-- **H-Frame:** Kamera weit vorn — keine Props im Bild, spritzigere Flips; schwer, viel Luftwiderstand, trägere Rolls.
-- **Ducts (Whoop/Cinewhoop):** Schutzringe um die Props — prallen ab statt zu brechen und tragen eine Action-Cam, aber
-  viel Luftwiderstand.
-- **X-Class 10–13″:** 460 bis 820 mm Radstand (Renn-Regelmaß ab 800 mm), 3115- und 4214-Motoren, 6–8S — viel Masse
-  und Trägheit, große Props, lange Flüge.
+## Frame shapes in brief
+Propwash works out the differences from each frame's arm geometry, weight, camera position and drag:
+- **True-X:** all arms the same length — balanced in roll and pitch.
+- **Stretched-X:** motors further forward/back than to the sides — more roll authority, slower pitch; slim and fast
+  in a straight line (race). The front props pass close to the camera: more props in the picture than on a True-X.
+- **Squashed-X:** motors further to the sides — more pitch authority, snappier flips, fewer props in the picture, but
+  slower rolls.
+- **Deadcat:** front arms splayed out — no props in the camera picture (the 7″ long range shows only the prop tips at
+  the edges of the picture with 130° goggles, around 2%), but somewhat heavier, and roll and pitch respond
+  differently.
+- **H-Frame:** camera far forward — no props in the picture, snappier flips; heavy, lots of drag, slower rolls.
+- **Ducts (whoop/cinewhoop):** guard rings around the props — they bounce off instead of breaking and can carry an
+  action cam, but have a lot of drag.
+- **X-Class 10–13″:** 460 to 820 mm wheelbase (the official race size starts at 800 mm), 3115 and 4214 motors, 6–8S —
+  lots of mass and inertia, big props, long flights.
 
-## Sharecodes: so geht's
-Ein Sharecode ist ein kurzer Text wie `PW21RSaEPg8Rt` (ein fertiges Preset), mit Tuning und Namen meist 50–75 Zeichen.
-Er enthält wahlweise **Teile, Lackierung, Flug-Tuning, OSD-Layout und Namen** einer Drohne. Leerzeichen und
-Zeilenumbrüche beim Einfügen sind egal, Groß- und Kleinschreibung zählt, Beschädigungen erkennt die Prüfsumme. Ältere
-Codes `PW1-…` aus Testversionen funktionieren weiter.
+## Share codes: how it works
+A share code is a short piece of text like `PW21RSaEPg8Rt` (a finished preset), usually 50–75 characters with a tune
+and a name. It can hold any combination of a drone's **parts, paint job, flight tune, OSD layout and name**. Spaces
+and line breaks don't matter when pasting it in, capitalization does, and the checksum catches corruption. Older
+`PW1-…` codes from test versions keep working.
 
-**An der Werkbank (Teile, Lack, Tuning, OSD)**
-1. Drohne in der Propwash-Werkbank zusammenbauen.
-2. Knopf **„Sharecode“** oben in der Werkbank (auf Deutsch als Symbol `</>`, damit der Titel lesbar bleibt), Reiter
-   **„Exportieren“**: Häkchen für Lack, Tuning, OSD und Namen setzen, **„In die Zwischenablage“** — der Code kann in
-   Chat, Discord oder ein Forum.
-3. Zum Nachbauen im selben Fenster den Reiter **„Importieren“** wählen, Code einfügen: Das Fenster zeigt die Drohne
-   in 3D, prüft alle Teile, nennt Flugwerte und — im Überlebensmodus — eine Einkaufsliste der fehlenden Teile. Ebenen
-   wählen (Teile, Lack, Tuning, OSD) und **„Übernehmen“**. Im Überlebensmodus braucht die Werkbank die Teile (und
-   Farbstoff für den Lack); im Kreativmodus entstehen sie von selbst.
+**At the workbench (parts, paint, tune, OSD)**
+1. Build the drone at the Propwash workbench.
+2. The **"Share Code"** button at the top of the workbench (shown as the `</>` icon in German so the title stays
+   readable), **"Export"** tab: check the boxes for paint, tune, OSD and name, then **"Copy to clipboard"** — the
+   code can go in chat, Discord or a forum post.
+3. To rebuild it, pick the **"Import"** tab in the same window and paste the code: the window shows the drone in 3D,
+   checks every part, gives flight figures and — in survival — a shopping list of the missing parts. Pick the layers
+   (parts, paint, tune, OSD) and click **"Apply"**. In survival the workbench needs the parts (and dye for the paint
+   job); in creative they appear on their own.
 
-**Im Konfigurator (Taste `K`, Tab „Sharecode“)**
-- *Drohne in der Hand teilen:* Ebenen wählen, Code kopieren.
-- *Code anwenden:* nur **Tuning** oder nur **Lack** auf die gehaltene Drohne übernehmen, das **OSD-Layout** übernehmen;
-  im Kreativmodus **„Drohne erzeugen“**, im Überlebensmodus die Einkaufsliste.
+**In the configurator (key `K`, "Share Code" tab)**
+- *Share the drone in hand:* pick the layers, copy the code.
+- *Apply a code:* apply only the **tune** or only the **paint job** to the drone in hand, or apply the **OSD
+  layout**; in creative, **"Spawn drone"**, in survival the shopping list.
 
-**Per Befehl** (auch als `/justmoreparts …`)
-- `/jmp code export [ebenen]` — Code der Drohne in der Haupthand als anklickbare Chat-Zeile (Klick kopiert), z. B.
-  `/jmp code export parts,paint,tune`.
-- `/jmp code info <code>` — zeigt Ebenen, Teile, unbekannte Teile und Probleme, ohne etwas zu ändern.
-- `/jmp code import <code>` — Kreativmodus: neue Drohne ins Inventar; Überleben: Tuning und Lack auf die gehaltene Drohne.
-- `/jmp code give <code> [spieler]` — nur Operatoren: erzeugt die Drohne des Codes im Inventar.
+**Via command** (also as `/justmoreparts …`)
+- `/jmp code export [layers]` — the code for the drone in your main hand, as a clickable chat line (click to copy),
+  e.g. `/jmp code export parts,paint,tune`.
+- `/jmp code info <code>` — shows layers, parts, unknown parts and problems without changing anything.
+- `/jmp code import <code>` — creative: a new drone into your inventory; survival: tune and paint onto the drone in
+  hand.
+- `/jmp code give <code> [player]` — operators only: spawns the code's drone into an inventory.
 
-Codes bleiben gültig: Teil-Ids von JMP sind eingefroren; Teile anderer Addons, die fehlen, meldet der Import als
-„unbekannt“, statt abzubrechen. Das Format steht in `docs/design/sharecode-pw2.md` (PW2, mit gemessenen Längen) und
-`docs/design/sharecode.md` (PW1, wird weiter gelesen), beide mit Testvektoren.
+Codes stay valid: JMP's part IDs are frozen; parts from other add-ons that are missing get reported by the import as
+"unknown" instead of failing. The format is documented in `docs/design/sharecode-pw2.md` (PW2, with measured
+lengths) and `docs/design/sharecode.md` (PW1, still read for backward compatibility), both with test vectors.
 
-## Entwickeln
-1. Im Propwash-Repository einmal `./gradlew publishToMavenLocal` (Propwash 0.5.0).
-2. Hier einmal `JAVA_HOME=<jdk25> ./gradlew writeClasspath` (für `tools/fastcheck.sh`), danach `./gradlew build`.
-3. Schnell prüfen ohne Gradle: `tools/fastcheck.sh all`, `tools/fastcheck.sh test` (135 JUnit-Tests inklusive der
-   Prüfstände aller Kategorien).
-4. Spielen: `./gradlew :fabric:runClient` bzw. `:neoforge:runClient` (Propwash wird mitgeladen, Ton stumm).
-5. Selbsttest: `./gradlew :fabric:runClientSelftest` (mit `-PjmpScreenshots` zusätzlich Bildschirmfotos nach
-   `docs/screenshots/`, darunter die Vergleichsbilder Propwash gegen JMP in `docs/screenshots/compare/`), Rauchtests
-   `runClientSmoke`, `runServerSmoke`; Web-Export: `./gradlew webExport` → `build/web-export/`.
-6. Teile ändern: JSON unter `common/src/main/resources/data/justmoreparts/propwash_parts/`, danach
-   `python3 tools/parts_sync.py --write` und `--check`; Sprachtexte in `common/src/lang/<modul>/`.
-7. Modelle ändern: Vorlagen in `tools/assets/jmpstyle/`, dann `python3 tools/assets/style_generate.py --write`
-   (braucht numpy und Pillow; Regeln in `docs/design/asset-style.md`), Vergleich mit `tools/assets/compare_render.py`.
+## Developing
+1. In the Propwash repository, once: `./gradlew publishToMavenLocal` (Propwash 0.5.0).
+2. Here, once: `JAVA_HOME=<jdk25> ./gradlew writeClasspath` (for `tools/fastcheck.sh`), then `./gradlew build`.
+3. Quick checks without Gradle: `tools/fastcheck.sh all`, `tools/fastcheck.sh test` (135 JUnit tests, including the
+   test benches for every category).
+4. Play: `./gradlew :fabric:runClient` or `:neoforge:runClient` (Propwash loads alongside it, sound muted).
+5. Self-test: `./gradlew :fabric:runClientSelftest` (with `-PjmpScreenshots` it also writes screenshots to
+   `docs/screenshots/`, including the Propwash-vs-JMP comparison images in `docs/screenshots/compare/`), smoke tests
+   `runClientSmoke`, `runServerSmoke`; web export: `./gradlew webExport` → `build/web-export/`.
+6. Change parts: JSON under `common/src/main/resources/data/justmoreparts/propwash_parts/`, then
+   `python3 tools/parts_sync.py --write` and `--check`; language strings in `common/src/lang/<module>/`.
+7. Change models: templates in `tools/assets/jmpstyle/`, then `python3 tools/assets/style_generate.py --write`
+   (needs numpy and Pillow; rules in `docs/design/asset-style.md`), compare with `tools/assets/compare_render.py`.
 
-## Dokumentation
-- `CHANGELOG.md` — Änderungen je Version, kurz und für Spieler (englisch)
-- `docs/RELEASE-NOTES.md` — Einzelheiten je Version: Prüfstand-Zahlen, Namensbeispiele, Hinweise
-- `docs/ARCHITECTURE.md` — Aufbau, Lebenszyklus, API-Wünsche an Propwash
-- `docs/CONVENTIONS.md` — Regeln für Code, Daten, Sprache, Git
-- `docs/design/parts-catalog.md` — alle Teile mit Kennzahlen, Pro/Contra und Prüfstand-Werten
-- `docs/design/asset-style.md` — Stil-Regeln der Modelle (Propwash-Bausteine, Texturen, Anzeige)
-- `docs/design/sharecode-pw2.md` — Sharecode-Format PW2 (Standard)
-- `docs/design/sharecode.md` — Sharecode-Format PW1 (wird weiter gelesen)
-- `docs/design/web-export.md` — Datenpaket für den Web-Konfigurator
-- `docs/modrinth/` — Modrinth-Beschreibung (de/en) und Listing
+## Documentation
+- `CHANGELOG.md` — changes per version, short and for players (English)
+- `docs/RELEASE-NOTES.md` — details per version: test-bench numbers, naming examples, notes
+- `docs/ARCHITECTURE.md` — structure, lifecycle, API wishes for Propwash
+- `docs/CONVENTIONS.md` — rules for code, data, language, Git
+- `docs/design/parts-catalog.md` — every part with its figures, pros/cons and test-bench values
+- `docs/design/asset-style.md` — style rules for the models (Propwash building blocks, textures, display)
+- `docs/design/sharecode-pw2.md` — share code format PW2 (current)
+- `docs/design/sharecode.md` — share code format PW1 (still read for compatibility)
+- `docs/design/web-export.md` — data package for the web configurator
+- `docs/modrinth/` — Modrinth description (DE/EN) and listing
 
-## Mitmachen
-Pull Requests sind willkommen. Vorher [`CONTRIBUTING.md`](CONTRIBUTING.md) lesen; jeder Pull Request braucht den kurzen
-Beitragsvertrag [`CLA.md`](CLA.md) (Häkchen in der Pull-Request-Vorlage).
+## Contributing
+Pull requests are welcome. Please read [`CONTRIBUTING.md`](CONTRIBUTING.md) first; every pull request needs the
+short contributor agreement [`CLA.md`](CLA.md) (a checkbox in the pull request template).
 
-## Lizenz
-Ab Version 1.1.0 erscheint der Quellcode von Propwash: Just More Parts unter der
-[PolyForm Shield License 1.0.0](https://polyformproject.org/licenses/shield/1.0.0), derselben Lizenz wie bei Sodium und
-Propwash FPV. In einfachen Worten:
+## License
+From version 1.1.0 on, the source code of Propwash: Just More Parts is published under the
+[PolyForm Shield License 1.0.0](https://polyformproject.org/licenses/shield/1.0.0), the same license Sodium and
+Propwash FPV use. In plain words:
 
-- **Erlaubt:** den Code lesen und prüfen, selbst bauen, JMP in Modpacks aufnehmen und per Pull Request beitragen (mit
-  einem kurzen Beitragsvertrag).
-- **Nicht erlaubt:** JMP neu hochladen, Forks als alternative Downloads veröffentlichen und aus der Codebasis
-  konkurrierende Mods bauen.
-- **MIT:** Die Doku steht unter der MIT-Lizenz; welche Dateien genau, steht in [`LICENSE-MIT`](LICENSE-MIT).
-- **Ausstiegsklausel:** Gibt es zwölf Monate lang kein neues Release und keine Aktivität der Maintainer, steht der Code
-  automatisch zusätzlich unter der MIT-Lizenz.
-- Version 1.0.0 und älter bleiben „Alle Rechte vorbehalten“.
+- **Allowed:** reading and inspecting the code, building it yourself, including JMP in modpacks, and contributing
+  through pull requests (with a short contributor agreement).
+- **Not allowed:** re-uploading JMP, publishing forks as alternative downloads, and building competing mods from the
+  codebase.
+- **MIT:** the documentation is under the MIT License; [`LICENSE-MIT`](LICENSE-MIT) lists the exact files.
+- **Exit clause:** if there are no new releases and no maintainer activity for twelve months, the code automatically
+  also becomes available under the MIT License.
+- Version 1.0.0 and older stay "All Rights Reserved".
 
-Verbindlich sind die Lizenztexte: [`LICENSE`](LICENSE), [`LICENSE-MIT`](LICENSE-MIT) und [`NOTICE`](NOTICE).
+The license texts are binding: [`LICENSE`](LICENSE), [`LICENSE-MIT`](LICENSE-MIT) and [`NOTICE`](NOTICE).
 
 NOT AN OFFICIAL MINECRAFT PRODUCT. NOT APPROVED BY OR ASSOCIATED WITH MOJANG OR MICROSOFT.

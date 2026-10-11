@@ -7,6 +7,7 @@ paths of the source repository (a path ending in "/" includes everything below i
   (the documentation, except the pictures in docs/screenshots/ and docs/asset-sheets/, which show the mod's own
   assets and belong to the core)
 - README.md
+- README.de.md
 - CHANGELOG.md
 - CONTRIBUTING.md
 
