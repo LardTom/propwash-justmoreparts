@@ -178,7 +178,7 @@ public class FrameBenchTest {
                     Bench.stats(fs(frame)).crashSpeedMs(), pitchToRoll(fs(frame))));
         }
         BuildStats standard = s.get("propwash:freestyle_5");
-        assertEquals(140.0, standard.topSpeedKmh(), 1.0);
+        assertEquals(142.0, standard.topSpeedKmh(), 1.0);
 
         BuildStats bash = s.get("fs_5_bash");
         assertTrue(bash.crashSpeedMs() >= 10.0 && standard.crashSpeedMs() <= 8.0, "Bash: 6-mm-Arme brechen erst ab 10 m/s");

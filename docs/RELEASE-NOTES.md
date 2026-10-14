@@ -8,6 +8,36 @@ Verweise auf die Design-Dokumente. Teile im Einzelnen: [`design/parts-catalog.md
 
 ---
 
+## 1.1.1
+
+Begleit-Release zu Propwash 0.5.2. Keine neuen Teile, keine Änderung an Speicherformaten oder Sharecodes; läuft mit
+Propwash 0.4.0 bis 0.5.2 (Parts-API 1.4 oder neuer), gebaut und geprüft gegen Propwash 0.5.2.
+
+### Akkus mit der Entladekurve von Propwash 0.5.2
+- Die Semi-Solid-Chemie (`chemistry/lihv_ss.json`) übernimmt die neue LiPo-Ruhespannungskurve von Propwash 0.5.2
+  (bei 50 % unverändert, darunter wie die üblichen LiPo-Tabellen). Alle anderen Akkus nutzen die Chemien von Propwash
+  und folgen der neuen Kurve ohne Datenänderung; Flugzeiten der Presets meist unter +1 %, Li-Ion-Aufbauten bei
+  aggressivem Fliegen bis +10 %.
+- `PowerDataTest` prüft die Semi-Solid-Kurve als feste Werte.
+
+### Gegen Propwash 0.5.2 geprüft
+- Gebaut gegen Propwash 0.5.2 (`propwash_version`), die Prüfstände laufen mit dessen Flugmodell. Mit der neuen
+  Entladekurve fliegen der 6″-Zweiblatt (`p152_40_2b_gfn`) und der Dreiblatt (`p152_33_3b_pc`) mit Li-Ion im Reiseflug
+  fast gleich lang (+0,8 %), im Schweben bleibt der Zweiblatt 3 % vorn. Die Texte sagen jetzt „schwebt länger“ bzw.
+  „schwebt kürzer“; der Vergleich Zweiblatt gegen Dreiblatt läuft für 6″ mit LiPo. Der 3,5″-Dreiblatt
+  (`p89_30_3b_pc`) erreicht auf 6S 116 statt 115 km/h, der 5″-Freestyle-Standard im Rahmen-Prüfstand 142 km/h. Der
+  2806,5/1300 bleibt leichter und schwebt 2,4 % länger als der 2807/1300, gemischt nur noch +0,9 %.
+- Der Lizenz-Test prüft das englische `README.md` (Abschnitt License) und `README.de.md` (Abschnitt Lizenz).
+
+### Sharecode: Halterung vorne
+- PW1 und PW2 kennen den Zubehör-Platz 2 `front` (Propwash 0.5.2, `AccessorySlot.FRONT`). Er wird zur Laufzeit über
+  `AccessorySlot#key` gefunden, deshalb läuft 1.1.1 weiter mit Propwash 0.4.0 bis 0.5.1. Codes ohne Zubehör vorne
+  bleiben Byte für Byte gleich; ältere Versionen lesen Platz 2 und verwerfen ihn (`accessory_slot:2`).
+
+### Sharecode: Race-Prop von Propwash 0.5.2
+- `propwash:p51_29_3b` (5,1″ × 2,9″, 3 Blätter) steht als Nummer 43 am Ende der Prop-Tabelle von PW2 (44 Props);
+  bestehende Codes bleiben Byte für Byte gleich ([`design/sharecode-pw2.md`](design/sharecode-pw2.md)).
+
 ## 1.1.0
 
 **Optional für Spieler auf Servern ohne Just More Parts (mit Propwash 0.5.0):** Wer Just More Parts installiert hat, kann

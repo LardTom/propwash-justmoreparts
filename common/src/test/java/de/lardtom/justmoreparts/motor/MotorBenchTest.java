@@ -504,9 +504,9 @@ public class MotorBenchTest {
         BuildStats n2807 = s(DC7, "propwash:m2807_1300");
         BuildStats o15_dc = s(DC7, "m2807_1500");
         c.that("2806,5/1300: 31 min Schweben im 7″-Preset", n130.hoverFlightTimeMin() > 30.5);
-        c.that("2806,5/1300: leichter und länger in der Luft als 2807/1300", lt(motor("m28065_1300").basics().massGrams(),
+        c.that("2806,5/1300: leichter und im Schweben länger in der Luft als 2807/1300", lt(motor("m28065_1300").basics().massGrams(),
                 motor("propwash:m2807_1300").basics().massGrams())
-                && gt(n130.hoverFlightTimeMin(), n2807.hoverFlightTimeMin()) && gt(n130.mixedFlightTimeMin(), n2807.mixedFlightTimeMin()));
+                && gt(n130.hoverFlightTimeMin(), n2807.hoverFlightTimeMin()) && n130.mixedFlightTimeMin() >= n2807.mixedFlightTimeMin());
         c.that("2806,5/1300: kühler als 2807/1300", lt(n130.sustainedMotorTempC(), n2807.sustainedMotorTempC()));
         c.that("2806,5/1300: wenig Punch", n130.thrustToWeight() < 5.5);
         c.that("2806,5/1300: mit 8″ überfordert", warnings(LR8_6S.with("m28065_1300")).contains("motor_thermal"));

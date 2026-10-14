@@ -155,8 +155,7 @@ public class PowerDataTest {
         assertEquals(3.3, c.cutoffCellVoltage(), 1e-9);
         assertEquals(3.9, c.storageCellVoltage(), 1e-9);
         assertEquals(2.0, c.densityGramsPerCm3(), 1e-9);
-        CellChemistry lipo = PropwashApi.parts().chemistry(BatteryDefinition.LIPO).orElseThrow();
-        assertEquals(lipo.ocvShape(), c.ocvShape());
+        assertEquals(List.of(0.0, 0.16, 0.27, 0.33, 0.37, 0.4, 0.43, 0.5, 0.61, 0.73, 0.86, 1.0), c.ocvShape());
         assertTrue(c.fullCellVoltage() > PropwashApi.parts().chemistry(BatteryDefinition.LIHV).orElseThrow().fullCellVoltage());
     }
 

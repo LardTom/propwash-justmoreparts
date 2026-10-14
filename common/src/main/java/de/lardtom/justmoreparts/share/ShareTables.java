@@ -5,6 +5,7 @@ import de.lardtom.propwash.api.build.TuneSpec;
 import de.lardtom.propwash.api.part.AccessorySlot;
 import net.minecraft.resources.Identifier;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.List;
@@ -34,7 +35,7 @@ public final class ShareTables {
     public static final int PAINT_SLOT_BITS = 16;
 
     public static final List<String> NAMESPACES = List.of("", "propwash", "justmoreparts");
-    public static final List<AccessorySlot> ACCESSORY_SLOTS = List.of(AccessorySlot.TOP, AccessorySlot.BOTTOM);
+    public static final List<AccessorySlot> ACCESSORY_SLOTS = accessorySlots();
     public static final List<String> PAINT_SLOTS = List.of("frame", "tpu", "motors", "prop_fl", "prop_fr", "prop_rl", "prop_rr", "stack",
             "battery", "camera", "antenna", "accessories");
     public static final List<String> TUNE_KEYS = List.of(
@@ -76,6 +77,16 @@ public final class ShareTables {
 
     public static int paintBit(String slot) {
         return PAINT_SLOTS.indexOf(slot);
+    }
+
+    private static List<AccessorySlot> accessorySlots() {
+        List<AccessorySlot> slots = new ArrayList<>(List.of(AccessorySlot.TOP, AccessorySlot.BOTTOM));
+        for (AccessorySlot slot : AccessorySlot.values()) {
+            if ("front".equals(slot.key())) {
+                slots.add(slot);
+            }
+        }
+        return List.copyOf(slots);
     }
 
     public static int accessoryIndex(AccessorySlot slot) {

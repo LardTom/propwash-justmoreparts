@@ -247,7 +247,9 @@ public class Pw2CodecTest {
         assertEquals(27, Pw2Tables.FRAMES.size());
         assertEquals(16, Pw2Tables.STACKS.size());
         assertEquals(40, Pw2Tables.MOTORS.size());
-        assertEquals(43, Pw2Tables.PROPS.size());
+        assertEquals(44, Pw2Tables.PROPS.size());
+        assertEquals("justmoreparts:p89_30_3b_pc", Pw2Tables.PROPS.get(42));
+        assertEquals("propwash:p51_29_3b", Pw2Tables.PROPS.get(43));
         assertEquals(11, Pw2Tables.VIDEOS.size());
         assertEquals(35, Pw2Tables.BATTERIES.size());
         assertEquals(5, Pw2Tables.ACCESSORIES.size());

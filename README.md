@@ -103,7 +103,7 @@ Codes stay valid: JMP's part IDs are frozen; parts from other add-ons that are m
 lengths) and `docs/design/sharecode.md` (PW1, still read for backward compatibility), both with test vectors.
 
 ## Developing
-1. In the Propwash repository, once: `./gradlew publishToMavenLocal` (Propwash 0.5.0).
+1. In the Propwash repository, once: `./gradlew publishToMavenLocal` (Propwash 0.5.2).
 2. Here, once: `JAVA_HOME=<jdk25> ./gradlew writeClasspath` (for `tools/fastcheck.sh`), then `./gradlew build`.
 3. Quick checks without Gradle: `tools/fastcheck.sh all`, `tools/fastcheck.sh test` (135 JUnit tests, including the
    test benches for every category).

@@ -188,6 +188,10 @@ public class PropBenchTest {
         return all(b, p, others, BuildStats::cruiseFlightTimeMin, false);
     }
 
+    static boolean hoverShorter(Build b, String p, String... others) {
+        return all(b, p, others, BuildStats::hoverFlightTimeMin, false);
+    }
+
     static boolean shorter(Build b, String p, String... others) {
         return all(b, p, others, BuildStats::hoverFlightTimeMin, false) && all(b, p, others, BuildStats::cruiseFlightTimeMin, false);
     }
@@ -379,7 +383,7 @@ public class PropBenchTest {
         String p89a = "p89_30_3b_pc";
         String p89b = "p89_25_5b_pc_duct";
         c.add(new Claim(p89a, 2, () -> stats(TP35, p89a).thrustToWeight() >= 8.5 && stats(TP35, p89a).thrustToWeight() < 9.0
-                && Math.round(stats(TP35, p89a).topSpeedKmh()) == 115 && clean(TP35, p89a)));
+                && Math.round(stats(TP35, p89a).topSpeedKmh()) == 116 && clean(TP35, p89a)));
         c.add(new Claim(p89a, 3, () -> lighter(p89a, p89b) && quicker(TP35, p89a, p89b) && quicker(CW35, p89a, p89b)));
         c.add(new Claim(p89a, 4, () -> current(CW35, p89a, p89b, 0.5) && flightOrder(CW35, p89a, p89b)));
         c.add(new Claim(p89a, 5, () -> thrustRatio(CW35, p89a, p89b) > 0.68 && thrustRatio(CW35, p89a, p89b) < 0.72));
@@ -432,8 +436,8 @@ public class PropBenchTest {
         String p152b = "p152_40_2b_gfn";
         c.add(new Claim(p152a, 2, () -> prop(p152a).basics().durability() > prop(p152b).basics().durability()));
         c.add(new Claim(p152a, 3, () -> moreThrust(LR6_LIPO, p152a, p152b)));
-        c.add(new Claim(p152a, 4, () -> shorter(LR6, p152a, p152b) && moreCurrent(LR6, p152a, p152b)));
-        c.add(new Claim(p152b, 2, () -> longer(LR6, p152b, p152a) && lessCurrent(LR6, p152b, p152a) && longer(LR6_LIPO, p152b, p152a)));
+        c.add(new Claim(p152a, 4, () -> hoverShorter(LR6, p152a, p152b) && moreCurrent(LR6, p152a, p152b)));
+        c.add(new Claim(p152b, 2, () -> hoverLonger(LR6, p152b, p152a) && lessCurrent(LR6, p152b, p152a) && longer(LR6_LIPO, p152b, p152a)));
         c.add(new Claim(p152b, 3, () -> faster(LR6, p152b, p152a) && faster(LR6_LIPO, p152b, p152a)));
         c.add(new Claim(p152b, 4, () -> stiff(p152b, 1.2)));
         c.add(new Claim(p152b, 5, () -> brittle(p152b)));
@@ -629,12 +633,12 @@ public class PropBenchTest {
                 new String[]{"LR4", "p102_25_2b_pc", "p102_30_3b_gfn"},
                 new String[]{"FS5", "p130_40_2b_pc", "p130_36_3b_bi"},
                 new String[]{"FS5", "p130_40_2b_pc", "p130_41_3b_soft"},
-                new String[]{"LR6", "p152_40_2b_gfn", "p152_33_3b_pc"},
+                new String[]{"LR6L", "p152_40_2b_gfn", "p152_33_3b_pc"},
                 new String[]{"LR7", "p178_40_2b_cfn", "p178_35_3b_pc"},
                 new String[]{"LR7", "p178_40_2b_cfn", "p178_45_3b_gfn"},
                 new String[]{"X10", "p254_50_2b_carbon", "p254_45_3b_cfn"},
                 new String[]{"X13", "p330_70_2b_carbon", "p330_60_3b_cfn"});
-        Map<String, Build> builds = Map.of("W65", W65, "W75", W75, "TP3", TP3, "LR4", LR4, "FS5", FS5, "LR6", LR6, "LR7", LR7,
+        Map<String, Build> builds = Map.of("W65", W65, "W75", W75, "TP3", TP3, "LR4", LR4, "FS5", FS5, "LR6", LR6, "LR6L", LR6_LIPO, "LR7", LR7,
                 "X10", X10, "X13", X13);
         for (String[] pair : pairs) {
             Build b = builds.get(pair[0]);

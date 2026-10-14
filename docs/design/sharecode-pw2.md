@@ -160,7 +160,7 @@ ref(FRAME) ref(STACK) ref(MOTOR) ref(PROP) ref(VIDEO) ref(BATTERY)
 eg(0) zubehörAnzahl (≤ 255), je Eintrag: eg(0) platz, ref(ACCESSORY)
 ```
 
-Plätze wie PW1 (0 `top`, 1 `bottom`); unbekannter Platz → gelesen und verworfen (`accessory_slot:<n>`), doppelt → der
+Plätze wie PW1 (0 `top`, 1 `bottom`, ab 1.1.1 mit Propwash 0.5.2 auch 2 `front`); unbekannter Platz → gelesen und verworfen (`accessory_slot:<n>`), doppelt → der
 spätere gewinnt (`accessory_slot_duplicate:<n>`).
 
 **`ref(art)`** = `eg(4) v`:
@@ -245,8 +245,10 @@ Reihenfolge.
 
 Eine Tabelle je Teile-Art (Rahmen, Stack, Motor, Prop, Video, Akku, Zubehör), Ids mit Namensraum. Stand 2.0: die Teile
 von Propwash 0.4.0 (je Art alphabetisch), dann die neuen Teile von Propwash 0.5.0 (`propwash:creative_fc`,
-`propwash:action_cam_flashback`, `propwash:gripper`), dann die 143 Teile von JMP (je Art alphabetisch). Größen: 27 Rahmen,
-16 Stacks, 40 Motoren, 43 Props, 11 Video, 35 Akkus, 5 Zubehör. Damit liest jede Version von JMP und die Website alle
+`propwash:action_cam_flashback`, `propwash:gripper`), dann die 143 Teile von JMP (je Art alphabetisch), zuletzt der
+Race-Prop `propwash:p51_29_3b` (5,1″ mit 2,9″ Steigung), den Propwash 0.5.0 nach dem Playtest bekam: Nummer 43 der
+Prop-Tabelle, hinter allen bisherigen, damit kein bestehender Code eine andere Nummer liest. Größen: 27 Rahmen,
+16 Stacks, 40 Motoren, 44 Props, 11 Video, 35 Akkus, 5 Zubehör. Damit liest jede Version von JMP und die Website alle
 Teile, die es heute gibt, als Nummer.
 
 **Regeln:** Neue Teile (von Propwash oder JMP) kommen **ans Ende** der Tabelle ihrer Art; nie umsortieren, nie löschen,

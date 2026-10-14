@@ -1,8 +1,8 @@
-# Modrinth-Listing — Propwash: Just More Parts 1.1.0
+# Modrinth-Listing — Propwash: Just More Parts 1.1.1
 
 Alles, was die Modrinth-Projektseite braucht. Beschreibung: [`description.md`](description.md) (Englisch, als
 Projektbeschreibung einfügen) und [`description_de.md`](description_de.md) (Deutsch, für eine übersetzte Seite oder als
-Spoiler-Abschnitt). Changelog für den Versions-Upload: [`CHANGELOG.md`](../../CHANGELOG.md), Abschnitt 1.1.0.
+Spoiler-Abschnitt). Changelog für den Versions-Upload: [`CHANGELOG.md`](../../CHANGELOG.md), Abschnitt 1.1.1.
 
 ## Projekt
 
@@ -45,14 +45,14 @@ Je Loader eine Version hochladen; beide entstehen aus demselben Commit.
 
 | Feld | Fabric | NeoForge |
 |---|---|---|
-| Datei | `fabric/build/libs/justmoreparts-fabric-26.3-1.1.0.jar` | `neoforge/build/libs/justmoreparts-neoforge-26.3-1.1.0.jar` |
-| Versionsnummer (Vorschlag) | `1.1.0+fabric` | `1.1.0+neoforge` |
-| Versionsname (Vorschlag) | Just More Parts 1.1.0 (Fabric) | Just More Parts 1.1.0 (NeoForge) |
+| Datei | `fabric/build/libs/justmoreparts-fabric-26.3-1.1.1.jar` | `neoforge/build/libs/justmoreparts-neoforge-26.3-1.1.1.jar` |
+| Versionsnummer (Vorschlag) | `1.1.1+fabric` | `1.1.1+neoforge` |
+| Versionsname (Vorschlag) | Just More Parts 1.1.1 (Fabric) | Just More Parts 1.1.1 (NeoForge) |
 | Loader | Fabric | NeoForge |
 | Spielversionen | 26.3 | 26.3 |
 | Abhängigkeiten | Propwash FPV ≥ 0.4.0 (`0.4.0+fabric`) — Pflicht; Fabric API — Pflicht | Propwash FPV ≥ 0.4.0 (`0.4.0+neoforge`) — Pflicht |
 | Kanal (Vorschlag) | Beta, solange Propwash Beta ist | Beta |
-| Changelog | `CHANGELOG.md`, Abschnitt 1.1.0 | ebenso |
+| Changelog | `CHANGELOG.md`, Abschnitt 1.1.1 | ebenso |
 
 Die `-sources`-Jars nicht als Hauptdatei hochladen. Mindestversionen aus `gradle.properties`: Fabric Loader 0.19.5,
 Fabric API 0.161.0+26.3, NeoForge 26.3.0.10-beta, Java 25, Propwash FPV 0.4.0 (Parts-API 1.4).

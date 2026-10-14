@@ -3,6 +3,18 @@
 What changed in **Propwash: Just More Parts**, for players and server owners. Technical details per release are in
 [`docs/RELEASE-NOTES.md`](docs/RELEASE-NOTES.md), developer notes per day in [`changelogs/`](changelogs/) (German).
 
+## [1.1.1] — Battery curve and race prop of Propwash 0.5.2
+
+### Improved
+- All batteries discharge like real packs with Propwash 0.5.2: the voltage stays up for most of the flight and falls off at the very end, a punch near the end pulls it much lower and it comes back when you let off. The semi-solid packs follow the new LiPo curve.
+- Share codes know the new 5.1″ race propeller with 2.9″ pitch of Propwash 0.5.2; every existing code reads the same as before.
+- Share codes carry an accessory on the new front mount of Propwash 0.5.2.
+- A few part descriptions follow the new battery curve: the 6″ two-blade prop now promises a longer hover instead of longer flights, the 3.5″ triblade on 6S reaches 116 km/h.
+
+### Compatibility
+- Minecraft 26.3 · Fabric (Loader 0.19.5+, Fabric API 0.161.0+26.3) or NeoForge (26.3.0.10-beta+) · Java 25 · install it on the server and on every client that plays there.
+- Works with Propwash FPV 0.5.2, 0.5.1, 0.5.0 and 0.4.0; the new discharge curves need Propwash 0.5.2. Drones, share codes and worlds load unchanged.
+
 ## [1.1.0] — Source-available, made for Propwash 0.5.0
 
 ### Highlights

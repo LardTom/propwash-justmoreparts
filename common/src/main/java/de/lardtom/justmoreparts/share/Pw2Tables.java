@@ -46,7 +46,7 @@ public final class Pw2Tables {
             "justmoreparts:p40_14_5b_soft", "justmoreparts:p40_15_4b_pc", "justmoreparts:p40_17_3b_pc", "justmoreparts:p40_20_2b_pc",
             "justmoreparts:p45_17_4b_bi", "justmoreparts:p45_19_3b_pc", "justmoreparts:p51_18_4b_pc", "justmoreparts:p51_20_3b_pc",
             "justmoreparts:p65_22_4b_bi", "justmoreparts:p65_25_3b_pc", "justmoreparts:p76_24_5b_pc_duct", "justmoreparts:p76_25_3b_hard",
-            "justmoreparts:p76_30_2b_pc", "justmoreparts:p89_25_5b_pc_duct", "justmoreparts:p89_30_3b_pc");
+            "justmoreparts:p76_30_2b_pc", "justmoreparts:p89_25_5b_pc_duct", "justmoreparts:p89_30_3b_pc", "propwash:p51_29_3b");
     public static final List<String> VIDEOS = List.of(
             "propwash:analog_nano", "propwash:analog_race", "propwash:digital_hd", "propwash:digital_lite", "justmoreparts:analog_lr_1600",
             "justmoreparts:analog_race_800", "justmoreparts:analog_whoop_25mw", "justmoreparts:digital_hd_pro",

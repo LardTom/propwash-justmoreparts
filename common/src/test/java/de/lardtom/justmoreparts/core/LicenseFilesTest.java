@@ -97,9 +97,16 @@ public class LicenseFilesTest {
         }
         assertTrue(read(".github/pull_request_template.md").contains("CLA.md"), "Pull-Request-Vorlage fragt nach dem CLA");
         String readme = read("README.md");
-        String license = readme.substring(readme.indexOf("## Lizenz"));
+        assertTrue(readme.contains("## License"), "README.md hat einen Abschnitt License");
+        String license = readme.substring(readme.indexOf("## License"));
+        for (String phrase : List.of("PolyForm Shield License 1.0.0", "LICENSE-MIT", "modpacks", "twelve months", "1.0.0 and older")) {
+            assertTrue(license.contains(phrase), "README-Abschnitt License nennt „" + phrase + "“");
+        }
+        String readmeDe = read("README.de.md");
+        assertTrue(readmeDe.contains("## Lizenz"), "README.de.md hat einen Abschnitt Lizenz");
+        String lizenz = readmeDe.substring(readmeDe.indexOf("## Lizenz"));
         for (String phrase : List.of("PolyForm Shield License 1.0.0", "LICENSE-MIT", "Modpacks", "zwölf Monate", "1.0.0 und älter")) {
-            assertTrue(license.contains(phrase), "README-Abschnitt Lizenz nennt „" + phrase + "“");
+            assertTrue(lizenz.contains(phrase), "README.de.md-Abschnitt Lizenz nennt „" + phrase + "“");
         }
     }
 }
