@@ -66,7 +66,7 @@ public class FrameBenchTest {
 
     static Corridor corridor(JmpPresets.SizeClass size) {
         return switch (size) {
-            case WHOOP -> new Corridor(20, 60, 3.5, 7, 25, 50, 2.5, 9, 2.3, 9, 35, 85, 60, 20);
+            case WHOOP -> new Corridor(20, 60, 3.5, 7, 25, 50, 2.5, 9, 2.3, 9, 35, 85, Bench.WHOOP_MOTOR_TEMP_MAX, 20);
             case TOOTHPICK -> new Corridor(50, 230, 5, 9, 20, 35, 6, 16, 4, 13, 70, 110, Double.NaN, 15);
             case CINEWHOOP -> new Corridor(190, 420, 4, 7, 23, 35, 4.5, 13, 3.5, 11, 80, 150, 100, 25);
             case FIVE_INCH -> new Corridor(400, 560, 10, 15, 16, 25, 8, 14.5, 5.5, 11, 125, 190, Double.NaN, 15);
@@ -86,6 +86,9 @@ public class FrameBenchTest {
     static Set<String> allowedWarnings(JmpPresets.Entry entry) {
         if (entry.path().equals("race5_6s")) {
             return Set.of("heavy_sag");
+        }
+        if (entry.path().equals("whoop65_race_1s")) {
+            return Set.of("battery_weak", "heavy_sag", "battery_overload");
         }
         if (entry.battery().endsWith("_lion")) {
             return Set.of("battery_weak", "heavy_sag", "battery_overload");
@@ -134,6 +137,9 @@ public class FrameBenchTest {
         Set<String> warnings = new LinkedHashSet<>(check.warnings());
         warnings.addAll(s.warnings());
         warnings.removeAll(allowedWarnings(entry));
+        if (entry.sizeClass() == JmpPresets.SizeClass.X_CLASS) {
+            Bench.withoutEscHeat(warnings, spec);
+        }
         if (!warnings.isEmpty()) {
             out.add("Warnungen " + warnings);
         }

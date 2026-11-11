@@ -2,7 +2,6 @@ package de.lardtom.justmoreparts.client;
 
 import de.lardtom.justmoreparts.JustMoreParts;
 import de.lardtom.justmoreparts.frame.client.FrameShapesScene;
-import de.lardtom.justmoreparts.share.client.ShareScene;
 import de.lardtom.propwash.api.client.FlightSchoolScenes;
 import de.lardtom.propwash.api.client.PropwashClientApi;
 import de.lardtom.propwash.api.part.PartKind;
@@ -14,7 +13,8 @@ import java.util.List;
 import java.util.Map;
 
 public final class SchoolLinks {
-    public static final List<String> PRESETS = List.of(FlightSchoolScenes.DRONE_BUILD, ShareScene.ID);
+    public static final String SHARING = "propwash:sharing";
+    public static final List<String> PRESETS = List.of(FlightSchoolScenes.DRONE_BUILD, SHARING);
     private static final Map<PartKind, List<String>> BY_KIND = new EnumMap<>(PartKind.class);
     private static boolean initialized;
 

@@ -175,3 +175,15 @@ tasks.named('test', Test) {
         exceptionFormat = 'full'
     }
 }
+
+tasks.register('checkShareTable', JavaExec) {
+    group = 'justmoreparts'
+    description = 'Prüft data/justmoreparts/propwash_share/table.json mit dem ShareTableCheck aus Propwash gegen sharecode-baseline.json.'
+    classpath = sourceSets.main.compileClasspath
+    mainClass = 'de.lardtom.propwash.api.share.ShareTableCheck'
+    args 'check', '--resources', file('src/main/resources').absolutePath, '--version', project.version.toString(),
+            '--baseline', file('sharecode-baseline.json').absolutePath
+}
+tasks.named('check') {
+    dependsOn('checkShareTable')
+}

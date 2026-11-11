@@ -3,6 +3,28 @@
 What changed in **Propwash: Just More Parts**, for players and server owners. Technical details per release are in
 [`docs/RELEASE-NOTES.md`](docs/RELEASE-NOTES.md), developer notes per day in [`changelogs/`](changelogs/) (German).
 
+## [1.2.0] - Made for Propwash 0.6.0: 1S race-whoop motors and share codes from Propwash
+
+### Highlights
+- **Three 1S race-whoop motors** with very high KV and the new preset *Race Whoop 65 · 1S*.
+- **Share codes from Propwash 0.6.0:** PW3 codes know every Just More Parts part, also for players without the add-on.
+
+### New
+- Three new 1S whoop motors based on real data sheets: 0702 with 30000 KV and 35000 KV for 65 mm race whoops, 0802 with 27200 KV for 75 mm race whoops. Hold full throttle too long and they get hot and lose power.
+- New preset *Race Whoop 65 · 1S* (35000 KV): very snappy, short flights, and it wants a battery with a high C rating.
+
+### Improved
+- Share codes now belong to Propwash 0.6.0 (PW3, `/propwash code`). Just More Parts brings a parts table so its parts get short numbers, and without the add-on Propwash still names every part and offers a stand-in. Old PW1 and PW2 codes keep working; `/jmp code` only points to `/propwash code` now.
+- Clean battery mounts: with Propwash 0.6.0 a plugged-in battery shows no plugs or cables on all 22 frames, with the battery on top or underneath.
+- Motor heat: cooling is tuned to the new motor heat of Propwash 0.6.0. Whoops get hot at sustained full throttle, the 3115 motors share one cooling value (the 640 KV no longer runs to its heat limit on 8S), and the 2807 with 1100 KV matches the 7″ data sheet after a minute of full throttle.
+- Every frame takes the accessories of its Propwash counterpart, with a front mount on 18 frames.
+- The antennas of the analog race and long-range video units sit at the back of the frame like Propwash's own.
+- The help lines of the *1404 Motor, 3800 KV* match the workbench ("a third less current than 4600 KV").
+
+### Compatibility
+- Minecraft 26.3 · Fabric (Loader 0.19.5+, Fabric API 0.161.0+26.3) or NeoForge (26.3.0.10-beta+) · Java 25 · install it on the server and on every client that plays there.
+- Needs Propwash FPV 0.6.0 or newer. Propwash 0.6.0 doesn't start with Just More Parts 1.1.x, so update both together. Drones, share codes and worlds load unchanged.
+
 ## [1.1.1] — Battery curve and race prop of Propwash 0.5.2
 
 ### Improved

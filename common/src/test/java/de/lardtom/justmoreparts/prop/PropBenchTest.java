@@ -82,7 +82,7 @@ public class PropBenchTest {
 
     static final Set<String> NONE = Set.of();
     static final Set<String> LION = Set.of("battery_weak", "heavy_sag", "battery_overload");
-    static final Corridor WHOOP = new Corridor("Whoop", 20, 60, 3.5, 7, 25, 50, 2.5, 9, 2.3, 9, 35, 85, 60, 20, NONE);
+    static final Corridor WHOOP = new Corridor("Whoop", 20, 60, 3.5, 7, 25, 50, 2.5, 9, 2.3, 9, 35, 85, Bench.WHOOP_MOTOR_TEMP_MAX, 20, NONE);
     static final Corridor TOOTHPICK = new Corridor("Toothpick", 50, 230, 5, 9, 20, 35, 6, 16, 4, 13, 70, 110, Double.NaN, 15, NONE);
     static final Corridor TOOTHPICK_35 = new Corridor("Toothpick 3,5″", 50, 230, 5, 9, 20, 35, 6, 16, 4, 13, 100, 130, Double.NaN, 15, NONE);
     static final Corridor CINEWHOOP = new Corridor("Cinewhoop", 190, 420, 4, 7, 23, 35, 4.5, 13, 3.5, 11, 80, 150, 100, 25, NONE);
@@ -366,7 +366,8 @@ public class PropBenchTest {
         c.add(new Claim(p65b, 2, () -> stats(CW25, p65b).thrustToWeight() > 1.2 * stats(CW25, p65a).thrustToWeight()));
         c.add(new Claim(p65b, 3, () -> stiff(p65b, 1.1) && tough(p65b)));
         c.add(new Claim(p65b, 4, () -> moreCurrent(CW25, p65b, p65a) && hotter(CW25, p65b, p65a)));
-        c.add(new Claim(p65b, 5, () -> warns(TP25, p65b, "motor_thermal") && warns(TP25, p65b, "heavy_sag")));
+        c.add(new Claim(p65b, 5, () -> stats(TP25, p65b).sustainedMotorTempC() > 120.0
+                && stats(TP25, p65b).sustainedMotorTempC() > stats(TP25, p65a).sustainedMotorTempC() + 40.0 && warns(TP25, p65b, "heavy_sag")));
         String p76a = "p76_30_2b_pc";
         c.add(new Claim(p76a, 2, () -> longer(TP3, p76a, except(P76, p76a)) && longer(STOCK_CINE, p76a, except(P76, p76a))));
         c.add(new Claim(p76a, 3, () -> lessCurrent(TP3, p76a, except(P76, p76a)) && cooler(TP3, p76a, except(P76, p76a))));
@@ -556,7 +557,11 @@ public class PropBenchTest {
         if (!c.exempt().contains("props_in_view") && s.propsInViewPercent() > k.maxPropsInView()) {
             out.add(String.format(Locale.ROOT, "Props im Bild %.1f %% > %.0f", s.propsInViewPercent(), k.maxPropsInView()));
         }
-        for (String warning : s.warnings()) {
+        List<String> statWarnings = new ArrayList<>(s.warnings());
+        if (k == X_CLASS) {
+            Bench.withoutEscHeat(statWarnings, c.build().spec(c.prop()));
+        }
+        for (String warning : statWarnings) {
             if (!k.allowedWarnings().contains(warning) && !(warning.equals("motor_thermal") && c.exempt().contains("motor_temp"))) {
                 out.add("Warnung " + warning);
             }

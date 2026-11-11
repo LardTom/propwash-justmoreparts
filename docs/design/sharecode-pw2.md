@@ -1,5 +1,10 @@
 # Sharecode PW2 — Spezifikation
 
+> **Abgelöst ab Just More Parts 1.2.0:** Sharecodes gehören seit Propwash 0.6.0 der Basis (Format PW3, normativ
+> `docs/sharecode/pw3.md` im Propwash-Repository; PW2 eingefroren in `docs/sharecode/pw2.md` mit den Tabellen aus JMP 1.1.1).
+> JMP 1.2.0 hat keinen eigenen Codec mehr; seine PW3-Teile-Tabelle `data/justmoreparts/propwash_share/table.json` enthält
+> die JMP-Einträge der PW2-Tabellen in derselben Reihenfolge. Dieses Dokument bleibt als Referenz für das alte Format PW2.
+
 | | |
 |---|---|
 | Format | **PW2** (Präfix `PW2`, ohne Bindestrich) |

@@ -13,7 +13,7 @@
   ],
   "thermal": {
     "cooling_w_per_k": 0.26,
-    "cooling_w_per_k_per_rad_s": 0.00043,
+    "cooling_w_per_k_per_rad_s": 0.0006,
     "derate_start_c": 140.0,
     "max_temp_c": 160.0
   },

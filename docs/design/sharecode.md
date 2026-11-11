@@ -1,5 +1,11 @@
 # Sharecode PW1 — Spezifikation
 
+> **Abgelöst ab Just More Parts 1.2.0:** Sharecodes gehören seit Propwash 0.6.0 der Basis (Format PW3, normativ
+> `docs/sharecode/pw3.md` im Propwash-Repository; PW1 eingefroren in `docs/sharecode/pw1.md`, Teile-Tabellen für Add-ons in
+> `docs/sharecode/tables.md`). JMP 1.2.0 hat keinen eigenen Codec mehr und liefert nur seine Teile-Tabelle
+> `data/justmoreparts/propwash_share/table.json`; `/jmp code …` zeigt nur noch den Hinweis auf `/propwash code …`. Dieses
+> Dokument bleibt als Referenz für das alte Format PW1, das Propwash für immer liest.
+
 > **Seit Just More Parts 1.0.0 (Stand 06.10.2026) schreiben JMP und die Website das kürzere Format PW2**
 > (`docs/design/sharecode-pw2.md`). PW1 wird weiter gelesen, für immer. Ebenen (§1), Übernehmen (§8), Befehle (§9),
 > Grenzen (§10) und Sicherheit (§12) gelten für beide Formate; Java-Kodierer für PW1: `ShareCodec.encodePw1`.

@@ -60,6 +60,24 @@
             "type": "minecraft:set_count",
             "count": 2
           }
+        },
+        {
+          "type": "minecraft:item",
+          "name": "justmoreparts:m0702_30000",
+          "weight": 2,
+          "modifier": {
+            "type": "minecraft:set_count",
+            "count": 2
+          }
+        },
+        {
+          "type": "minecraft:item",
+          "name": "justmoreparts:m0802_27200",
+          "weight": 2,
+          "modifier": {
+            "type": "minecraft:set_count",
+            "count": 2
+          }
         }
       ],
       "rolls": 1

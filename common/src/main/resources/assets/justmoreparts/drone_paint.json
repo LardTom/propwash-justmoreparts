@@ -533,6 +533,18 @@
         "base": "#ce4242"
       }
     ],
+    "motor/m0702_30000": [
+      {
+        "channel": "motor",
+        "base": "#21bcce"
+      }
+    ],
+    "motor/m0702_35000": [
+      {
+        "channel": "motor",
+        "base": "#ce3386"
+      }
+    ],
     "motor/m0802_15500": [
       {
         "channel": "motor",
@@ -543,6 +555,12 @@
       {
         "channel": "motor",
         "base": "#ce7520"
+      }
+    ],
+    "motor/m0802_27200": [
+      {
+        "channel": "motor",
+        "base": "#7f51ce"
       }
     ],
     "motor/m1102_13500": [
@@ -2991,7 +3009,19 @@
         "base": "#141619"
       }
     ],
+    "stack/aio_20_4s_35a_mounted": [
+      {
+        "channel": "stack",
+        "base": "#141619"
+      }
+    ],
     "stack/aio_20_6s_45a": [
+      {
+        "channel": "stack",
+        "base": "#141619"
+      }
+    ],
+    "stack/aio_20_6s_45a_mounted": [
       {
         "channel": "stack",
         "base": "#141619"
@@ -3003,7 +3033,19 @@
         "base": "#141619"
       }
     ],
+    "stack/aio_tp_4s_20a_mounted": [
+      {
+        "channel": "stack",
+        "base": "#141619"
+      }
+    ],
     "stack/aio_tp_6s_20a": [
+      {
+        "channel": "stack",
+        "base": "#141619"
+      }
+    ],
+    "stack/aio_tp_6s_20a_mounted": [
       {
         "channel": "stack",
         "base": "#141619"
@@ -3015,7 +3057,19 @@
         "base": "#141619"
       }
     ],
+    "stack/aio_whoop_1s_6a_mounted": [
+      {
+        "channel": "stack",
+        "base": "#141619"
+      }
+    ],
     "stack/aio_whoop_2s_12a": [
+      {
+        "channel": "stack",
+        "base": "#141619"
+      }
+    ],
+    "stack/aio_whoop_2s_12a_mounted": [
       {
         "channel": "stack",
         "base": "#141619"
@@ -3027,7 +3081,19 @@
         "base": "#141619"
       }
     ],
+    "stack/stack_20_6s_40a_mounted": [
+      {
+        "channel": "stack",
+        "base": "#141619"
+      }
+    ],
     "stack/stack_30_4s_55a": [
+      {
+        "channel": "stack",
+        "base": "#141619"
+      }
+    ],
+    "stack/stack_30_4s_55a_mounted": [
       {
         "channel": "stack",
         "base": "#141619"
@@ -3039,7 +3105,19 @@
         "base": "#141619"
       }
     ],
+    "stack/stack_30_6s_60a_mounted": [
+      {
+        "channel": "stack",
+        "base": "#141619"
+      }
+    ],
     "stack/stack_30_6s_80a": [
+      {
+        "channel": "stack",
+        "base": "#141619"
+      }
+    ],
+    "stack/stack_30_6s_80a_mounted": [
       {
         "channel": "stack",
         "base": "#141619"
@@ -3051,7 +3129,19 @@
         "base": "#141619"
       }
     ],
+    "stack/stack_30_8s_100a_mounted": [
+      {
+        "channel": "stack",
+        "base": "#141619"
+      }
+    ],
     "stack/stack_30_8s_65a": [
+      {
+        "channel": "stack",
+        "base": "#141619"
+      }
+    ],
+    "stack/stack_30_8s_65a_mounted": [
       {
         "channel": "stack",
         "base": "#141619"

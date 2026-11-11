@@ -154,6 +154,6 @@ subprojects {
 
 tasks.register('webExport') {
     group = 'justmoreparts'
-    description = 'Schreibt den Web-Export (Teile, Regeln, Presets, Sharecode-Tabellen, Texte, Modelle) nach build/web-export/ (Fabric-Server).'
+    description = 'Schreibt den Web-Export (Format 2) mit /propwash webexport all auf einem Fabric-Server nach build/web-export/.'
     dependsOn(':fabric:runWebExport')
 }

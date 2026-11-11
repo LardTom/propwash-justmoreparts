@@ -1,0 +1,21 @@
+{
+  "format": 1,
+  "mass_g": 2.3,
+  "stator": "0802",
+  "kv": 27200,
+  "mount": "propwash:m08",
+  "max_current_a": 6.7,
+  "resistance_ohm": 0.1035,
+  "cells": [
+    1,
+    1
+  ],
+  "thermal": {
+    "derate_start_c": 115.0,
+    "max_temp_c": 135.0
+  },
+  "sort": 103,
+  "visual": {
+    "accent": "#8f5be8"
+  }
+}

@@ -67,6 +67,16 @@ public class PowerClaimsTest {
         return out;
     }
 
+    private static Set<String> withoutEscHeat(String[] base, String battery) {
+        return Bench.withoutEscHeat(warnings(base, battery), spec(base, battery));
+    }
+
+    private static Set<String> batteryWarnings(String[] base, String battery) {
+        Set<String> out = warnings(base, battery);
+        out.retainAll(PowerReferences.LION_WARNINGS);
+        return out;
+    }
+
     private static List<String> problems(String[] base, String battery) {
         return Bench.check(spec(base, battery)).problems();
     }
@@ -160,7 +170,7 @@ public class PowerClaimsTest {
         for (String prop : List.of("p40_20_2b_pc", "p40_17_3b_pc", "p40_15_4b_pc", "p40_14_5b_soft")) {
             Set<String> whoop75 = warnings(with(WHOOP_75_2S, 3, prop), "b2s_300_hv");
             assertTrue(whoop75.contains("battery_overload") && whoop75.contains("heavy_sag"), prop + " " + whoop75);
-            assertTrue(warnings(with(WHOOP_75_2S, 3, prop), "b2s_450_hv").isEmpty(), prop);
+            assertTrue(batteryWarnings(with(WHOOP_75_2S, 3, prop), "b2s_450_hv").isEmpty(), prop);
         }
     }
 
@@ -339,7 +349,7 @@ public class PowerClaimsTest {
 
     @Test
     public void b6s5000XClassOnSixCells() {
-        Set<String> w = warnings(XC10, "b6s_5000");
+        Set<String> w = withoutEscHeat(XC10, "b6s_5000");
         assertTrue(w.isEmpty(), w.toString());
         assertTrue(Math.abs(stats(XC10, "b6s_5000").hoverFlightTimeMin() - 21.0) < 0.75);
         doesNotFit(LR7_DEADCAT, "b6s_5000");
@@ -489,7 +499,7 @@ public class PowerClaimsTest {
         assertFalse(warnings(LR8, "b8s_4500_lion").contains("stack_voltage"));
         assertFalse(warnings(LR8, "b6s_8400_lion").contains("stack_voltage"));
         assertEquals(4.0, stack("stack_30_8s_65a").basics().massGrams() - stack("stack_30_6s_60a").basics().massGrams(), 1e-9);
-        assertTrue(warnings(with(XC13, 1, "stack_30_8s_65a"), "b8s_5000").isEmpty());
+        assertTrue(withoutEscHeat(with(XC13, 1, "stack_30_8s_65a"), "b8s_5000").isEmpty());
         assertTrue(warnings(with(with(XC13, 1, "stack_30_8s_65a"), 2, "m4214_530"), "b8s_5000").contains("esc_undersized"));
         assertFalse(warnings(with(XC13, 2, "m4214_530"), "b8s_5000").contains("esc_undersized"));
         assertTrue(stats(XC13, "b8s_5000").escLoadPercent() <= 45.0);

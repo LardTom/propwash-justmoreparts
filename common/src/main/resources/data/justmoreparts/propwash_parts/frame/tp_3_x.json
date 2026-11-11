@@ -16,7 +16,9 @@
     "propwash:s20"
   ],
   "accessory_mounts": [
-    "top"
+    "top",
+    "bottom",
+    "front"
   ],
   "battery": {
     "on_top": true,
@@ -56,6 +58,23 @@
         -38.0
       ],
       "tilt_deg": 15.0
+    },
+    "bottom": {
+      "pos": [
+        0.0,
+        -3.3,
+        -31.0
+      ],
+      "tilt_deg": 30.0,
+      "length_mm": 20.0
+    },
+    "front": {
+      "pos": [
+        0.0,
+        -0.3,
+        -51.0
+      ],
+      "tilt_deg": 0.0
     }
   },
   "sort": 606

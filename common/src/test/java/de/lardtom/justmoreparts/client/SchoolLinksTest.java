@@ -3,7 +3,6 @@ package de.lardtom.justmoreparts.client;
 import de.lardtom.justmoreparts.JustMoreParts;
 import de.lardtom.justmoreparts.bench.PartFiles;
 import de.lardtom.justmoreparts.frame.client.FrameShapesScene;
-import de.lardtom.justmoreparts.share.client.ShareScene;
 import de.lardtom.propwash.api.PropwashApi;
 import de.lardtom.propwash.api.client.FlightSchoolScenes;
 import de.lardtom.propwash.api.part.PartDefinition;
@@ -21,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class SchoolLinksTest {
-    private static final Set<String> OWN = Set.of(FrameShapesScene.ID, ShareScene.ID);
+    private static final Set<String> OWN = Set.of(FrameShapesScene.ID);
 
     @Test
     public void everyJmpPartKindHasFittingScenes() {
@@ -48,7 +47,7 @@ public class SchoolLinksTest {
         assertTrue(SchoolLinks.scenes(PartKind.VIDEO).contains(FlightSchoolScenes.VIDEO));
         assertTrue(SchoolLinks.scenes(PartKind.STACK).contains(FlightSchoolScenes.CONFIGURATOR));
         assertTrue(SchoolLinks.scenes(PartKind.FRAME).contains(FrameShapesScene.ID));
-        assertTrue(SchoolLinks.PRESETS.contains(ShareScene.ID));
+        assertEquals(List.of(FlightSchoolScenes.DRONE_BUILD, SchoolLinks.SHARING), SchoolLinks.PRESETS);
     }
 
     @Test
@@ -71,15 +70,13 @@ public class SchoolLinksTest {
     }
 
     @Test
-    public void ownScenesUseTheJmpNamespaceAndPresetsReachTheShareScene() {
+    public void ownScenesUseTheJmpNamespaceAndPresetsReachTheShareSceneOfPropwash() {
         PartFiles.registerAll();
         assertEquals(JustMoreParts.MOD_ID + ":frames", FrameShapesScene.ID);
-        assertEquals(JustMoreParts.MOD_ID + ":sharing", ShareScene.ID);
+        assertEquals("propwash:sharing", SchoolLinks.SHARING);
         Scene frames = FrameShapesScene.create();
         assertEquals(Set.of(JustMoreParts.id("deadcat_5").toString()), frames.items().ids());
         assertTrue(PropwashApi.parts().get(JustMoreParts.id("deadcat_5")).isPresent());
-        Scene share = ShareScene.create();
-        assertTrue(share.items().ids().contains("propwash:drone"), share.items().ids().toString());
         assertTrue(FlightSchoolScenes.ALL.contains(FlightSchoolScenes.DRONE_BUILD));
     }
 }

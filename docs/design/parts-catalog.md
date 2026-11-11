@@ -51,8 +51,19 @@ Tooltip muss im Prüfstand sichtbar sein (Abschnitt 1.6). Ein Vorteil ohne messb
   und 42xx (`KV·√R` = 89) aus Datenblättern der X-Class-Klasse und passend zum Charakterisierungstest von Propwash.
 - **Zellbereich** so, dass die Leerlaufdrehzahl (KV × Nennspannung) im üblichen Fenster der Klasse liegt
   (Whoops 80–100 k/min, 2–3″ 45–60 k, 5″ 38–45 k, 7″ 27–30 k, X-Class 9–13 k).
-- **Thermik**: Standard, außer bei hitzefesten Magneten (Drosselung 140–145 °C) und großen Motoren mit offener
-  Glocke (eigene Kühlung in W/K). Der 0702/27000 bekommt niedrigere Grenzen (winzige Wärmekapazität).
+- **1S-Renn-Whoops (ab 1.2.0):** Das Whoop-Fenster gilt für Allround-Whoops; auf 1S drehen sie höchstens 100 k/min
+  (KV × 3,7 V). Renn-Whoops auf 1S (`m0702_30000`, `m0702_35000`, `m0802_27200`) dürfen bis 135 k/min: Die Datenblätter
+  der Klasse reichen bis 36000 KV (133 k/min). `MotorDataTest#whoopIdleSpeedSeparatesAllroundAndRaceWhoops` prüft beide
+  Obergrenzen.
+- **Datenbeleg (ab 1.2.0):** Neue Motoren stützen sich auf mindestens drei Datenblätter verschiedener Hersteller
+  derselben Stator- und KV-Klasse. KV = Median der Klasse auf 100 gerundet (daher `m0802_27200` statt eines runden
+  Werts), Spitzenstrom = Median der angegebenen Spitzenströme, Masse wie die JMP-Reihe desselben Stators (JMP rechnet mit
+  Kabel, Stecker und Schrauben; die Datenblätter liegen darunter), Widerstand über `KV·√R` der Reihe. Die Klassenwerte
+  stehen in §3.7, die Quellen intern außerhalb des öffentlichen Stands; `MotorDataTest#raceWhoopMotorsFollowTheirDatasheetClass`
+  rechnet KV, Strom und Masse aus den Klassenwerten nach.
+- **Thermik**: Standard, außer bei hitzefesten Magneten (Leistungsverlust ab 140–145 °C) und großen Motoren mit offener
+  Glocke (eigene Kühlung in W/K; seit 1.2.0 gegen die Kühlregel von Propwash 0.6.0 und die Datenblätter geprüft, §3.8). Der 0702/27000 und die Renn-Whoops ab 1.2.0 bekommen niedrigere Grenzen (115/135 °C,
+  winzige Wärmekapazität).
 
 ### 1.4 Propeller: Beiwerte
 Propwash rechnet mit statischen Beiwerten `T = ct·ρ·n²·D⁴`, `P = cp·ρ·n³·D⁵`. Anker sind die eingebauten Props
@@ -98,7 +109,8 @@ Unterschiede sind im Flug nicht spürbar und stehen nicht in der Shift-Hilfe (Re
 
 | Klasse | Masse | T/W | Schwebegas | Schweben / Reise | Topspeed | Motor °C (Dauervollgas Stand) | Props im Bild | Warnungen im Preset |
 |---|---|---|---|---|---|---|---|---|
-| Whoop 65–85 mm 1–2S | 20–60 g | 3,5–7 | 25–50 % | 7–13 / 6–10 min | 35–65 km/h | < 60 | ≤ 20 % | keine |
+| Whoop 65–85 mm 1–2S | 20–60 g | 3,5–7 | 25–50 % | 7–13 / 6–10 min | 35–65 km/h | < 100 (seit Propwash 0.6.0; vorher < 60) | ≤ 20 % | keine |
+| Renn-Whoop 65–75 mm 1S (ab 1.2.0) | 20–60 g | 5–8 | 20–35 % | gemischt 2,5–4,5 min | 55–75 km/h | < eigene Hitzegrenze (115) | ≤ 20 % | `heavy_sag`; mit Akkus unter 60C auch `battery_weak` und `battery_overload` |
 | Toothpick 2–3,5″ | 50–230 g | 5–8 | 25–35 % | 10–14 / 6–8 | 70–110 | < Drosselgrenze | ≤ 15 % | keine |
 | Cinewhoop 2,5–3,5″ | 190–420 g | 3,5–5 | 40–50 % | 8–11 / 7–8 | 50–60 | < 100 | ≤ 25 % | keine |
 | 5″ Freestyle/Race | 400–560 g | 10–15 | 16–25 % | 13–17 / 5–7,5 | 125–190 | < Drosselgrenze | ≤ 15 % (Deadcat/H 0 %) | höchstens `heavy_sag` beim 6S-Race |
@@ -127,6 +139,16 @@ Anpassungen nach dem Realismus-Review (2026-09-30), jeweils gegen reale Klassenw
 (3,5″ auf 6S mit vollwertigem HD-System wiegt real 330–420 g), 5″-Reiseflug ab 5 min (real 3–5 min Freestyle),
 Long-Range-Reiseflug bis 35 min (8″ mit 6S2P-Li-Ion fliegt real über 30 min) und eine eigene Zeile für den 7″ auf 8S-LiPo
 (real 800–950 g, T/W 9–13, 140–170 km/h), der sonst die Long-Range-Grenzen für T/W und Topspeed sprengt.
+
+Nachtrag 1.2.0 (gegen Propwash 0.6.0-dev.5 mit Motor-Hitze Phase A und B): Whoops werden bei Dauervollgas im Stand jetzt
+61–99 °C warm; die Grenze für Whoops liegt deshalb bei 100 °C (`Bench.WHOOP_MOTOR_TEMP_MAX`). Neue Zeile „Renn-Whoop
+1S“ für die Whoop-Motoren mit sehr hoher KV und das Preset `whoop65_race_1s`: spritziger als jeder Allround-Whoop
+(T/W ab 5, Schwebegas 20–35 %), dafür kurz in der Luft (gemischter Flug 2,5–4,5 min) und warm bis unter die eigene
+Hitzegrenze; Schweben und Reiseflug prüft der Prüfstand wie beim Whoop (2,5–9 bzw. 2,3–9 min). Ein Akku bricht bei so viel
+Strom ein: `heavy_sag` ist erlaubt, `battery_weak` und `battery_overload` nur mit Akkus unter 60C.
+X-Class: „unter der Drosselgrenze“ heißt seit 1.2.0, dass ein Akku Dauervollgas im Stand mindestens 20 K unter der Schwelle
+des Motors bleibt; `motor_thermal` darf dort nur vom ESC kommen. Die 7″-Presets liegen nach 60 s Vollgas im Band des
+F90-Datenblatts, an dem Propwash seinen 7″ prüft (65–77 K, mit Li-Ion nur die Obergrenze; §3.8).
 
 ---
 
@@ -169,49 +191,54 @@ Id-Regel: `m<Stator>_<KV>`; der Stator steht mit vier Ziffern (`2207`), Halbmill
 
 Stand nach der Umsetzung (Branch `feature/motors`): Werte, Pro und Contra sind genau die der Teile-Dateien und der
 Shift-Hilfen; jede Aussage ist im Prüfstand belegt (`motor/MotorBenchTest#claimedProsAndConsAreVisibleOnTheBench`, 94
-Aussagen). Thermik leer = Propwash-Standard; „Fahrtwind“ ist `thermal.cooling_w_per_k_per_rad_s`.
+Aussagen; seit 1.2.0 mit den Renn-Whoops 118 Aussagen gegen Propwash 0.6.0-dev.5). Thermik leer = Propwash-Standard; „Fahrtwind“ ist `thermal.cooling_w_per_k_per_rad_s`.
 
 | Id | Name (de) | Name (en) | Stator | KV | g | I [A] | R [Ω] | Zellen | Halterung | Thermik | Einsatz | Pro | Contra |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|
 | `m0702_23000` | 0702-Motor, 23000 KV | 0702 Motor, 23000 KV | 0702 | 23000 | 1,8 | 3,0 | 0,2100 | 1S | `propwash:m08` |  | 65-mm-Whoop auf 1S, ruhiges Fliegen | leichtester Motor im Katalog (1,8 g); längere Flugzeit als 27000 KV; wenig Strom, bleibt kühl | weniger Schub (T/W 3,5 statt 4,3) |
-| `m0702_27000` | 0702-Motor, 27000 KV | 0702 Motor, 27000 KV | 0702 | 27000 | 1,8 | 3,4 | 0,1600 | 1S | `propwash:m08` | 115/135 °C | 65-mm-Whoop auf 1S, Rennen | spritzig: mehr Schub als 23000 KV; mehr Topspeed (57 statt 51 km/h) | kürzere Flugzeit als 23000 KV; drosselt schon ab 115 °C (kleiner Motor) |
-| `m0802_15500` | 0802-Motor, 15500 KV | 0802 Motor, 15500 KV | 0802 | 15500 | 2,3 | 3,6 | 0,3223 | 1–2S | `propwash:m08` |  | 65–75-mm-Whoop auf 2S | auf 2S kräftig (T/W 6) und effizient; auf 2S länger in der Luft als 1102 | auf 1S kraftlos; mit 45-mm-4-Blatt-Props träge |
+| `m0702_27000` | 0702-Motor, 27000 KV | 0702 Motor, 27000 KV | 0702 | 27000 | 1,8 | 3,4 | 0,1600 | 1S | `propwash:m08` | 115/135 °C | 65-mm-Whoop auf 1S, Rennen | spritzig: mehr Schub als 23000 KV; mehr Topspeed (57 statt 51 km/h) | kürzere Flugzeit als 23000 KV; verliert schon ab 115 °C Leistung (klein) |
+| `m0702_30000` | 0702-Motor, 30000 KV | 0702 Motor, 30000 KV | 0702 | 30000 | 1,8 | 5,4 | 0,1265 | 1S | `propwash:m08` | 115/135 °C | 65-mm-Renn-Whoop auf 1S (1.2.0) | mehr Schub als 27000 KV; mehr Topspeed (61 statt 57 km/h) | kürzere Flugzeit als 27000 KV; verliert schon ab 115 °C Leistung (klein) |
+| `m0702_35000` | 0702-Motor, 35000 KV | 0702 Motor, 35000 KV | 0702 | 35000 | 1,8 | 6,4 | 0,0929 | 1S | `propwash:m08` | 115/135 °C | 65-mm-Renn-Whoop auf 1S, maximaler Punch (1.2.0) | maximaler Punch: T/W über 5 auf 65 mm; mehr Topspeed als 30000 KV (66 statt 61 km/h) | kürzeste Flugzeit der 0702 (2,6 min gemischt); Akku bricht ein: 380 mAh mit 45C zu schwach; wärmer als 30000 KV, Hitzegrenze 115 °C |
+| `m0802_15500` | 0802-Motor, 15500 KV | 0802 Motor, 15500 KV | 0802 | 15500 | 2,3 | 3,6 | 0,3223 | 1–2S | `propwash:m08` |  | 65–75-mm-Whoop auf 2S | auf 2S kräftig (T/W 6) und effizient; auf 2S länger in der Luft als 1102 | auf 1S kraftlos; mit 45-mm-4-Blatt-Props träge; Dauervollgas auf 2S: überlastet, sehr heiß |
 | `m0802_19000` | 0802-Motor, 19000 KV | 0802 Motor, 19000 KV | 0802 | 19000 | 2,3 | 4,2 | 0,2100 | 1S | `propwash:m08` |  | 75-mm-Whoop auf 1S | 75 mm auf 1S: T/W 4, 7 min Schweben; auf 1S länger in der Luft als 1102 | 0,5 g schwerer als 0702; mit 31-mm-Props schwächer als 0702 |
+| `m0802_27200` | 0802-Motor, 27200 KV | 0802 Motor, 27200 KV | 0802 | 27200 | 2,3 | 6,7 | 0,1035 | 1S | `propwash:m08` | 115/135 °C | 75-mm-Renn-Whoop auf 1S, 12-A-AIO (1.2.0) | 75 mm auf 1S: T/W fast 6 mit 12-A-AIO; mehr Topspeed als 19000 KV (67 statt 59 km/h) | hoher Strom, Akku bricht ein; heißer als 19000 KV, Hitzegrenze 115 °C; am 6-A-AIO strombegrenzt |
 | `m1102_13500` | 1102-Motor, 13500 KV | 1102 Motor, 13500 KV | 1102 | 13500 | 3,4 | 6,0 | 0,1560 | 1–2S | `propwash:m08` |  | 85-mm-Whoop oder 2″-Toothpick auf 2S | viel Drehmoment: dreht 45-mm-4-Blatt | auf 1S zu schwach (65 mm hebt nicht ab); 1,1 g schwerer als ein 0802 |
-| `m1102_18000` | 1102-Motor, 18000 KV | 1102 Motor, 18000 KV | 1102 | 18000 | 3,4 | 7,5 | 0,0877 | 1S | `propwash:m08` |  | 75-mm-Whoop auf 1S, Grip und Punch | mehr Standschub als 0802 auf 1S; reagiert schneller (34 statt 46 ms, 1.0.5) | hoher Strom, kürzere Flugzeit; 6-A-AIO ist zu klein |
+| `m1102_18000` | 1102-Motor, 18000 KV | 1102 Motor, 18000 KV | 1102 | 18000 | 3,4 | 7,5 | 0,0877 | 1S | `propwash:m08` |  | 75-mm-Whoop auf 1S, Grip und Punch | mehr Standschub als 0802 auf 1S; reagiert schneller (34 statt 46 ms) | hoher Strom, kürzere Flugzeit; 6-A-AIO ist zu klein |
 | `m1103_8000` | 1103-Motor, 8000 KV | 1103 Motor, 8000 KV | 1103 | 8000 | 4,0 | 7,0 | 0,2036 | 2–3S | `propwash:m14` | Fahrtwind 5,5·10⁻⁵ W/(K·rad/s) | 2,5″-Toothpick auf 3S | leichter 3S-Antrieb, sehr kräftig; schwebt länger als 1202,5 auf 4S | auf 2S lahm |
 | `m1103_11000` | 1103-Motor, 11000 KV | 1103 Motor, 11000 KV | 1103 | 11000 | 4,0 | 9,0 | 0,1077 | 1–2S | `propwash:m14` | Fahrtwind 2,2·10⁻⁵ W/(K·rad/s) (1.0.5) | 2″-Toothpick auf 2S | leichter und ausdauernder als 1202,5 | wenig Reserve mit 2,5″-Props |
 | `m12025_5500` | 1202,5-Motor, 5500 KV | 1202.5 Motor, 5500 KV | 1202,5 | 5500 | 4,7 | 9,0 | 0,3500 | 3–4S | `propwash:m14` | Fahrtwind 8·10⁻⁵ (2 × Standard, §13.3) | 2,5″-Toothpick auf 4S | leicht für 4S: schwebt länger als 1404; mehr Schub als 1404 mit 2,5″; auf 2,5″ 4S unter 80 °C nach 1 min | mit 3″-Props überfordert: über 100 °C |
 | `m12025_11500` | 1202,5-Motor, 11500 KV | 1202.5 Motor, 11500 KV | 1202,5 | 11500 | 4,7 | 13,0 | 0,0800 | 1–2S | `propwash:m14` |  | 2–2,5″-Toothpick auf 2S, Speed | reagiert schneller als 1103 (30 statt 32 ms); mehr Topspeed als 1103 mit 2,5″-Props | schwerer, kürzer in der Luft als 1103; hoher Strom: Akku braucht hohe C-Rate |
 | `m1404_2750` | 1404-Motor, 2750 KV | 1404 Motor, 2750 KV | 1404 | 2750 | 9,0 | 13,0 | 0,3918 | 5–6S | `propwash:m14` |  | 3″-Toothpick oder Cinewhoop auf 6S | wenig Strom, lange Flugzeit | 6S-Akku macht die Drohne 20 g schwerer; auf 4S zu wenig Spannung |
-| `m1404_3800` | 1404-Motor, 3800 KV | 1404 Motor, 3800 KV | 1404 | 3800 | 9,0 | 17,0 | 0,2052 | 3–4S | `propwash:m14` |  | 3″-Toothpick oder 2,5″-Cinewhoop auf 4S | weniger Strom und kühler als 4600 KV; längere Flugzeit als 4600 KV | weniger Punch als 4600 KV |
-| `m1505_2500` | 1505-Motor, 2500 KV | 1505 Motor, 2500 KV | 1505 | 2500 | 12,8 | 20,0 | 0,2594 | 5–6S | `propwash:m14` | Fahrtwind 1,6·10⁻⁴ (2 × Standard; 1.0.4: 1,2·10⁻⁴, §13.3) | 3,5″-Toothpick auf 6S | viel Drehmoment, auch für Ducts; im Duct etwas mehr Schub als 2004 (1.0.5) | im Cinewhoop zu heiß (drosselt, 1.0.5); schwerer als ein 1404 |
-| `m1505_3600` | 1505-Motor, 3600 KV | 1505 Motor, 3600 KV | 1505 | 3600 | 12,8 | 25,0 | 0,1251 | 3–4S | `propwash:m14` |  | 3–3,5″-Toothpick auf 4S | kräftig auf 4S (T/W um 8) | hoher Strom: doppelt so viel wie 2500 KV; ein 20-A-AIO ist zu klein |
-| `m2004_1700` | 2004-Motor, 1700 KV | 2004 Motor, 1700 KV | 2004 | 1700 | 16,5 | 22,0 | 0,221 | 5–6S | `propwash:m14` | Fahrtwind 2,36·10⁻⁴ W/(K·rad/s) (1.0.0, §13.2) | 3,5″-Cinewhoop oder 4″-Long-Range auf 6S | im Duct ohne Drosselung (83 °C nach 1 min); im Duct ein Drittel weniger Strom als 1505 | zu schwer für Toothpicks (16,5 g) |
-| `m2207_1500` | 2207-Motor, 1500 KV | 2207 Motor, 1500 KV | 2207 | 1500 | 32,8 | 40,0 | 0,0749 | 6S | `propwash:m22` |  | 5″-Cruiser oder 6″-Long-Range auf 6S | längere Flugzeit als 1950 KV; wenig Strom (71 statt 125 A); mit 6″ länger in der Luft als ein 2507 | weniger Punch und Topspeed |
+| `m1404_3800` | 1404-Motor, 3800 KV | 1404 Motor, 3800 KV | 1404 | 3800 | 9,0 | 17,0 | 0,2052 | 3–4S | `propwash:m14` | Fahrtwind 1,1·10⁻⁴ W/(K·rad/s) (1.0.4) | 3″-Toothpick oder 2,5″-Cinewhoop auf 4S | ein Drittel weniger Strom als 4600 KV; schont den Akku (Auslastung 66 statt 98 %) | weniger Punch als 4600 KV |
+| `m1505_2500` | 1505-Motor, 2500 KV | 1505 Motor, 2500 KV | 1505 | 2500 | 12,8 | 20,0 | 0,2594 | 5–6S | `propwash:m14` | Fahrtwind 1,6·10⁻⁴ (2 × Standard; 1.0.4: 1,2·10⁻⁴, §13.3) | 3,5″-Toothpick auf 6S | viel Drehmoment, auch für Ducts; im Duct etwas mehr Schub als 2004 | im Cinewhoop zu heiß (Hitzegrenze); schwerer als ein 1404 |
+| `m1505_3600` | 1505-Motor, 3600 KV | 1505 Motor, 3600 KV | 1505 | 3600 | 12,8 | 25,0 | 0,1251 | 3–4S | `propwash:m14` | Fahrtwind 1,6·10⁻⁴ wie 1505/2500 (1.2.0) | 3–3,5″-Toothpick auf 4S | kräftig auf 4S (T/W über 9) | hoher Strom: doppelt so viel wie 2500 KV; ein 20-A-AIO ist zu klein |
+| `m2004_1700` | 2004-Motor, 1700 KV | 2004 Motor, 1700 KV | 2004 | 1700 | 16,5 | 22,0 | 0,221 | 5–6S | `propwash:m14` | Fahrtwind 2,36·10⁻⁴ W/(K·rad/s) (1.0.0, §13.2) | 3,5″-Cinewhoop oder 4″-Long-Range auf 6S | im Duct ohne Hitzegrenze (81 °C nach 1 min); im Duct ein Drittel weniger Strom als 1505 | zu schwer für Toothpicks (16,5 g) |
+| `m2207_1500` | 2207-Motor, 1500 KV | 2207 Motor, 1500 KV | 2207 | 1500 | 32,8 | 40,0 | 0,0749 | 6S | `propwash:m22` |  | 5″-Cruiser oder 6″-Long-Range auf 6S | längere Flugzeit als 1950 KV; wenig Strom (76 statt 131 A); mit 6″ länger in der Luft als ein 2507 | weniger Punch und Topspeed |
 | `m2207_1950` | 2207-Motor, 1950 KV | 2207 Motor, 1950 KV | 2207 | 1950 | 32,8 | 50,0 | 0,0443 | 5–6S | `propwash:m22` |  | 5″-Freestyle auf 6S | viel Punch (T/W über 11) | mehr Strom als 1500 KV; wärmer als 1500 KV |
 | `m2207_2550` | 2207-Motor, 2550 KV | 2207 Motor, 2550 KV | 2207 | 2550 | 32,8 | 55,0 | 0,0259 | 4S | `propwash:m22` |  | 5″-Freestyle oder Race auf 4S | auf 4S fast so stark wie 1950 KV auf 6S | auf 6S überdreht: Akku bricht ein; auf 6S über 50 % mehr Strom |
-| `m22075_1850` | 2207,5-Motor, 1850 KV | 2207.5 Motor, 1850 KV | 2207,5 | 1850 | 35,5 | 50,0 | 0,0468 | 6S | `propwash:m22` | 145/165 °C | 5″-Freestyle mit Action-Cam, Deadcat | hitzefest: drosselt erst ab 145 °C; kühler als ein 2207 mit 1950 KV; viel Drehmoment: reagiert schneller | 2,7 g schwerer, etwas weniger Schub |
+| `m22075_1850` | 2207,5-Motor, 1850 KV | 2207.5 Motor, 1850 KV | 2207,5 | 1850 | 35,5 | 50,0 | 0,0468 | 6S | `propwash:m22` | 145/165 °C | 5″-Freestyle mit Action-Cam, Deadcat | hitzefest: verliert erst ab 145 °C Leistung; kühler als ein 2207 mit 1950 KV; viel Drehmoment: reagiert schneller | 2,7 g schwerer, etwas weniger Schub |
 | `m22075_2700` | 2207,5-Motor, 2700 KV | 2207.5 Motor, 2700 KV | 2207,5 | 2700 | 35,5 | 58,0 | 0,0220 | 4S | `propwash:m22` |  | 5″-Freestyle auf 4S | maximaler Punch und Topspeed auf 4S | hoher Strom: 1500 mAh brechen ein; auf 6S überdreht |
 | `m23065_2020` | 2306,5-Motor, 2020 KV | 2306.5 Motor, 2020 KV | 2306,5 | 2020 | 31,5 | 46,0 | 0,0408 | 5–6S | `propwash:m22` |  | 5″-Race auf 6S | mehr Topspeed als 2207 mit 1950 KV; 1,3 g leichter als ein 2207 | mehr Strom als 2207 mit 1950 KV; mit 5,0″-Steigung bricht der Akku ein |
 | `m23065_2450` | 2306,5-Motor, 2450 KV | 2306.5 Motor, 2450 KV | 2306,5 | 2450 | 31,5 | 48,0 | 0,0278 | 4S | `propwash:m22` |  | 5″-Race auf 4S | leicht: über 150 km/h auf 4S; weniger Strom als 2207 mit 2550 KV | auf 6S überdreht |
-| `m2507_1500` | 2507-Motor, 1500 KV | 2507 Motor, 1500 KV | 2507 | 1500 | 41,5 | 48,0 | 0,0621 | 6S | `propwash:m28` |  | 6″-Long-Range auf 6S | mit 6″-Props kühler als ein 2207 | 8,7 g schwerer als 2207: kürzer in der Luft |
-| `m2507_1800` | 2507-Motor, 1800 KV | 2507 Motor, 1800 KV | 2507 | 1800 | 41,5 | 55,0 | 0,0431 | 5–6S | `propwash:m28` | 140/160 °C | 6″-Freestyle auf 6S | sehr viel Schub (T/W über 12); hitzefest: drosselt erst ab 140 °C | hoher Strom, kürzere Flugzeit |
-| `m28065_1050` | 2806,5-Motor, 1050 KV | 2806.5 Motor, 1050 KV | 2806,5 | 1050 | 45,5 | 38,0 | 0,1133 | 6–8S | `propwash:m28` | Fahrtwind 2,7·10⁻⁴ W/(K·rad/s) | 8″-Long-Range auf 8S | auf 8S ausdauernd (8″: fast 40 min); 2 g leichter als ein 2807 | auf 6S schwach |
-| `m28065_1300` | 2806,5-Motor, 1300 KV | 2806.5 Motor, 1300 KV | 2806,5 | 1300 | 45,5 | 42,0 | 0,0739 | 6S | `propwash:m28` | Fahrtwind 2,7·10⁻⁴ W/(K·rad/s) | 7″-Long-Range auf 6S | effizienter 7″-Standard: 33 min Schweben; leichter und kühler als 2807/1300 | wenig Punch; mit 8″-Props überfordert |
-| `m2807_1100` | 2807-Motor, 1100 KV | 2807 Motor, 1100 KV | 2807 | 1100 | 47,5 | 40,0 | 0,0978 | 6–8S | `propwash:m28` | Kühlung 0,14 W/K, Fahrtwind 2,8·10⁻⁴ W/(K·rad/s), 140/160 °C | 8″-Long-Range auf 6–8S | viel Drehmoment für 8″-Props; offene Glocke kühlt: drosselt nicht | schwer (47,5 g) |
-| `m2807_1500` | 2807-Motor, 1500 KV | 2807 Motor, 1500 KV | 2807 | 1500 | 53,0 | 50,0 | 0,0526 | 5–6S | `propwash:m28` |  | 7″-Freestyle auf 6S | kräftig mit 7″-3-Blatt (T/W über 12) | hoher Strom: Akku bricht ein; kürzere Flugzeit als 1100 KV; mit 3-Blatt warm (über 110 °C) |
-| `m3115_640` | 3115-Motor, 640 KV | 3115 Motor, 640 KV | 3115 | 640 | 90,0 | 55,0 | 0,0706 | 6–8S | `justmoreparts:m31` | Kühlung 0,26 W/K, Fahrtwind 4,3·10⁻⁴ W/(K·rad/s), 140/160 °C | 10–11″ X-Class oder Long Range auf 8S | effizient: längste Flugzeit der 3115 | auf 6S träge |
-| `m3115_900` | 3115-Motor, 900 KV | 3115 Motor, 900 KV | 3115 | 900 | 90,0 | 65,0 | 0,0357 | 6S | `justmoreparts:m31` | Kühlung 0,26 W/K, Fahrtwind 4,3·10⁻⁴ W/(K·rad/s), 140/160 °C | 10″ X-Class auf 6S | ausgewogen: T/W über 8 mit 10″ | mit 12″-Props überfordert |
-| `m3115_1050` | 3115-Motor, 1050 KV | 3115 Motor, 1050 KV | 3115 | 1050 | 90,0 | 70,0 | 0,0262 | 6S | `justmoreparts:m31` | Kühlung 0,26 W/K, Fahrtwind 4,3·10⁻⁴ W/(K·rad/s), 140/160 °C | 10″ X-Class-Race auf 6S | sehr spritzig: mehr Schub als 900 KV | hoher Strom: Akku bricht ein; kürzere Flugzeit als 900 KV |
+| `m2507_1500` | 2507-Motor, 1500 KV | 2507 Motor, 1500 KV | 2507 | 1500 | 41,5 | 48,0 | 0,0621 | 6S | `propwash:m28` | Fahrtwind 2,2·10⁻⁴ W/(K·rad/s) (1.0.4) | 6″-Long-Range auf 6S | mit 6″-Props kühler als ein 2207 | 8,7 g schwerer als 2207: kürzer in der Luft |
+| `m2507_1800` | 2507-Motor, 1800 KV | 2507 Motor, 1800 KV | 2507 | 1800 | 41,5 | 55,0 | 0,0431 | 5–6S | `propwash:m28` | 140/160 °C | 6″-Freestyle auf 6S | sehr viel Schub (T/W über 12); hitzefest: verliert erst ab 140 °C Leistung | hoher Strom (162 statt 112 A), heißer |
+| `m28065_1050` | 2806,5-Motor, 1050 KV | 2806.5 Motor, 1050 KV | 2806,5 | 1050 | 45,5 | 38,0 | 0,1133 | 6–8S | `propwash:m28` | Fahrtwind 2,7·10⁻⁴ W/(K·rad/s) | 8″-Long-Range auf 8S | auf 8S ausdauernd (8″: über 35 min); 2 g leichter als ein 2807 | auf 6S schwach |
+| `m28065_1300` | 2806,5-Motor, 1300 KV | 2806.5 Motor, 1300 KV | 2806,5 | 1300 | 45,5 | 42,0 | 0,0739 | 6S | `propwash:m28` | Fahrtwind 2,7·10⁻⁴ W/(K·rad/s) | 7″-Long-Range auf 6S | effizienter 7″-Standard: 31 min Schweben; leichter und kühler als 2807/1300 | wenig Punch; mit 8″-Props überfordert |
+| `m2807_1100` | 2807-Motor, 1100 KV | 2807 Motor, 1100 KV | 2807 | 1100 | 47,5 | 40,0 | 0,0978 | 6–8S | `propwash:m28` | Kühlung 0,14 W/K, Fahrtwind 4,68·10⁻⁴ W/(K·rad/s) (2 × Propwash-Regel, 1.2.0), 140/160 °C | 8″-Long-Range auf 6–8S | viel Drehmoment für 8″-Props; offene Glocke kühlt: keine Hitzegrenze | schwer (47,5 g) |
+| `m2807_1500` | 2807-Motor, 1500 KV | 2807 Motor, 1500 KV | 2807 | 1500 | 53,0 | 50,0 | 0,0526 | 5–6S | `propwash:m28` |  | 7″-Freestyle auf 6S | kräftig mit 7″-3-Blatt (T/W über 12) | hoher Strom: Akku bricht ein; kürzere Flugzeit als 1100 KV; mit 3-Blatt heiß (über 100 °C) |
+| `m3115_640` | 3115-Motor, 640 KV | 3115 Motor, 640 KV | 3115 | 640 | 90,0 | 55,0 | 0,0706 | 6–8S | `justmoreparts:m31` | Kühlung 0,26 W/K, Fahrtwind 6·10⁻⁴ W/(K·rad/s) wie 900 KV (1.2.0), 140/160 °C | 10–11″ X-Class oder Long Range auf 8S | effizient: längste Flugzeit der 3115 | auf 6S träge |
+| `m3115_900` | 3115-Motor, 900 KV | 3115 Motor, 900 KV | 3115 | 900 | 90,0 | 65,0 | 0,0357 | 6S | `justmoreparts:m31` | Kühlung 0,26 W/K, Fahrtwind 6·10⁻⁴ W/(K·rad/s) (1.0.4), 140/160 °C | 10″ X-Class auf 6S | ausgewogen: T/W über 8 mit 10″ | mit 12″-Props überfordert |
+| `m3115_1050` | 3115-Motor, 1050 KV | 3115 Motor, 1050 KV | 3115 | 1050 | 90,0 | 70,0 | 0,0262 | 6S | `justmoreparts:m31` | Kühlung 0,26 W/K, Fahrtwind 6·10⁻⁴ W/(K·rad/s) wie 900 KV (1.2.0), 140/160 °C | 10″ X-Class-Race auf 6S | sehr spritzig: mehr Schub als 900 KV | hoher Strom: Akku bricht ein; kürzere Flugzeit als 900 KV |
 | `m4214_330` | 4214-Motor, 330 KV | 4214 Motor, 330 KV | 4214 | 330 | 128,0 | 55,0 | 0,0727 | 8–12S | `justmoreparts:m42` | Kühlung 0,34 W/K, 145/165 °C | 13″ X-Class zum Cruisen auf 8S | wenig Strom, längste Flugzeit | auf 8S wenig Punch (T/W unter 5) |
-| `m4214_400` | 4214-Motor, 400 KV | 4214 Motor, 400 KV | 4214 | 400 | 128,0 | 65,0 | 0,0495 | 6–12S | `justmoreparts:m42` | Kühlung 0,34 W/K, 145/165 °C | 12–13″ X-Class auf 8S | Standard für 13″: ausgewogen | schwer (128 g je Motor) |
-| `m4214_530` | 4214-Motor, 530 KV | 4214 Motor, 530 KV | 4214 | 530 | 128,0 | 80,0 | 0,0282 | 6–8S | `justmoreparts:m42` | Kühlung 0,34 W/K, 145/165 °C | 13″ X-Class-Race auf 8S | enormer Punch (T/W über 7) | sehr hoher Strom: Akku bricht ein; kürzeste Reiseflugzeit der 4214 |
+| `m4214_400` | 4214-Motor, 400 KV | 4214 Motor, 400 KV | 4214 | 400 | 128,0 | 65,0 | 0,0495 | 6–12S | `justmoreparts:m42` | Kühlung 0,34 W/K, 145/165 °C (Fahrtwind seit 1.2.0 nach Propwash-Regel wie 330 und 530 KV) | 12–13″ X-Class auf 8S | Standard für 13″: ausgewogen | schwer (128 g je Motor) |
+| `m4214_530` | 4214-Motor, 530 KV | 4214 Motor, 530 KV | 4214 | 530 | 128,0 | 80,0 | 0,0282 | 6–8S | `justmoreparts:m42` | Kühlung 0,34 W/K, 145/165 °C | 13″ X-Class-Race auf 8S | enormer Punch (T/W über 7) | sehr hoher Strom: Akku bricht ein; kürzeste Flugzeit der 4214 |
 
 Halterungen (Sprachschlüssel `justmoreparts.mount.motor.m31|m42`): „31xx“ und „42xx“ wie die eingebauten
 „22xx/23xx“ und „28xx“ (Lochbilder 19×19/25×25 mit M3 bzw. 30×30 mit M4). Seltenheit der Items (`MotorModule`, vor `registerItems`): Stator ab 30 mm „ungewöhnlich“
 (3115), ab 40 mm „selten“ (4214), wie die X-Class-Rahmen. Kreativ-Tab: alle Motoren über `creativeListed`, `sort` 100–133
-nach Stator (Durchmesser, Höhe) und KV.
+nach Stator (Durchmesser, Höhe) und KV. Die Renn-Whoops von 1.2.0 teilen sich `sort` mit ihrer Reihe (`m0702_30000` und
+`m0702_35000` 101 wie der 0702/27000, `m0802_27200` 103 wie der 0802/19000); bei gleichem Wert sortiert Propwash nach Id,
+also nach KV.
 
 ### 3.1 Kalibrierung gegenüber dem Entwurf
 
@@ -224,6 +251,11 @@ nach Stator (Durchmesser, Höhe) und KV.
 | `m3115_640/900/1050` | Fahrtwind 4,3·10⁻⁴ (1,47 × Standard) | 640 KV auf 8S vorher 153 °C (`motor_thermal`), jetzt 130 °C; `xclass10_6s` 126 → 111 °C |
 | `m12025_5500`, `m1505_2500` | Fahrtwind 8·10⁻⁵ bzw. 1,6·10⁻⁴ (je 2 × Standard, 1.0.0 vom 02.10.) | 60-s-Werte nach den eigenen Prüfstandszeilen (F1203, F1408): 2,5″ 4S 121 → 79 °C, `toothpick35_6s` mit dem korrigierten 3,5″-Dreiblatt 78 statt 93 °C (§13.3) |
 | alle | Akzentfarbe je Motor, `sort` neu | Glockenfarbe (Modell und prozedurale Form), keine Farbe gleich einem eingebauten Motor |
+| `m1505_3600` | Fahrtwind 1,6·10⁻⁴ W/(K·rad/s) wie der 1505/2500 (1.2.0) | gleicher Stator, gleiche Masse; mit der Motor-Hitze von Propwash 0.6.0 auf 4S 850 sonst 136 statt 70 °C bei Dauervollgas |
+| `m3115_640`, `m3115_1050` | Fahrtwind 4,3·10⁻⁴ → 6·10⁻⁴ W/(K·rad/s) wie der 3115/900 (1.2.0, §3.8) | gleicher Stator, gleiche Masse, gleiche Glocke; mit der Motor-Hitze von Propwash 0.6.0 kam der 640 KV an seinem Einsatz (10″ auf 8S) nach einem Akku Vollgas auf 137,5 °C, 2,5 K unter seiner Schwelle, jetzt 114,8 °C; 1050 KV auf 6S 118,3 → 103,3 °C |
+| `m4214_400` | Fahrtwind 7·10⁻⁴ entfällt, Propwash-Regel 6,8·10⁻⁴ wie 330 und 530 KV (1.2.0, §3.8) | die Regel von Propwash 0.6.0 rechnet die Kühlung über die Glocke und trifft den Wert aus 1.0.4 auf 3 %; Presets 12″/13″/13″ H +1,2 K |
+| `m2807_1100` | Fahrtwind 4,5·10⁻⁴ → 4,68·10⁻⁴ W/(K·rad/s), 2 × Propwash-Regel (1.2.0, §3.8) | `lr7_8s` nach 60 s Vollgas im Stand 78,3 → 75,8 K über der Umgebung, damit im Band des 7″-Datenblatts (F90 65–77 K), an dem Propwash seinen 7″ prüft |
+| `m0702_30000`, `m0702_35000`, `m0802_27200` | neu in 1.2.0: R aus `KV·√R` der Reihe (0702 10670, 0802 8750), Masse der Reihe, Spitzenstrom und KV als Median der Datenblätter (§3.7) | Thermik 115/135 °C wie der 0702/27000 |
 
 KV·√R bleibt innerhalb eines Stators gleich (Streuung < 4 %) und fällt mit der Statorgröße (JUnit
 `MotorDataTest`). Kühlung nur im Rahmen von 1.3 (Fahrtwind bei der Umsetzung höchstens 1,5 × Standard, seit 1.0.4 nach der Datenregel von
@@ -233,60 +265,83 @@ bleibt beim Entwurf, höchstens 2 × Standard).
 ### 3.2 Referenzaufbauten (Prüfstand)
 
 Jeder Motor hat einen Referenzaufbau in seiner Klasse (`MotorBenchTest`), gemessen mit den übrigen Kategorien aus
-`catalog-draft`. Korridore wie 1.7 mit ±5 % Toleranz (Rundung der Tabelle; auch das Preset `race5_6s` liegt mit
+`catalog-draft`. Die Tabelle ist mit 1.2.0 neu gemessen gegen Propwash 0.6.0-dev.5 (Motor-Hitze Phase B, Umgebung 20 °C, Kühlwerte nach §3.8);
+„Mot°C“ ist der Motor nach einem Akku Dauervollgas im Stand. Korridore wie 1.7 mit ±5 % Toleranz (Rundung der Tabelle; auch das Preset `race5_6s` liegt mit
 17,2 min Schweben knapp darüber); zusätzlich ein Korridor „Freestyle 6–7″“ (550–900 g, T/W 9–14, Schwebegas 15–27 %,
 Schweben 14–22 min, Reise 6–9 min, 120–160 km/h, Motor unter der Drosselgrenze, ≤ 10 % Props im Bild), weil 1.7 keinen hat.
 Letzte Spalte: Reaktionszeit der Motoren.
 
 ```
 Aufbau                                   g   T/W Schw%  Schw' Reise'   km/h      A  ESC%  Akk%  Mot°C Bild%  Probleme / Warnungen
-m0702_23000 65 mm 1S 250              22.7   3.8  48.6    8.4    6.9     37    7.7    31    77   29.6  18.6    45.4ms
-m0702_27000 65 mm 1S 380              26.0   4.3  44.1   11.1    8.6     41   11.2    45    66   31.0  16.9    48.5ms
-m0802_15500 75 mm 2S 300              38.3   6.0  28.8   12.1    7.4     52   17.4    36   129   46.1  13.8    43.3ms
-m0802_19000 75 mm 1S 450 (Preset whoop75_1s)    32.9   4.0  44.5   11.3    8.9     39   12.6    51    47   36.2  19.9    54.9ms
-m1102_13500 85 mm 2S 450 (Preset whoop85_2s)    56.7   6.8  27.8   12.4    7.4     57   28.5    59    85   46.9  10.0    44.7ms
-m1102_18000 75 mm 1S 750, 4 Blatt     46.1   3.6  50.7   12.7   10.5     43   15.4    31    27   32.5  15.8    38.8ms
-m1103_8000 2,5" 3S 650                98.2   7.3  23.3   13.1    6.9     93   55.0    68    94  104.1   9.2    48.7ms
-m1103_11000 2" 2S 450 (Preset toothpick2_2s)    57.1   6.3  30.3   11.0    7.2     74   28.6    59    85   38.2  10.7    31.6ms
-m12025_5500 2,5" 4S 450               97.4   6.7  26.3   11.1    6.5     89   35.0    44    97  119.7   9.6    51.7ms
-m12025_11500 2" 2S 450                60.7   6.1  30.2    9.5    6.4     75   31.2    65    92   43.9  10.5   W[battery_weak][] 36.6ms
-m1404_2750 3" 6S 550                 163.7   6.3  32.7   11.6    7.6     95   30.1    38    68   84.3   6.7    23.4ms
-m1404_3800 3" 4S 650 (Preset toothpick3_4s)   142.8   6.6  33.0   11.0    6.9     91   38.4    48    62   79.1   8.4    24.0ms
-m1505_2500 3,5" 6S 750 (Preset toothpick35_6s)   222.5   7.6  28.0   13.6    7.8    109   46.3    58    69  103.0   7.5    25.2ms
-m1505_3600 3,5" 4S 850               190.0   8.0  26.6   12.9    7.2    103   59.5    42    70   88.9   7.5    25.8ms
-m2004_1700 Cinewhoop 3,5" 6S (Preset cinewhoop35_6s)   339.9   4.2  46.8   10.2    8.0     55   24.8    14    29   79.7  15.6    22.5ms
-m2207_1500 6" LR 6S 1800             603.0  11.2  23.4   21.8   10.4    129  104.1    43    58  116.4   8.3    18.5ms
-m2207_1950 5" Bash 6S 1300 (Preset bash5_6s)   530.3  11.7  21.2   14.9    6.2    140  124.7    52    80   92.3   5.8    12.8ms
-m2207_2550 5" Race 4S 1500           416.2  11.3  21.7   15.7    7.3    154  123.9    56    69   75.2   0.0    13.9ms
-m22075_1850 5" Deadcat 6S 1300 (Preset deadcat5_6s)   534.3  11.1  23.6   15.0    7.0    132  101.4    42    65   85.2   0.3    12.1ms
-m22075_2700 5" Race 4S 1500          426.2  11.8  21.3   15.9    7.4    155  125.6    57    70   69.5   0.0    13.6ms
-m23065_2020 5" Race 6S 1300          461.2  14.1  17.8   17.7    6.1    184  145.1    60    93   93.9   0.0    12.2ms
-m23065_2450 5" Race 4S 1500 (Preset race5_4s)   407.1  11.2  21.7   16.4    7.3    155  124.7    57    69   75.9   0.0    13.0ms
-m2507_1500 6" LR 6S 1800 (Preset lr6_6s)   637.8  10.8  24.2   19.3    9.7    130  107.0    44    59  101.7   8.7    17.3ms
-m2507_1800 6" Freestyle 6S 1800      637.8  13.2  19.2   19.6    7.9    143  155.7    65    87  103.8   8.7    17.8ms
-m28065_1050 8" LR 8S Li-Ion         1072.3   5.0  21.5   39.5   28.4    103   86.2    33   192  115.7  10.0   W[battery_weak][heavy_sag, battery_overload] 34.2ms
-m28065_1300 7" Deadcat 6S Li-Ion (Preset lr7_deadcat_lion)   881.7   4.8  28.0   33.5   25.3    101   75.9    31   169   80.5   0.1   W[battery_weak][heavy_sag, battery_overload] 24.2ms
-m2807_1100 8" LR 6S2P Li-Ion (Preset lr8_6s_lion)  1329.7   4.9  33.0   42.1   31.7    109  108.3    42   129  125.6   7.9   W[battery_weak][] 32.6ms
-m2807_1500 7" Freestyle 6S 1800      728.4  12.8  17.3   18.7    7.5    131  190.0    79   106  126.2   0.0   W[][heavy_sag] 25.9ms
-m3115_640 10" 8S 5000               1945.7   7.7  29.7   26.2   16.1    117  162.3    41    54  130.3   8.2    20.3ms
-m3115_900 10" 6S 5000 (Preset xclass10_6s)  1692.5   8.6  25.6   24.5   13.8    115  220.6    55    74  110.5  14.7    21.5ms
-m3115_1050 10" 6S 5000              1692.5   9.8  21.1   24.9   12.4    122  292.2    73    97  111.7  14.7   W[][heavy_sag] 22.3ms
-m4214_330 13" 3 Blatt 8S 5000       3155.7   4.7  42.4   17.4   13.8     80  118.2    29    39  125.3   3.0    22.9ms
-m4214_400 13" 8S 5000 (Preset xclass13_8s)  3123.7   5.8  35.9   16.8   12.1     91  169.4    42    56  128.9   3.0    18.8ms
-m4214_530 13" 8S 5000               3123.7   7.7  25.7   17.1   10.1    103  293.9    73    98  128.1   3.0   W[][heavy_sag] 19.9ms
+m0702_23000 65 mm 1S 250              22.8   3.8  48.8    4.7    4.5     50    9.2    31    74   54.3   8.6    47.6ms
+m0702_27000 65 mm 1S 380              26.1   4.2  44.2    6.7    6.5     57   12.4    45    73   62.2   8.6    50.9ms
+m0702_30000 65 mm 1S 380              26.1   4.8  39.5    6.5    6.3     61   15.2    58    89   67.4   8.6    51.5ms
+m0702_35000 65 mm 1S 380 (Preset whoop65_race_1s)    26.1   5.5  33.3    6.5    6.3     66   19.6    77   115   72.1   8.6   W[battery_weak][] 54.4ms
+m0802_15500 75 mm 2S 450 digital, Dauervollgas überlastet    49.0   6.2  26.4    8.6    8.5     85   28.2    55    84  148.7   6.0   W[][motor_thermal] 38.4ms
+m0802_19000 75 mm 1S 450 (Preset whoop75_1s)    32.9   4.8  34.9    7.1    6.7     59   21.3    76    79   80.6   6.0    49.0ms
+m0802_27200 75 mm 1S 450, 12-A-AIO    33.9   5.9  23.4    6.9    6.5     67   36.7    69   136   98.8   6.0   W[][heavy_sag] 49.6ms
+m1102_13500 85 mm 2S 450 (Preset whoop85_2s)    56.7   6.8  27.8    7.9    7.7     79   31.8    59    94   81.3   7.4    44.7ms
+m1102_18000 75 mm 1S 750, 4 Blatt     46.1   4.6  39.2    8.2    7.9     65   28.7    51    51   61.0   9.0    36.4ms
+m1103_8000 2,5" 3S 650                98.2   8.8  19.7   12.6    9.5    101   61.7    72   105  116.3   5.2    48.7ms
+m1103_11000 2" 2S 450 (Preset toothpick2_2s)    57.1   6.3  30.3    8.7    7.0     74   33.0    59    98   69.2   4.2    31.6ms
+m12025_5500 2,5" 4S 450               96.6   8.7  21.3   11.0    8.4     99   42.0    49   117   79.9   5.7    43.2ms
+m12025_11500 2" 2S 450                59.9   6.3  29.5    7.8    6.3     76   37.0    66   110   70.3   4.7   W[battery_weak][] 30.3ms
+m1404_2750 3" 6S 550                 163.7   6.3  32.7   11.2    9.5     96   31.7    38    72  126.2   5.4    23.4ms
+m1404_3800 3" 4S 650 (Preset toothpick3_4s)   142.8   6.6  33.0   10.0    8.0     92   40.8    48    66   61.6   5.4    24.0ms
+m1505_2500 3,5" 6S 750 (Preset toothpick35_6s)   222.5   8.8  24.1   15.1   13.0    116   55.5    66    82   80.1   6.1    24.9ms
+m1505_3600 3,5" 4S 850               190.0   9.2  22.9   13.1   10.7    109   71.7    49    84   70.0   6.1    25.5ms
+m2004_1700 Cinewhoop 3,5" 6S (Preset cinewhoop35_6s)   351.4   6.7  29.1   11.4   10.0     91   63.4    34    75   81.2  13.3    15.1ms
+m2207_1500 6" LR 6S 1800             603.0  11.2  23.4   16.6    8.3    126  108.9    43    61  122.4   6.9    18.5ms
+m2207_1950 5" Bash 6S 1300 (Preset bash5_6s)   541.8  11.5  21.6   11.1    7.7    142  131.3    52    84   99.3   7.9    12.8ms
+m2207_2550 5" Race 4S 1500           433.7  10.8  22.3   10.7    8.0    155  132.3    56    74   80.0  13.4    13.9ms
+m22075_1850 5" Deadcat 6S 1300 (Preset deadcat5_6s)   545.8  10.8  24.0   11.1    7.9    134  107.3    42    69   93.8   0.0    12.1ms
+m22075_2700 5" Race 4S 1500          443.7  11.3  21.8   10.7    8.0    156  134.4    57    75   75.6  14.8    13.6ms
+m23065_2020 5" Race 6S 1300          467.2  14.0  18.0   13.1   10.1    186  152.5    60    98   98.6  11.1    12.2ms
+m23065_2450 5" Race 4S 1500 (Preset race5_4s)   413.1  11.1  21.9   11.6    8.4    156  133.0    57    74   79.2  11.1    13.0ms
+m2507_1500 6" LR 6S 1800 (Preset lr6_6s)   637.8  10.8  24.2   14.8    7.9    127  112.3    44    62   95.4   8.1    17.3ms
+m2507_1800 6" Freestyle 6S 1800      637.8  13.2  19.2   15.0    8.0    140  162.2    65    90  104.7   8.1    17.8ms
+m28065_1050 8" LR 8S Li-Ion         1072.3   5.0  21.5   37.0   24.2    103   87.7    33   195  110.6   6.0   W[battery_weak][heavy_sag, battery_overload] 34.3ms
+m28065_1300 7" Deadcat 6S Li-Ion (Preset lr7_deadcat_lion)   881.7   5.2  27.7   31.9   21.6    104   78.1    31   173   77.0   1.8   W[battery_weak][heavy_sag, battery_overload] 24.4ms
+m2807_1100 8" LR 6S2P Li-Ion (Preset lr8_6s_lion)  1329.7   4.9  32.9   41.1   28.2    110  108.9    41   130   93.1   6.6   W[battery_weak][] 32.6ms
+m2807_1500 7" Freestyle 6S 1800      750.4  12.4  17.7   13.8    6.8    132  195.7    79   109  108.4   2.0   W[][heavy_sag] 26.5ms
+m3115_640 10" 8S 5000               1945.7   7.7  29.7   24.2   15.5    128  154.8    41    52  114.8   7.1    20.3ms
+m3115_900 10" 6S 5000 (Preset xclass10_6s)  1704.0   8.5  25.7   21.6   12.9    125  210.9    55    70  100.4   7.1   W[][motor_thermal] 21.5ms
+m3115_1050 10" 6S 5000              1704.0   9.7  21.2   21.9   12.2    133  278.3    73    93  103.3   7.1   W[][heavy_sag, motor_thermal] 22.3ms
+m4214_330 13" 3 Blatt 8S 5000       3155.7   4.7  42.4   16.6   13.4    102  113.4    29    38  104.6   2.3    22.9ms
+m4214_400 13" 8S 5000 (Preset xclass13_8s)  3123.7   5.9  35.7   17.1   12.6    117  153.2    40    51  106.6   2.3    18.9ms
+m4214_530 13" 8S 5000               3123.7   7.9  25.6   17.4   11.1    134  266.6    70    89  110.6   2.3   W[][heavy_sag, motor_thermal] 20.0ms
 ```
 
 Bewusste Abweichungen vom Korridor (im Test einzeln benannt, im Tooltip als Contra):
-- `m1103_8000`: Schwebegas 23 % — sehr kräftig auf 3S.
-- `m12025_11500`: 9,5 min Schweben, `battery_weak` mit 2S 450 mAh 75C — hoher Spitzenstrom (13 A).
-- `m2207_1500` wird als 6″-Long-Range gemessen; im 5″-Bash (T/W 8,5, 121 km/h) liegt er bewusst unter dem 5″-Korridor.
-- `m2807_1500`: `heavy_sag` (190 A aus 1800 mAh).
-- `m3115_640`: 26 / 16 min über dem X-Class-Korridor — effizient.
-- `m3115_1050`: T/W 9,8, Schwebegas 21 %, 122 km/h, `heavy_sag` — Race-Motor.
+- `m0802_15500`: im 75-mm-Whoop auf 2S bei Dauervollgas überlastet (148,7 °C, `motor_thermal`) — Contra „Dauervollgas auf 2S:
+  überlastet, sehr heiß“.
+- `m1103_8000`: Schwebegas 19,7 % — sehr kräftig auf 3S.
+- `m12025_11500`: `battery_weak` mit 2S 450 mAh 75C — hoher Spitzenstrom (13 A).
+- `m2207_1500` wird als 6″-Long-Range gemessen; im 5″-Bash (T/W 8,3, 122 km/h) liegt er bewusst unter dem 5″-Korridor.
+- `m2807_1500`: `heavy_sag` (196 A aus 1800 mAh).
+- `m3115_640`: 24 / 16 min am oberen Rand des X-Class-Korridors — effizient.
+- `m3115_1050`: T/W 9,7, Schwebegas 21 %, 133 km/h, `heavy_sag` — Race-Motor; `motor_thermal` kommt nur vom ESC (Motor 103 °C).
 - `m4214_330`: T/W 4,7, Schwebegas 42 % — Cruiser auf 8S, wenig Punch (Datenblatt bis 12S, aber weder JMP noch Propwash haben 10–12S-Akkus oder -ESCs; die Hilfe nennt deshalb nur 8S).
-- `m4214_530`: 10,1 min Reise, `heavy_sag` — Race-Motor.
+- `m4214_530`: 11,1 min Reise, `heavy_sag` — Race-Motor; `motor_thermal` kommt nur vom ESC (Motor 111 °C).
 
-Weitere Nachweise (JUnit): alle 22 Presets aus 8 ohne `sluggish_motors`/`motor_thermal` und unter der Drosselgrenze;
+**Renn-Whoops (1.2.0, gegen Propwash 0.6.0-dev.5 mit Motor-Hitze):** Korridor „Renn-Whoop 1S“ aus §1.7 (T/W 5–8,
+Schwebegas 20–35 %, gemischt 2,5–4,5 min, 55–75 km/h, Motor unter der eigenen Hitzegrenze). Der 0702/30000 liegt als
+Brücke zwischen 27000 KV und dem schnellsten Motor im Whoop-Korridor.
+
+```
+Aufbau                                   g   T/W Schw%  Schw' Reise'   km/h      A  ESC%  Akk%  Mot°C Bild%  Probleme / Warnungen
+m0702_30000 65 mm 1S 380              26.1   4.8  39.5    6.5    6.3     61   15.2    58    89   67.4   8.6    51.5ms
+m0702_35000 65 mm 1S 380 (Preset whoop65_race_1s)    26.1   5.5  33.3    6.5    6.3     66   19.6    77   115   72.1   8.6   W[battery_weak][] 54.4ms
+m0802_27200 75 mm 1S 450, 12-A-AIO    33.9   5.9  23.4    6.9    6.5     67   36.7    69   136   98.8   6.0   W[][heavy_sag] 49.6ms
+```
+
+Gemischter Flug 3,1 / 2,6 / 4,5 min. `battery_weak` beim 35000-KV-Motor kommt vom 380-mAh-Akku mit 45C (erlaubt im
+Renn-Korridor), `heavy_sag` beim 0802 vom hohen Strom. Das Preset `whoop65_race_1s` (65-mm-Rahmen, 6-A-AIO, 31-mm-Dreiblatt,
+analoges Whoop-Video, 1S 380 mAh) ist spritziger als jedes andere 1S-Preset von Propwash und JMP
+(`MotorBenchTest#raceWhoopPresetIsVeryPunchyButFlyable`) und fliegt im Selbsttest durch einen Indoor-Kurs (§3.6).
+
+Weitere Nachweise (JUnit): alle 23 Presets aus 8 ohne `sluggish_motors`/`motor_thermal` (bei X-Class zählt nur der Motor, die
+ESC-Hitze ist dort gewollt) und unter der Hitzegrenze des Motors;
 `m2207_2550`, `m22075_2700`, `m23065_2450` melden auf 6S `motor_overvoltage` (auf 4S nicht), werden schneller, ziehen
 mehr Strom und brechen ein (`heavy_sag`/`esc_current_limited`); 15 KV-Reihen (auch mit den eingebauten 1404/4600,
 2207/1750, 2807/1300) zeigen mit steigender KV mehr Topspeed und mehr Strom; die Selbsttest-Aufbauten mit eingebauten
@@ -298,11 +353,14 @@ Teilen bleiben ohne Probleme.
 Spiegel-Kollisionen), eindeutig auch gegen Propwash (`parts_sync.py --check`, JUnit `MotorDataTest`). Zutaten:
 `N` Eisennugget, `I` Eisenbarren, `L` `propwash:copper_coil`, `C` Kupferbarren, `Q` Quarz, `O` Goldbarren (Lager),
 `B` Kupferblock (Wicklung). Das KV-Kennzeichen `K` steigt mit der KV eines Stators: Amethystsplitter (niedrig,
-effizient) → Redstone (Standard) → Glowstone-Staub (hohe KV).
+effizient) → Redstone (Standard) → Glowstone-Staub (hohe KV). Seit 1.2.0 tragen mehrere 0702 Glowstone-Staub; ab dem
+zweiten unterscheidet sie eine zusätzliche Zutat (JUnit `MotorDataTest`: gleiches Kennzeichen nur bei hoher KV und mit
+neuer Zutat). Der 0802/27200 ist der erste 0802 mit Glowstone-Staub (Muster `NKN`/` L `).
 
 | Stator | Muster | Ausbeute |
 |---|---|---|
 | 0702 / 0802 / 1102 | `NLN`/` K ` · `NKN`/` L ` · `NLN`/`NKN` | 2 |
+| 0702-Renn-Whoops (1.2.0) | `NLN`/`GKG` mit Goldnuggets `G` (30000 KV) · `NLN`/`BKB` mit Lohenstaub `B` (35000 KV), beide mit Glowstone-Staub | 2 |
 | 1103 / 1202,5 / 1404 / 1505 / 2004 | `LKL` + ` N ` · `N N` · `NNN` · `NIN` · `INI` | 2 |
 | 2207 / 2207,5 / 2306,5 | `ILI`/`LKL` + ` I ` · `I I` · ` Q ` | 2 |
 | 2507 / 2806,5 / 2807 | `ILI`/`LKL` + `ICI` · `CIC` · `CCC` | 2 |
@@ -325,14 +383,14 @@ deshalb unverändert.
 | Tabelle | Vanilla-Truhen | Motoren |
 |---|---|---|
 | `village_house` | Dorfhäuser (Ebene, Wüste, Savanne, Schnee, Taiga) | 0702/23000, 0802/19000, 0802/15500, 1102/13500 |
-| `village_toolsmith` | Werkzeugschmied | 1103, 1202,5/5500, 1404/3800, 1102/18000, 0702/27000 |
+| `village_toolsmith` | Werkzeugschmied | 1103, 1202,5/5500, 1404/3800, 1102/18000, 0702/27000, 0702/30000, 0802/27200 |
 | `abandoned_mineshaft` | Mine | 1404/2750, 1505, 2004, 1202,5/11500, 2207/1500 |
 | `simple_dungeon` | Verlies | 2207/1950, 2207/2550, 2306,5/2450, 1505/3600, 2004 |
 | `pillager_outpost` | Außenposten | 2207/1950, 2207,5, 2306,5/2020, 2507/1800 |
 | `temple` | Wüsten- und Dschungeltempel | 2306,5, 2207,5/2700, 2207/2550 |
 | `shipwreck_supply` | Schiffswrack (Vorräte) | 2507/1500, 2806,5, 2207/1500 |
 | `stronghold` | Festung (Gang, Kreuzung) | 2807, 2806,5/1050, 2507/1800, 3115/640 |
-| `trial_chambers` | Prüfungskammer (Vorrat, Kreuzung) | 1404/3800, 1505/2500, 2207/1950, 2306,5/2450, 1103/11000 |
+| `trial_chambers` | Prüfungskammer (Vorrat, Kreuzung) | 1404/3800, 1505/2500, 2207/1950, 2306,5/2450, 1103/11000, 0702/35000 |
 | `vault` | Tresor | 3115/900, 3115/640, 2207,5/1850, 2807/1500 |
 | `vault_ominous` | Unheilvoller Tresor | 3115/1050, 4214 |
 | `ancient_city` | Antike Stadt | 3115/900, 4214/400, 4214/330, 2807/1100 |
@@ -357,16 +415,99 @@ als Fragmente; Vergleichsbilder mit `tools/assets/compare_render.py --category m
 Weil gleiche Statorgröße gleiche Geometrie bedeutet, darf ein JMP-Motor nicht die Glockenfarbe des Propwash-Motors
 derselben Größe tragen. Nach der Stil-Review 1.0.1 geändert: `m0802_19000` Orange `#f28a26` (vorher Lila wie
 `propwash:m0802_22000`), `m2207_1950` Gelb `#e8c22a` (vorher Rot wie `propwash:m2207_1750`), `m28065_1300` Pink `#d84a8c`
-(vorher Bernstein wie `propwash:m2807_1300`).
+(vorher Bernstein wie `propwash:m2807_1300`). Neu in 1.2.0: `m0702_30000` Türkis `#22c3d6`, `m0702_35000` Pink `#ff3fa6`,
+`m0802_27200` Violett `#8f5be8` (Sitzhöhe 6,75 bzw. 7 mm wie ihre Reihe).
 
 ### 3.6 Selbsttests (`motor.client.MotorSelfTests`)
 
-- „motor: 34 Motor-Items mit Namen, Shift-Hilfe und Seltenheit“ (Items, Texte, Seltenheit, Tooltip mit KV-Zeile).
+- „motor: 37 Motor-Items mit Namen, Shift-Hilfe und Seltenheit“ (Items, Texte, Seltenheit, Tooltip mit KV-Zeile; bis 1.1 34).
 - „motor: je Größenklasse ein Aufbau baubar, als Drohne erzeugt und wieder gelesen“ (Whoop, Cinewhoop, 5″ Freestyle,
   5″ Race, 7″ Long Range mit eingebauten Teilen; X-Class 13″ mit JMP-Teilen, also erst nach der Integration).
 - „motor: 4S-Motor auf 6S meldet Überspannung“.
 - „motor: Rezepte, Beutetabellen und Truhen-Einspeisung auf dem Server“ (alle Rezepte, alle eigenen Tabellen würfeln nur
   Motoren, jede Ziel-Truhe liefert Motoren; auf Fabric erst nach der Verdrahtung grün).
+- „motor: Renn-Whoop 65 fliegt durch einen Indoor-Kurs“ (`motor.client.RaceCourseSelfTests`, 1.2.0): baut 48 Blöcke
+  neben dem Spieler eine Halle (9 × 62 × 6 Blöcke, Glas, Boden aus Stein) mit vier Trennwänden und je einer Öffnung von
+  3 × 2 Blöcken auf wechselnder Seite und Höhe (1, 2, 0 und 3 Blöcke über dem Boden), setzt das Preset `whoop65_race_1s`
+  und lässt es über die Autonomie-API von Propwash (Start vom Boden auf 1,5 m, eigene Flughilfe) durch alle Tore und
+  danach 26 m Sprint fliegen und landen. Bestanden, wenn jedes Tor in Reihenfolge durch seine Öffnung durchflogen wird,
+  der Flug mit `LANDED` endet, der Sprint mindestens 20 km/h erreicht und die Analyse im Spiel spritzig, aber fliegbar
+  ist (T/W ab 5, Schwebegas ab 20 %, gemischt ab 2,5 min); das Log nennt Zeit, Tempo und Akkustand. Der Regler der
+  Autonomie neigt höchstens 35° und bremst mit 2,5 m/s², das Tempo im Kurs zeigt deshalb nur, dass die Drohne sauber
+  fliegt; den Punch belegt der Prüfstand (§3.2). Danach stellt der Schritt die Blöcke wieder her.
+
+### 3.7 Whoop-Motoren mit sehr hoher KV (1.2.0)
+
+Wunsch aus der Community: mehr Whoop-Motoren mit 30000 KV und mehr auf 1S. Drei Motoren, jeder aus einer Klasse realer
+Datenblätter (Regel §1.3, Quellen intern):
+
+| Motor | Klasse | n (Hersteller) | KV der Datenblätter | Masse laut Datenblatt | Spitzenstrom | Widerstand laut Datenblatt |
+|---|---|---|---|---|---|---|
+| `m0702_30000` | 0702, 1S, 28000–31999 KV | 5 (4) | 28000–31800, Median 30000 | 1,15–1,55 g | 4,7–6,0 A, Median 5,4 A | 135 mΩ (1 Angabe) |
+| `m0702_35000` | 0702, 1S, ab 32000 KV | 3 (3) | 33800–36000, Median 35000 | 1,15–1,59 g | 5,7–7,2 A, Median 6,4 A | 125 mΩ (1 Angabe) |
+| `m0802_27200` | 0802, 1S, Renn-Klasse | 4 (4) | 27000–28000, Median 27200 | 1,88–2,15 g | 5,4–9,0 A, Median 6,7 A | 95–142 mΩ (2 Angaben) |
+
+- Ein 0802 mit 30000 KV gibt es bei keinem Hersteller; die schnellsten 0802 für 1S liegen bei 27000–28000 KV. Deshalb
+  heißt der 75-mm-Motor `m0802_27200` statt des im Entwurf vorgeschlagenen `m0802_30000`, und der schnellste 0702 heißt
+  nach dem Median seiner Klasse `m0702_35000` statt `m0702_33000`.
+- Masse wie die JMP-Reihe (0702 1,8 g, 0802 2,3 g), Widerstand über `KV·√R` der Reihe (0,1265 / 0,0929 / 0,1035 Ω),
+  Hitzegrenze 115/135 °C.
+- Preset `whoop65_race_1s` „Renn-Whoop 65 · 1S“ / „Race Whoop 65 · 1S“ mit dem 35000-KV-Motor (§3.2). Die Sharecode-Tabelle
+  `data/justmoreparts/propwash_share/table.json` führt die drei Motoren am Ende der Art `motor` mit `since` 1.2.0 und
+  `fallback` `propwash:m0802_22000` wie die übrigen Whoop-Motoren (`ShareTableCheck add --version 1.2.0`); die
+  Vergleichsdatei `common/sharecode-baseline.json` ist danach mit `freeze` neu eingefroren (`ShareTableTest` verlangt
+  Gleichheit mit `freeze`).
+
+### 3.8 Kühlwerte der 7″- und X-Class-Motoren nach der Motor-Hitze von Propwash 0.6.0 (1.2.0)
+
+Die eigenen Kühlwerte (`cooling_w_per_k`, `cooling_w_per_k_per_rad_s`) der großen Motoren stammen aus 1.0.x, also aus der
+Zeit vor der Motor-Hitze von Propwash 0.6.0. Propwash rechnet seit Phase B die Grundkühlung mit 0,1 W/K und den Fahrtwind
+über die Geschwindigkeit der Glocke (0,0105 W/K je m/s · ω · 0,625 · Statordurchmesser), beides × (m/33 g)^(2/3); eigene
+Werte im Teile-Datum ersetzen diese Regel (Propwash `docs/design/realism/motor-heat.md` §8.1). Geprüft gegen Propwash
+0.6.0-dev.5 nach drei Regeln:
+
+1. **Datenblatt wie bei Propwash:** Werkbank-Wert nach 60 s Vollgas im Stand (Umgebung 20 °C) gegen die Erwärmung der
+   Glocke im Herstellerprüfstand. Propwash prüft seinen 7″ am F90 (2806,5): 65–77 K, mit Li-Ion nur die Obergrenze
+   (`realism/motors-props.md` §6.1). Für 3115 und 4214 gibt es keine 60-s-Werte; die Datenblätter nennen die
+   Spitzenleistung nur für 10 s.
+2. **Gleicher Stator, gleiche Masse, gleiche Kühlung** (wie beim 1505/3600 in 1.2.0).
+3. **X-Class:** ein Akku Dauervollgas im Stand bleibt mindestens 20 K unter der Schwelle des Motors. An die Hitzegrenze
+   kommen die X-Class-Presets erst mit unendlichem Akku (Band B3 von Propwash), bei 10″, 12″ und 13″ über den ESC.
+
+| Motor | vorher | 1.2.0 | Propwash-Regel ohne eigene Werte | Ergebnis |
+|---|---|---|---|---|
+| `m28065_1050`, `m28065_1300` | Fahrtwind 2,7·10⁻⁴ | unverändert | 2,28·10⁻⁴: 7″ mit 6S-1800-LiPo nach 60 s 90 statt 82 K | `lr7_deadcat_lion` 49,5 K (Li-Ion, höchstens 77 K); die Regel allein läge weiter über dem F90 |
+| `m2807_1100` | 0,14 W/K, Fahrtwind 4,5·10⁻⁴ | 0,14 W/K, Fahrtwind 4,68·10⁻⁴ (2 × Regel) | 0,127 W/K, 2,34·10⁻⁴: `lr7_8s` 144 °C und `lr8_6s_lion` 142 °C nach einem Akku, beide mit `motor_thermal` | `lr7_8s` 78,3 → 75,8 K (F90 65–77 K), `lr8_6s_lion` 71,8 → 70,0 K |
+| `m3115_640`, `m3115_1050` | 0,26 W/K, Fahrtwind 4,3·10⁻⁴ | 0,26 W/K, Fahrtwind 6·10⁻⁴ wie 900 KV | 0,195 W/K, 3,97·10⁻⁴: 640 KV auf 8S 151 °C mit `motor_thermal` | 640 KV auf 8S nach einem Akku 137,5 → 114,8 °C (Schwelle 140 °C), 1050 KV auf 6S 118,3 → 103,3 °C |
+| `m3115_900` | 0,26 W/K, Fahrtwind 6·10⁻⁴ | unverändert (1,5 × Regel) | `xclass10_6s` 126 statt 100 °C | Preset 100,4 °C, nach 60 s 72,8 K |
+| `m4214_330`, `m4214_400`, `m4214_530` | 0,34 W/K, beim 400 KV zusätzlich Fahrtwind 7·10⁻⁴ | 0,34 W/K, Fahrtwind für alle drei nach der Regel (6,8·10⁻⁴) | 0,247 W/K: Presets nach einem Akku 7–8 K wärmer | die Regel trifft den alten Wert des 400 KV auf 3 %; Presets 12″/13″/13″ H 95,0/106,6/113,7 °C (+1,2 K) |
+
+Die Grundkühlung 0,26 bzw. 0,34 W/K entspricht der Propwash-Regel bei der Masse echter Motoren dieser Klassen (3115 mit
+113 g: 0,23 W/K, 4214 mit 211 g: 0,34 W/K); die JMP-Massen (90 und 128 g) liegen darunter, die Glocke ist aber so groß wie
+beim echten Motor. Die Datenregel von `MotorDataTest` (Fahrtwind höchstens 2,5 ×, Standkühlung höchstens 2 × Standard)
+gilt weiter.
+
+**X-Class 12″ und Band B3:** Im Prüfstand des Flugmodells von Propwash (`ThermalCharacterizationTest` mit JMP-Daten,
+unendlicher Akku, 600 s) kommt `xclass12_8s` auf 110/150 °C (Motor/ESC, vorher 109/150 °C); der ESC regelt nach 352 s
+ab, erst ab 95 % Dauergas. Der 12″ ist das sparsame X-Class-Preset: 29 A je Motor, 45 % des Spitzenstroms des 4214/400
+(das Datenblatt des 4214 mit 400 KV nennt mit 13″-Dreiblatt auf 8S 38,8 A). Auch mit der Propwash-Regel ohne eigene Werte
+bliebe der Motor in der Werkbank bei 101 °C, weit unter seiner Schwelle von 145 °C; damit der Motor sie erreicht, müsste er
+schlechter kühlen als die Regel bei seiner zu leichten Spielmasse. Die Hitzegrenze des 12″ kommt deshalb gewollt vom ESC
+(`stack_30_8s_100a`, 30×30 auf 8S), so wie Propwash B3 seit Phase B auswertet (Motor über der Schwelle oder ESC regelt ab).
+Der Abstand von 10 K am ESC hängt an den Stack-Daten und am ESC-Modell von Propwash, nicht an der Motorkühlung.
+
+**Nachweise:** JUnit `MotorBenchTest#longRangePresetsMatchTheSevenInchDatasheetAfterOneMinute` und
+`#sameStatorCoolsAlikeAndXClassKeepsAFullPackBelowItsThreshold` (beide schlagen mit den Werten von 1.1.1 fehl). Die
+Zielbänder von Propwash mit diesen Daten sind alle erfüllt (B2a 36–45 °C, B2b 113–169 °C, B3 110–151 °C). Propwash
+`tools/calibration.sh` mit diesem Stand gegen `integration-1.2.0`: `fall.txt`, `throttle_drop.txt` und `battery_sag.txt`
+byte-gleich; in `calibration.txt` nur die Temperaturspalten von `lr7_8s`, `lr8_6s_lion`, `xclass12_8s`, `xclass13_8s` und
+`xclass13h_8s`; in `motion.txt` 159 von 1266 Zeilen, alle mit einem der vier geänderten Motoren und nur im Flug-Hash
+(Spezifikations-Hashes byte-gleich).
+
+**Offen für später (nicht in 1.2.0):** Kleine Motoren derselben Baugröße kühlen noch verschieden (1103: 5,5·10⁻⁵ und
+2,2·10⁻⁵; 1202,5, 1404 und 2507 je ein Motor mit eigenem Wert, der andere nach der Regel). Nach 60 s Vollgas liegen
+`cinewhoop25_4s` mit 50,8 K über dem F1404 (25–44 K) und `toothpick2_2s` mit 49,2 K über dem F1203 (31–46 K); die Whoops
+mit 52–61 K ebenso, für sie gilt seit 1.2.0 die Grenze von 100 °C (§1.7).
 
 ## 4. Propeller (Implementierer 2 — PROPS)
 
@@ -830,25 +971,25 @@ JSON-Entwurf (Abschnitt 10).
 | `whoop_65_lite` | 65-mm-Whoop-Rahmen (Lite) | 65 mm Whoop Frame (Lite) | Whoop 65 Lite | whoop | true_x | 65 | 28–31 | 3,2 | 1,2 | m08 / whoop_aio | nein · -3,0 | 1–1S, ≤ 10 g, bev. 1S | 14° | bottom | 0,0034, 1,10, oben 0,0039 | clearance_mm 1.5 | 10,0 | 0,7 |
 | `whoop_75_duct` | 75-mm-Whoop-Rahmen | 75 mm Whoop Frame | Whoop 75 | whoop | true_x | 75 | 35–40 | 5,8 | 1,5 | m08 / whoop_aio | nein · -3,5 | 1–2S, ≤ 25 g, bev. 1S | (0, 8, -26), 18° | bottom | 0,0045, 1,10, oben 0,0046 | Standard | 13,0 | 1,0 |
 | `whoop_85_duct` | 85-mm-Whoop-Rahmen | 85 mm Whoop Frame | Whoop 85 | whoop | true_x | 85 | 40–45 | 7,6 | 1,8 | m08 / whoop_aio | nein · -4,0 | 1–2S, ≤ 35 g, bev. 2S | 18° | bottom | 0,0056, 1,10, oben 0,0065 | Standard | 12,0 | 1,0 |
-| `tp_2_x` | 2-Zoll-Toothpick-Rahmen | 2″ Toothpick Frame | Toothpick 2″ | toothpick | true_x | 90 | 45–51 | 7,5 | 2,5 | m08, m14 / whoop_aio | ja · 7,0 | 1–2S, ≤ 30 g, bev. 2S | 25° | — | 0,0035, 0,90 | — | 9,0 | 1,0 |
-| `tp_25_x` | 2,5-Zoll-Toothpick-Rahmen | 2.5″ Toothpick Frame | Toothpick 2.5″ | toothpick | true_x | 110 | 55–65 | 9,5 | 2,5 | m14 / whoop_aio | ja · 9,0 | 2–4S, ≤ 60 g, bev. 3S | 22° | — | 0,0045, 0,90 | — | 8,5 | 1,0 |
-| `tp_3_x` | 3-Zoll-Toothpick-Rahmen | 3″ Toothpick Frame | Toothpick 3″ | toothpick | true_x | 125 | 70–76 | 13,0 | 3,0 | m14 / whoop_aio, s20 | ja · 12,0 | 3–6S, ≤ 110 g, bev. 4S | 25° | top | 0,0058, 0,90 | — | 8,0 | 1,0 |
-| `tp_35_stretched` | 3,5-Zoll-Toothpick-Rahmen (Stretched-X) | 3.5″ Toothpick Frame (stretched X) | Toothpick 3.5″ | toothpick | stretched_x | 159 | 80–89 | 21,0 | 3,0 | m14 / whoop_aio, s20 | ja · 14,0 | 3–6S, ≤ 170 g, bev. 4S | (0, 12, -80), 26° | top | 0,0072, 0,85 | — | 8,0 | 1,0 |
-| `cw_25_duct` | 2,5-Zoll-Cinewhoop-Rahmen | 2.5″ Cinewhoop Frame | Cinewhoop 2.5″ | cinewhoop | true_x | 112 | 60–65 | 46,0 | 2,0 | m14 / whoop_aio, s20 | ja · 16,0 | 3–4S, ≤ 110 g, bev. 4S | 15° | top, bottom | 0,0090, 1,00, Draufsicht 0,015 (1.0.5) | Standard | 12,0 | 1,0 |
-| `cw_35_duct` | 3,5-Zoll-Cinewhoop-Rahmen | 3.5″ Cinewhoop Frame | Cinewhoop 3.5″ | cinewhoop | true_x | 158 | 80–90 | 92,0 | 2,5 | m14 / s20 | ja · 20,0 | 4–6S, ≤ 200 g, bev. 6S | 15° | top, bottom | 0,0137, 1,00, Draufsicht 0,0228 (1.0.5) | Standard | 11,0 | 1,0 |
-| `fs_5_bash` | 5-Zoll-Freestyle-Rahmen (Bash) | 5″ Freestyle Frame (Bash) | Bash 5″ | freestyle | true_x | 226 | 115–130 | 138,0 | 6,0 | m22 / s30, s20 | ja · 32,0 | 4–6S, ≤ 260 g, bev. 6S | 30° | top, bottom | 0,0125, 0,95 | — | 10,0 | 1,4 |
-| `fs_5_squashed` | 5-Zoll-Freestyle-Rahmen (Squashed-X) | 5″ Freestyle Frame (squashed X) | Squashed 5″ | freestyle | squashed_x | 239 | 115–130 | 124,0 | 5,0 | m22 / s30, s20 | ja · 30,0 | 4–6S, ≤ 250 g, bev. 6S | 30° | top, bottom | 0,0125, 0,92 | — | 8,5 | 1,0 |
-| `race_5_stretched` | 5-Zoll-Race-Rahmen (Slim) | 5″ Race Frame (Slim) | Race 5″ Slim | race | stretched_x | 236 | 115–130 | 84,0 | 4,0 | m22 / s30, s20 | nein (unten, seit 1.1.0) · −2,8 | 4–6S, ≤ 230 g, bev. 4S | 40° | top, bottom | 0,0085, 0,72 | — | 6,5 | 0,8 |
-| `deadcat_5` | 5-Zoll-Freestyle-Rahmen (Deadcat) | 5″ Freestyle Frame (deadcat) | Deadcat 5″ | freestyle | deadcat | 223 | 115–130 | 132,0 | 5,0 | m22 / s30, s20 | ja · 30,0 | 4–6S, ≤ 250 g, bev. 6S | (0, 14, -105), 30° | top, bottom | 0,0130, 0,95 | — | 8,5 | 1,0 |
-| `hframe_5` | 5-Zoll-Freestyle-Rahmen (H-Frame) | 5″ Freestyle Frame (H-frame) | H-Frame 5″ | freestyle | h_frame | 252 | 115–130 | 145,0 | 5,0 | m22 / s30, s20 | ja · 28,0 | 4–6S, ≤ 260 g, bev. 6S | (0, 18, -92), 25° | top, bottom | 0,0150, 1,00 | — | 9,0 | 1,0 |
-| `lr_4_x` | 4-Zoll-Long-Range-Rahmen | 4″ Long Range Frame | Long Range 4″ | long_range | true_x | 175 | 90–102 | 48,0 | 4,0 | m14 / s20, whoop_aio | ja · 22,0 | 4–6S, ≤ 320 g, bev. 6S | 20° | top | 0,0090, 0,90 | — | 8,0 | 1,0 |
-| `lr_6_x` | 6-Zoll-Long-Range-Rahmen | 6″ Long Range Frame | Long Range 6″ | long_range | true_x | 255 | 140–152 | 128,0 | 5,0 | m28, m22 / s30, s20 | ja · 30,0 | 4–6S, ≤ 450 g, bev. 6S | 22° | top, bottom | 0,0155, 0,90 | — | 8,0 | 1,0 |
-| `lr_7_deadcat` | 7-Zoll-Long-Range-Rahmen (Deadcat) | 7″ Long Range Frame (deadcat) | Deadcat 7″ | long_range | deadcat | 302 | 165–180 | 185,0 | 5,5 | m28, m22 / s30, s20 | ja · 32,0 | 6–8S, ≤ 650 g, bev. 6S/1300 mAh | (0, 16, -78), 22° | top, bottom | 0,0170, 0,90 | — | 8,0 | 1,0 |
-| `lr_8_x` | 8-Zoll-Long-Range-Rahmen | 8″ Long Range Frame | Long Range 8″ | long_range | true_x | 360 | 190–205 | 215,0 | 6,0 | m28 / s30 | ja · 34,0 | 6–8S, ≤ 900 g, bev. 6S/2000 mAh | 20° | top, bottom | 0,0210, 0,90 | — | 7,5 | 1,0 |
-| `xclass_10` | 10-Zoll-X-Class-Rahmen | 10″ X-Class Frame | X-Class 10″ | x_class | true_x | 460 | 230–254 | 480,0 | 8,0 | justmoreparts:m31 / s30 | ja · 45,0 | 6–8S, ≤ 1100 g, bev. 6S/3000 mAh | 25° | top, bottom | 0,0275, 1,00 | — | 7,0 | 1,0 |
-| `xclass_12` | 12-Zoll-X-Class-Rahmen | 12″ X-Class Frame | X-Class 12″ | x_class | true_x | 700 | 280–305 | 980,0 | 10,0 | justmoreparts:m31, justmoreparts:m42 / s30 | ja · 55,0 | 6–8S, ≤ 1800 g, bev. 8S/3000 mAh | 28° | top, bottom | 0,0320, 1,00 | — | 6,5 | 1,0 |
-| `xclass_13` | 13-Zoll-X-Class-Rahmen | 13″ X-Class Frame | X-Class 13″ | x_class | true_x | 820 | 300–330 | 1450,0 | 12,0 | justmoreparts:m42 / s30 | ja · 60,0 | 6–8S, ≤ 2500 g, bev. 8S/4000 mAh | 30° | top, bottom | 0,0400, 1,00 | — | 6,0 | 1,0 |
-| `xclass_13_h` | 13-Zoll-X-Class-Rahmen (H-Frame) | 13″ X-Class Frame (H-frame) | H-Frame 13″ | x_class | h_frame | 828 | 300–330 | 1650,0 | 12,0 | justmoreparts:m42 / s30 | ja · 60,0 | 6–8S, ≤ 2500 g, bev. 8S/4000 mAh | (0, 30, -300), 25° | top, bottom | 0,0460, 1,05 | — | 7,0 | 1,3 |
+| `tp_2_x` | 2-Zoll-Toothpick-Rahmen | 2″ Toothpick Frame | Toothpick 2″ | toothpick | true_x | 90 | 45–51 | 7,5 | 2,5 | m08, m14 / whoop_aio | ja · 7,0 | 1–2S, ≤ 30 g, bev. 2S | 25° | bottom | 0,0035, 0,90 | — | 9,0 | 1,0 |
+| `tp_25_x` | 2,5-Zoll-Toothpick-Rahmen | 2.5″ Toothpick Frame | Toothpick 2.5″ | toothpick | true_x | 110 | 55–65 | 9,5 | 2,5 | m14 / whoop_aio | ja · 9,0 | 2–4S, ≤ 60 g, bev. 3S | 22° | top, bottom, front | 0,0045, 0,90 | — | 8,5 | 1,0 |
+| `tp_3_x` | 3-Zoll-Toothpick-Rahmen | 3″ Toothpick Frame | Toothpick 3″ | toothpick | true_x | 125 | 70–76 | 13,0 | 3,0 | m14 / whoop_aio, s20 | ja · 12,0 | 3–6S, ≤ 110 g, bev. 4S | 25° | top, bottom, front | 0,0058, 0,90 | — | 8,0 | 1,0 |
+| `tp_35_stretched` | 3,5-Zoll-Toothpick-Rahmen (Stretched-X) | 3.5″ Toothpick Frame (stretched X) | Toothpick 3.5″ | toothpick | stretched_x | 159 | 80–89 | 21,0 | 3,0 | m14 / whoop_aio, s20 | ja · 14,0 | 3–6S, ≤ 170 g, bev. 4S | (0, 12, -80), 26° | top, bottom, front | 0,0072, 0,85 | — | 8,0 | 1,0 |
+| `cw_25_duct` | 2,5-Zoll-Cinewhoop-Rahmen | 2.5″ Cinewhoop Frame | Cinewhoop 2.5″ | cinewhoop | true_x | 112 | 60–65 | 46,0 | 2,0 | m14 / whoop_aio, s20 | ja · 16,0 | 3–4S, ≤ 110 g, bev. 4S | 15° | top, bottom, front | 0,0090, 1,00, Draufsicht 0,015 (1.0.5) | Standard | 12,0 | 1,0 |
+| `cw_35_duct` | 3,5-Zoll-Cinewhoop-Rahmen | 3.5″ Cinewhoop Frame | Cinewhoop 3.5″ | cinewhoop | true_x | 158 | 80–90 | 92,0 | 2,5 | m14 / s20 | ja · 20,0 | 4–6S, ≤ 200 g, bev. 6S | 15° | top, bottom, front | 0,0137, 1,00, Draufsicht 0,0228 (1.0.5) | Standard | 11,0 | 1,0 |
+| `fs_5_bash` | 5-Zoll-Freestyle-Rahmen (Bash) | 5″ Freestyle Frame (Bash) | Bash 5″ | freestyle | true_x | 226 | 115–130 | 138,0 | 6,0 | m22 / s30, s20 | ja · 32,0 | 4–6S, ≤ 260 g, bev. 6S | 30° | top, bottom, front | 0,0125, 0,95 | — | 10,0 | 1,4 |
+| `fs_5_squashed` | 5-Zoll-Freestyle-Rahmen (Squashed-X) | 5″ Freestyle Frame (squashed X) | Squashed 5″ | freestyle | squashed_x | 239 | 115–130 | 124,0 | 5,0 | m22 / s30, s20 | ja · 30,0 | 4–6S, ≤ 250 g, bev. 6S | 30° | top, bottom, front | 0,0125, 0,92 | — | 8,5 | 1,0 |
+| `race_5_stretched` | 5-Zoll-Race-Rahmen (Slim) | 5″ Race Frame (Slim) | Race 5″ Slim | race | stretched_x | 236 | 115–130 | 84,0 | 4,0 | m22 / s30, s20 | nein (unten, seit 1.1.0) · −2,8 | 4–6S, ≤ 230 g, bev. 4S | 40° | top, bottom, front | 0,0085, 0,72 | — | 6,5 | 0,8 |
+| `deadcat_5` | 5-Zoll-Freestyle-Rahmen (Deadcat) | 5″ Freestyle Frame (deadcat) | Deadcat 5″ | freestyle | deadcat | 223 | 115–130 | 132,0 | 5,0 | m22 / s30, s20 | ja · 30,0 | 4–6S, ≤ 250 g, bev. 6S | (0, 14, -105), 30° | top, bottom, front | 0,0130, 0,95 | — | 8,5 | 1,0 |
+| `hframe_5` | 5-Zoll-Freestyle-Rahmen (H-Frame) | 5″ Freestyle Frame (H-frame) | H-Frame 5″ | freestyle | h_frame | 252 | 115–130 | 145,0 | 5,0 | m22 / s30, s20 | ja · 28,0 | 4–6S, ≤ 260 g, bev. 6S | (0, 18, -92), 25° | top, bottom, front | 0,0150, 1,00 | — | 9,0 | 1,0 |
+| `lr_4_x` | 4-Zoll-Long-Range-Rahmen | 4″ Long Range Frame | Long Range 4″ | long_range | true_x | 175 | 90–102 | 48,0 | 4,0 | m14 / s20, whoop_aio | ja · 22,0 | 4–6S, ≤ 320 g, bev. 6S | 20° | top, bottom, front | 0,0090, 0,90 | — | 8,0 | 1,0 |
+| `lr_6_x` | 6-Zoll-Long-Range-Rahmen | 6″ Long Range Frame | Long Range 6″ | long_range | true_x | 255 | 140–152 | 128,0 | 5,0 | m28, m22 / s30, s20 | ja · 30,0 | 4–6S, ≤ 450 g, bev. 6S | 22° | top, bottom, front | 0,0155, 0,90 | — | 8,0 | 1,0 |
+| `lr_7_deadcat` | 7-Zoll-Long-Range-Rahmen (Deadcat) | 7″ Long Range Frame (deadcat) | Deadcat 7″ | long_range | deadcat | 302 | 165–180 | 185,0 | 5,5 | m28, m22 / s30, s20 | ja · 32,0 | 6–8S, ≤ 650 g, bev. 6S/1300 mAh | (0, 16, -78), 22° | top, bottom, front | 0,0170, 0,90 | — | 8,0 | 1,0 |
+| `lr_8_x` | 8-Zoll-Long-Range-Rahmen | 8″ Long Range Frame | Long Range 8″ | long_range | true_x | 360 | 190–205 | 215,0 | 6,0 | m28 / s30 | ja · 34,0 | 6–8S, ≤ 900 g, bev. 6S/2000 mAh | 20° | top, bottom, front | 0,0210, 0,90 | — | 7,5 | 1,0 |
+| `xclass_10` | 10-Zoll-X-Class-Rahmen | 10″ X-Class Frame | X-Class 10″ | x_class | true_x | 460 | 230–254 | 480,0 | 8,0 | justmoreparts:m31 / s30 | ja · 45,0 | 6–8S, ≤ 1100 g, bev. 6S/3000 mAh | 25° | top, bottom, front | 0,0275, 1,00 | — | 7,0 | 1,0 |
+| `xclass_12` | 12-Zoll-X-Class-Rahmen | 12″ X-Class Frame | X-Class 12″ | x_class | true_x | 700 | 280–305 | 980,0 | 10,0 | justmoreparts:m31, justmoreparts:m42 / s30 | ja · 55,0 | 6–8S, ≤ 1800 g, bev. 8S/3000 mAh | 28° | top, bottom, front | 0,0320, 1,00 | — | 6,5 | 1,0 |
+| `xclass_13` | 13-Zoll-X-Class-Rahmen | 13″ X-Class Frame | X-Class 13″ | x_class | true_x | 820 | 300–330 | 1450,0 | 12,0 | justmoreparts:m42 / s30 | ja · 60,0 | 6–8S, ≤ 2500 g, bev. 8S/4000 mAh | 30° | top, bottom, front | 0,0400, 1,00 | — | 6,0 | 1,0 |
+| `xclass_13_h` | 13-Zoll-X-Class-Rahmen (H-Frame) | 13″ X-Class Frame (H-frame) | H-Frame 13″ | x_class | h_frame | 828 | 300–330 | 1650,0 | 12,0 | justmoreparts:m42 / s30 | ja · 60,0 | 6–8S, ≤ 2500 g, bev. 8S/4000 mAh | (0, 30, -300), 25° | top, bottom, front | 0,0460, 1,05 | — | 7,0 | 1,3 |
 
 Kamerahalter seit 1.0.0 (Architektur §10.15; die Spalte „Kamera“ oben nennt für die folgenden Rahmen nur den Uptilt):
 `camera.pos` (x, y, z) in mm – `whoop_65_lite` (0, 11,7, −17,5), `whoop_85_duct` (0, 13,4, −17,5), `tp_2_x`
@@ -884,7 +1025,7 @@ Einsatz, Pro und Contra der True-X-Rahmen:
 | `whoop_75_duct` | 75-mm-Whoop 1–2S | mehr Schub als 65 mm, trägt 2S | weniger wendig |
 | `whoop_85_duct` | 85-mm-Whoop 2S, draußen | trägt 2S und digitale Kamera, schneller | drinnen groß, schwerer |
 | `tp_2_x` | 2″-Toothpick 1–2S | extrem leicht, offene Props | Props im Bild, zerbrechlich |
-| `tp_25_x` | 2,5″-Toothpick 2–4S | leicht und schnell (rund 100 km/h auf 4S, seit 1.0.0) | wenig Platz, kein Zubehör |
+| `tp_25_x` | 2,5″-Toothpick 2–4S | leicht und schnell (rund 100 km/h auf 4S, seit 1.0.0) | wenig Platz (nur 25,5-mm-AIOs) |
 | `tp_3_x` | 3″-Toothpick 4–6S | Freestyle in 100 g | Props im Bild bei wenig Uptilt |
 | `cw_25_duct` | 2,5″-Cinewhoop 4S | sicher drinnen, trägt Mini-Cam | Ducts bremsen (rund 85 km/h), wenig Flugzeit |
 | `cw_35_duct` | 3,5″-Cinewhoop 6S | trägt eine volle Action-Cam | Ducts bremsen (rund 90 km/h) |
@@ -903,7 +1044,7 @@ Hinweise für Implementierer 4:
 - `race_5_stretched` (seit 1.1.0): Akku unter dem Rahmen wie bei echten Race-Drohnen (`on_top: false`, `plate_mm` −2,8,
   wie `propwash:race_5` ab Propwash 0.5.0); Schwerpunkt `race5_4s` 18,7 → −3,6 mm, `race5_6s` 21,4 → −5,5 mm. Nur
   `role: race` zählt als Race-Rahmen; Toothpicks und X-Class behalten den Akku oben.
-- Zubehör-Anker (`accessory_anchors`) für alle Rahmen mit `top`/`bottom` festlegen (Action-Cam oben vorn, LED unten);
+- Zubehör-Anker (`accessory_anchors`) für alle Rahmen mit `top`/`bottom`/`front` festlegen (Action-Cam oben vorn, LED unten, vorne an der Nase);
   ohne Anker rechnet Propwash eine Ersatzformel, die bei Deadcat/H-Frame falsch aussieht.
 - Der Flugschul-Szene „Rahmenformen“ (`justmoreparts:frames`, Besitzer 4, Client) dienen die fünf 5″-Rahmen als
   Akteure (True-X, Stretched, Squashed, Deadcat, H) mit denselben FREESTYLE-Teilen.
@@ -936,6 +1077,23 @@ unten = LED-Streifen): Whoops nur unten (0, 0,5, −25,6/−29,5/−33,5) mit 90
 `lr_7_deadcat` (0, 37, −76) 20° / (0, −2,5, −62) 38 mm; `lr_8_x` (0, 39, −80) 20° / (0, −3, −66) 40 mm; `xclass_10` (0, 51, −100) /
 (0, −4, −84) 50 mm; `xclass_12` (0, 61, −130) / (0, −5, −110) 60 mm; `xclass_13` (0, 66, −150) / (0, −5, −125) 60 mm;
 `xclass_13_h` (0, 66, −230) / (0, −5, −170) 60 mm (alle oben 20°, unten 30°).
+
+**Halterungen wie beim Propwash-Gegenstück (seit 1.2.0, Spieltest des Besitzers):** Jeder Rahmen nimmt mindestens die
+Zubehör-Halterungen des Propwash-Rahmens, der ihn in der Teile-Tabelle ersetzt (`fallback` in
+`data/justmoreparts/propwash_share/table.json`): Whoops wie `whoop_65` nur unten, `tp_2_x` wie `whoop_65` unten,
+alle übrigen wie `cinewhoop_3`, `freestyle_5`, `race_5` und `long_range_7` oben, unten und vorne (Halterung vorne seit
+Propwash 0.5.2). Die Akku-Lage folgt dem Gegenstück gleicher Rolle; Toothpicks und X-Class behalten den Akku oben.
+Anker vorne (Neigung 0°, wie Propwash: der Quader hängt unter dem Anker und zeigt nach vorn) 8 mm vor dem vordersten
+Teil auf der Mittellinie des Drohnen-Modells (bei X-Class nach der `transformation` gemessen), auf der Oberkante der
+Bodenplatte: `deadcat_5` (0, 0, −129), `fs_5_bash` (0, 0, −81,5), `fs_5_squashed` (0, 0, −84), `hframe_5` (0, 0, −116),
+`race_5_stretched` (0, 0, −72), `lr_4_x` (0, 0, −71), `lr_6_x` (0, 0, −88), `lr_7_deadcat` (0, 0, −102), `lr_8_x`
+(0, 0, −110), `xclass_10` (0, 0, −131), `xclass_12` (0, 0, −181), `xclass_13` (0, 0, −206), `xclass_13_h` (0, 0, −324),
+`tp_25_x` (0, −0,3, −48), `tp_3_x` (0, −0,3, −51), `tp_35_stretched` (0, −0,3, −95); die Cinewhoops wie `cinewhoop_3`
+am Kamerakäfig unter der Bodenplatte: `cw_25_duct` (0, −3, −50), `cw_35_duct` (0, −3, −54). Neu unten (30°):
+`tp_2_x` (0, −2,8, −22,5) 20 mm, `tp_25_x` (0, −2,8, −27,5) 20 mm, `tp_3_x` (0, −3,3, −31) 20 mm, `tp_35_stretched`
+(0, −3,3, −40) 22 mm, `lr_4_x` (0, −2,5, −44) 28 mm; neu oben: `tp_25_x` (0, 15, −35) 15°. Prüfung:
+`frame/FrameCorePendantTest` (Halterungen, Bau-Prüfung mit Zubehör an jeder Halterung, Akku-Lage, eigene Anker, Anker
+vorne an der Nase nach derselben Regel, die auch die Propwash-Rahmen erfüllen).
 
 **Roll-/Nick-Autorität.** Seit Parts-API 1.4 liefert Propwash die Autoritäten selbst (`BuildStats#rollAuthorityRadS2()`,
 `pitchAuthorityRadS2()`, `yawAuthorityRadS2()`, aus der Regelstrecke, aus der die Simulation auch die PIDs ableitet; API-Wunsch

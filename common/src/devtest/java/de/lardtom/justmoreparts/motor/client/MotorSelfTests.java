@@ -39,14 +39,14 @@ import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
 public final class MotorSelfTests {
-    public static final int MOTOR_COUNT = 34;
+    public static final int MOTOR_COUNT = 37;
     private static final int LOOT_ROLLS = 300;
 
     private MotorSelfTests() {
     }
 
     public static void register() {
-        SelfTest.clientStep("motor: 34 Motor-Items mit Namen, Shift-Hilfe und Seltenheit", 40, ctx -> {
+        SelfTest.clientStep("motor: 37 Motor-Items mit Namen, Shift-Hilfe und Seltenheit", 40, ctx -> {
             List<String> errors = new ArrayList<>();
             List<MotorDefinition> motors = motors();
             if (motors.size() != MOTOR_COUNT) {
@@ -155,6 +155,8 @@ public final class MotorSelfTests {
             info.forEach(ctx::log);
             return errors.isEmpty() ? SelfTest.StepResult.pass() : SelfTest.StepResult.fail(String.join("; ", errors));
         });
+
+        RaceCourseSelfTests.register();
     }
 
     private static void serverChecks(MinecraftServer server, List<String> errors, List<String> info) {

@@ -17,7 +17,8 @@
   ],
   "accessory_mounts": [
     "top",
-    "bottom"
+    "bottom",
+    "front"
   ],
   "battery": {
     "on_top": true,
@@ -67,6 +68,14 @@
       ],
       "tilt_deg": 30.0,
       "length_mm": 34.0
+    },
+    "front": {
+      "pos": [
+        0.0,
+        0.0,
+        -81.5
+      ],
+      "tilt_deg": 0.0
     }
   },
   "sort": 611

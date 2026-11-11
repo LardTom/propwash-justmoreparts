@@ -257,11 +257,18 @@ Aus `link`, `camera_width_mm`, `vtx_power_mw`, `mass_g`, `visual.accent` (Kamera
 |---|---|
 | Analog Whoop (bis 14 mm) | Nano-Kamera der Basis (`analog_nano`) mit Platine und Kabeln, dahinter kleine VTX-Platine mit Chip und Drahtantenne (25° nach hinten) |
 | Digital Micro (bis 14 mm) | Nano-Kamera mit flachem Digital-Modul, Kühlblech und einer T-Antenne (15° nach hinten, sonst ragt das Teil so weit nach hinten, dass es am Boden doppelt so groß wie `digital_lite` wirkt) |
-| Analog Race / Long Range | Aufbau von `analog_race`: VTX im Schrumpfschlauch, MMCX, Lollipop; ab 1000 mW längerer VTX mit vier Kühlrippen und größerem Lollipop |
+| Analog Race / Long Range | Aufbau von `analog_race`: VTX im Schrumpfschlauch, MMCX, Lollipop (Elemente `antenna_tip`); ab 1000 mW längerer VTX mit vier Kühlrippen und größerem Lollipop |
 | Digital leicht | Aufbau von `digital_lite`: VTX-Gehäuse, Kühlblech, zwei T-Antennen |
 | Digital HD / Long Range | Aufbau von `digital_hd`: Air-Unit mit Rippen und zwei Antennen mit roten Spitzen; ab 20 g groß (30 × 10,5 × 34 mm, 6 Rippen), über 600 mW und leichter als 20 g schmaler mit längeren Antennen und größeren Spitzen |
 | Kamera | Breite aus `camera_width_mm`, Linse 12 mm analog, 11/12,5 mm digital, 16 mm HD |
 | Pro-Einheit | `digital_hd_pro` über `templates.OVERRIDES`: Linse 18 mm (größerer Sensor) und Seitenaufdruck „PRO“ statt „HD“ (Kopie von `video.hd_side` mit Text-Parameter) |
+
+**Antennen-Teile:** Jedes Element, das mit einer Antenne dreht (Stab, Spitze, Lollipop, T-Stück), und jede Antennen-Buchse
+heißt `antenna`, `antenna_tip`, `antenna_tee`, `antenna_socket`, `antenna_joint` oder `antenna_lead`; der Lollipop der
+analogen VTX heißt `antenna_tip` wie die Spitzen der übrigen Antennen. Über diese Namen kann Propwash die Antennen im
+VTX-Modell auslassen und sie hinten am Rahmen zeichnen, ohne dass Kappen an der Kamera stehen bleiben. Größe, Neigung und
+Lage am Rahmen bestimmt dann Propwash, nicht das VTX-Modell. `VtxAntennaModelsTest` prüft die Namen für Grund- und
+Lack-Modell.
 
 ## 5. Ablauf für die Kategorie-Besitzer
 

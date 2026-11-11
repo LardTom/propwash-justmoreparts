@@ -80,9 +80,9 @@ def build_analog(key, p, long_range):
     stalk = 30.0 if long_range else 26.0
     video.antenna(m, 0.0, 1.0, az, (42, 0, 0), stalk, 2.4, stalk="antenna_black")
     cap = 6.5 if long_range else 5.5
-    m.box(-cap, 1.0 + stalk, az - cap, cap, 1.0 + stalk + 7.0, az + cap, "antenna_red", name="lollipop", rot=(42, 0, 0),
+    m.box(-cap, 1.0 + stalk, az - cap, cap, 1.0 + stalk + 7.0, az + cap, "antenna_red", name="antenna_tip", rot=(42, 0, 0),
           origin=(0.0, 1.0, az))
-    m.box(-cap * 0.73, stalk, az - cap * 0.73, cap * 0.73, 1.0 + stalk + 8.2, az + cap * 0.73, "antenna_red", name="lollipop_cap",
+    m.box(-cap * 0.73, stalk, az - cap * 0.73, cap * 0.73, 1.0 + stalk + 8.2, az + cap * 0.73, "antenna_red", name="antenna_tip",
           rot=(42, 45, 0), origin=(0.0, 1.0, az))
     for i, mat in enumerate(("wire_yellow", "wire_red", "wire_black")):
         m.box(-2.0 + i * 1.6 - 0.5, -5.0, z0 - 1.5, -2.0 + i * 1.6 + 0.5, -4.0, z0, mat, name="cam_wire")

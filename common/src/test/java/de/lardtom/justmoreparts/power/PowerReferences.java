@@ -16,7 +16,7 @@ final class PowerReferences {
     enum Metric { MASS, THRUST_TO_WEIGHT, HOVER_THROTTLE, HOVER_TIME, CRUISE_TIME, TOP_SPEED, MOTOR_TEMP, PROPS_IN_VIEW }
 
     enum Corridor {
-        WHOOP(20, 60, 3.5, 7, 25, 50, 2.5, 9, 2.3, 9, 35, 85, 60, 20),
+        WHOOP(20, 60, 3.5, 7, 25, 50, 2.5, 9, 2.3, 9, 35, 85, Bench.WHOOP_MOTOR_TEMP_MAX, 20),
         TOOTHPICK(50, 230, 5, 9, 20, 35, 6, 16, 4, 13, 70, 110, Double.NaN, 15),
         TOOTHPICK_35(50, 230, 5, 9, 20, 35, 6, 16, 4, 13, 100, 130, Double.NaN, 15),
         CINEWHOOP(190, 420, 4, 7, 23, 35, 4.5, 13, 3.5, 11, 80, 150, 100, 25),
@@ -96,8 +96,8 @@ final class PowerReferences {
             ref("Whoop 75 1S 750", Corridor.WHOOP, "whoop_75_duct", "aio_whoop_2s_12a", "m1102_18000", "p40_14_5b_soft",
                     "analog_whoop_25mw", "b1s_750_hv", Set.of(), Set.of(Metric.CRUISE_TIME), "größter 1S-Akku: Reiseflug über 10 min"),
             ref("Whoop 75 2S 300", Corridor.WHOOP, "whoop_75_duct", "aio_whoop_2s_12a", "m0802_15500", "p40_20_2b_pc",
-                    "analog_whoop_25mw", "b2s_300_hv", Set.of("heavy_sag", "battery_overload"), Set.of(Metric.HOVER_THROTTLE),
-                    "45C-Akku (13,5 A) gegen 23 A Vollgas mit 40-mm-Props: ehrliches Contra des kleinen 2S-Akkus"),
+                    "analog_whoop_25mw", "b2s_300_hv", Set.of("heavy_sag", "battery_overload"), Set.of(Metric.HOVER_THROTTLE, Metric.MOTOR_TEMP),
+                    "45C-Akku (13,5 A) gegen 23 A Vollgas mit 40-mm-Props: ehrliches Contra des kleinen 2S-Akkus; 0802/15500 bei Dauervollgas auf 2S überlastet (Contra des Motors)"),
             ref("Whoop 85 2S 450", Corridor.WHOOP, "whoop_85_duct", "aio_whoop_2s_12a", "m1102_13500", "p45_17_4b_bi",
                     "digital_micro", "b2s_450_hv"),
             ref("Toothpick 2,5\" 2S 650", Corridor.TOOTHPICK, "tp_25_x", "aio_tp_4s_20a", "m1103_8000", "p65_25_3b_pc",

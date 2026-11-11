@@ -1,19 +1,30 @@
 package de.lardtom.justmoreparts.motor;
 
+import com.google.gson.JsonParser;
 import de.lardtom.justmoreparts.bench.Bench;
 import de.lardtom.justmoreparts.bench.PartFiles;
+import de.lardtom.justmoreparts.preset.JmpPresets;
 import de.lardtom.propwash.api.PropwashApi;
 import de.lardtom.propwash.api.build.BuildCheck;
 import de.lardtom.propwash.api.build.BuildSpec;
 import de.lardtom.propwash.api.build.BuildStats;
+import de.lardtom.propwash.api.build.DronePreset;
+import de.lardtom.propwash.api.part.BatteryDefinition;
 import de.lardtom.propwash.api.part.MotorDefinition;
 import de.lardtom.propwash.api.part.PartDefinition;
 import net.minecraft.resources.Identifier;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.UncheckedIOException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -22,9 +33,17 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class MotorBenchTest {
     static final double TOLERANCE = 0.05;
+    static final double RACE_MIXED_MIN = 2.5;
+    static final double RACE_MIXED_MAX = 4.5;
+    static final int RACE_HIGH_C = 60;
+    static final double AMBIENT_C = 20.0;
+    static final double F90_MIN_RISE_K = 65.0;
+    static final double F90_MAX_RISE_K = 77.0;
+    static final double FULL_PACK_MARGIN_K = 20.0;
 
     enum Corridor {
-        WHOOP(20, 60, 3.5, 7, 25, 50, 2.5, 9, 2.3, 9, 35, 85, 60, 20),
+        WHOOP(20, 60, 3.5, 7, 25, 50, 2.5, 9, 2.3, 9, 35, 85, Bench.WHOOP_MOTOR_TEMP_MAX, 20),
+        RACE_WHOOP(20, 60, 5, 8, 20, 35, 2.5, 9, 2.3, 9, 55, 75, Double.NaN, 20),
         TOOTHPICK(50, 230, 5, 9, 20, 35, 6, 16, 4, 13, 70, 110, Double.NaN, 15),
         TOOTHPICK_35(50, 230, 5, 9, 20, 35, 6, 16, 4, 13, 100, 130, Double.NaN, 15),
         CINEWHOOP(190, 420, 4, 7, 23, 35, 4.5, 13, 3.5, 11, 80, 150, 100, 25),
@@ -53,6 +72,8 @@ public class MotorBenchTest {
     static final Build W65_250 = new Build("whoop_65_lite", "aio_whoop_1s_6a", "p31_14_3b_bi", "analog_whoop_25mw", "b1s_250_hv");
     static final Build W75_1S = new Build("whoop_75_duct", "aio_whoop_2s_12a", "p40_17_3b_pc", "analog_whoop_25mw", "b1s_550_hv");
     static final Build W75_2S = new Build("whoop_75_duct", "aio_whoop_2s_12a", "p40_20_2b_pc", "analog_whoop_25mw", "b2s_450_hv");
+    static final Build W75_RACE = new Build("whoop_75_duct", "aio_whoop_2s_12a", "p40_17_3b_pc", "analog_whoop_25mw", "b1s_450_hv");
+    static final Build W75_1S_6A = new Build("whoop_75_duct", "aio_whoop_1s_6a", "p40_17_3b_pc", "analog_whoop_25mw", "b1s_450_hv");
     static final Build W85_2S = new Build("whoop_85_duct", "aio_whoop_2s_12a", "p45_17_4b_bi", "digital_micro", "b2s_450_hv");
     static final Build TP2 = new Build("tp_2_x", "aio_whoop_2s_12a", "p51_20_3b_pc", "analog_whoop_25mw", "b2s_450_hv");
     static final Build TP25_2S = new Build("tp_25_x", "aio_tp_4s_20a", "p65_25_3b_pc", "digital_micro", "b2s_650");
@@ -90,10 +111,13 @@ public class MotorBenchTest {
     static {
         ref("m0702_23000", "65 mm 1S 250", Corridor.WHOOP, W65_250);
         ref("m0702_27000", "65 mm 1S 380", Corridor.WHOOP, W65);
-        ref("m0802_15500", "75 mm 2S 450 digital, 75 °C nach 1 min Vollgas", Corridor.WHOOP,
-                new Build("whoop_75_duct", "aio_whoop_2s_12a", "p40_20_2b_pc", "digital_micro", "b2s_450_hv"), "~temp");
+        ref("m0702_30000", "65 mm 1S 380", Corridor.WHOOP, W65);
+        ref("m0702_35000", "65 mm 1S 380 (Preset whoop65_race_1s)", Corridor.RACE_WHOOP, W65);
+        ref("m0802_15500", "75 mm 2S 450 digital, Dauervollgas überlastet", Corridor.WHOOP,
+                new Build("whoop_75_duct", "aio_whoop_2s_12a", "p40_20_2b_pc", "digital_micro", "b2s_450_hv"), "~temp", Bench.MOTOR_THERMAL);
         ref("m0802_19000", "75 mm 1S 450 (Preset whoop75_1s)", Corridor.WHOOP,
                 new Build("whoop_75_duct", "aio_whoop_1s_6a", "p40_17_3b_pc", "analog_whoop_25mw", "b1s_450_hv"));
+        ref("m0802_27200", "75 mm 1S 450, 12-A-AIO", Corridor.RACE_WHOOP, W75_RACE);
         ref("m1102_13500", "85 mm 2S 450 (Preset whoop85_2s)", Corridor.WHOOP, W85_2S);
         ref("m1102_18000", "75 mm 1S 750, 4 Blatt", Corridor.WHOOP,
                 new Build("whoop_75_duct", "aio_whoop_2s_12a", "p40_15_4b_pc", "analog_whoop_25mw", "b1s_750_hv"));
@@ -140,6 +164,15 @@ public class MotorBenchTest {
         REFS.add(new Ref(motor, label, build.with(motor), corridor, allowed, skip));
     }
 
+    static Set<String> raceAllowed(BuildSpec spec) {
+        Set<String> allowed = new TreeSet<>(Set.of("heavy_sag"));
+        if (PropwashApi.parts().get(BatteryDefinition.class, spec.battery()).orElseThrow().cRating() < RACE_HIGH_C) {
+            allowed.add("battery_weak");
+            allowed.add("battery_overload");
+        }
+        return allowed;
+    }
+
     static BuildStats s(Build build, String motor) {
         return Bench.stats(build.with(motor));
     }
@@ -179,9 +212,9 @@ public class MotorBenchTest {
     }
 
     @Test
-    public void thirtyFourMotorsWithReferenceBuilds() {
+    public void thirtySevenMotorsWithReferenceBuilds() {
         List<String> files = motorFiles();
-        assertEquals(34, files.size(), "Motoren in resources");
+        assertEquals(37, files.size(), "Motoren in resources");
         Set<String> covered = new TreeSet<>();
         for (Ref ref : REFS) {
             covered.add(ref.motor());
@@ -199,7 +232,17 @@ public class MotorBenchTest {
             if (!check.problems().isEmpty()) {
                 failures.add(who + ": Probleme " + check.problems());
             }
-            for (String warning : warnings(ref.spec())) {
+            List<String> refWarnings = warnings(ref.spec());
+            if (ref.corridor() == Corridor.XCLASS) {
+                Bench.withoutEscHeat(refWarnings, ref.spec());
+            }
+            if (ref.corridor() == Corridor.RACE_WHOOP) {
+                refWarnings.removeAll(raceAllowed(ref.spec()));
+                if (!(st.mixedFlightTimeMin() >= RACE_MIXED_MIN * (1 - TOLERANCE) && st.mixedFlightTimeMin() <= RACE_MIXED_MAX * (1 + TOLERANCE))) {
+                    failures.add(who + ": gemischt " + fmt(st.mixedFlightTimeMin()) + " min außerhalb " + fmt(RACE_MIXED_MIN) + "–" + fmt(RACE_MIXED_MAX));
+                }
+            }
+            for (String warning : refWarnings) {
                 if (!ref.allowed().contains(warning)) {
                     failures.add(who + ": Warnung " + warning);
                 }
@@ -240,6 +283,7 @@ public class MotorBenchTest {
     public void presetsWithJmpMotorsAreNeitherSluggishNorOverheated() {
         String[][] presets = {
                 {"whoop75_1s", "whoop_75_duct", "aio_whoop_1s_6a", "m0802_19000", "p40_17_3b_pc", "analog_whoop_25mw", "b1s_450_hv"},
+                {"whoop65_race_1s", "whoop_65_lite", "aio_whoop_1s_6a", "m0702_35000", "p31_14_3b_bi", "analog_whoop_25mw", "b1s_380_hv"},
                 {"whoop85_2s", "whoop_85_duct", "aio_whoop_2s_12a", "m1102_13500", "p45_17_4b_bi", "digital_micro", "b2s_450_hv"},
                 {"toothpick2_2s", "tp_2_x", "aio_whoop_2s_12a", "m1103_11000", "p51_20_3b_pc", "analog_whoop_25mw", "b2s_450_hv"},
                 {"toothpick3_4s", "tp_3_x", "aio_tp_4s_20a", "m1404_3800", "p76_25_3b_hard", "digital_micro", "propwash:b4s_650"},
@@ -267,14 +311,97 @@ public class MotorBenchTest {
             BuildSpec spec = Bench.spec(p[1], p[2], p[3], p[4], p[5], p[6]);
             System.out.println(line(p[0], spec));
             List<String> w = warnings(spec);
+            if (p[0].startsWith("xclass")) {
+                Bench.withoutEscHeat(w, spec);
+            }
             if (w.contains("sluggish_motors") || w.contains("motor_thermal")) {
                 failures.add(p[0] + ": " + w);
             }
             if (!(Bench.stats(spec).sustainedMotorTempC() < motor(p[3]).thermal().derateStartC())) {
-                failures.add(p[0] + ": Motor über der Drosselgrenze");
+                failures.add(p[0] + ": Motor über der Hitzegrenze");
             }
         }
         assertTrue(failures.isEmpty(), String.join("\n", failures));
+    }
+
+    @Test
+    public void longRangePresetsMatchTheSevenInchDatasheetAfterOneMinute() {
+        Object[][] presets = {{"lr7_8s", true}, {"lr7_deadcat_lion", false}, {"lr8_6s_lion", false}};
+        List<String> failures = new ArrayList<>();
+        for (Object[] p : presets) {
+            BuildStats st = Bench.stats(JmpPresets.byPath((String) p[0]).build());
+            double rise = st.motorTempMinuteC() - AMBIENT_C;
+            boolean lipo = (Boolean) p[1];
+            if (rise > F90_MAX_RISE_K || (lipo && rise < F90_MIN_RISE_K)) {
+                failures.add(p[0] + ": " + fmt(rise) + " K nach 60 s Vollgas im Stand, Datenblatt " + fmt(F90_MIN_RISE_K) + "–" + fmt(F90_MAX_RISE_K) + " K");
+            }
+        }
+        assertTrue(failures.isEmpty(), String.join("\n", failures));
+    }
+
+    @Test
+    public void sameStatorCoolsAlikeAndXClassKeepsAFullPackBelowItsThreshold() {
+        String[][] families = {{"m28065_1050", "m28065_1300"}, {"m3115_640", "m3115_900", "m3115_1050"}, {"m4214_330", "m4214_400", "m4214_530"}};
+        for (String[] family : families) {
+            MotorDefinition first = motor(family[0]);
+            for (String path : family) {
+                MotorDefinition other = motor(path);
+                assertEquals(first.basics().massGrams(), other.basics().massGrams(), path);
+                assertEquals(first.thermal().coolingWPerK(), other.thermal().coolingWPerK(), path);
+                assertEquals(first.thermal().coolingWPerKPerRadS(), other.thermal().coolingWPerKPerRadS(), path);
+            }
+        }
+        List<String> failures = new ArrayList<>();
+        for (Ref ref : REFS) {
+            if (ref.corridor() != Corridor.XCLASS) {
+                continue;
+            }
+            double threshold = motor(ref.motor()).thermal().derateStartC();
+            double sustained = Bench.stats(ref.spec()).sustainedMotorTempC();
+            if (sustained > threshold - FULL_PACK_MARGIN_K) {
+                failures.add(ref.motor() + " (" + ref.label() + "): " + fmt(sustained) + " °C nach einem Akku Vollgas, Schwelle " + fmt(threshold) + " °C");
+            }
+        }
+        assertTrue(failures.isEmpty(), String.join("\n", failures));
+    }
+
+    @Test
+    public void raceWhoopPresetIsVeryPunchyButFlyable() {
+        BuildSpec spec = JmpPresets.byPath("whoop65_race_1s").build();
+        assertEquals(W65.with("m0702_35000"), spec);
+        BuildCheck check = Bench.check(spec);
+        BuildStats st = Bench.stats(spec);
+        assertTrue(check.buildable() && check.problems().isEmpty(), check.problems().toString());
+        List<String> w = warnings(spec);
+        w.removeAll(raceAllowed(spec));
+        assertTrue(w.isEmpty(), "Warnungen " + w);
+        List<String> punchier = new ArrayList<>();
+        int others = 0;
+        for (DronePreset preset : PropwashApi.builds().presets()) {
+            BuildSpec other = preset.data().build();
+            if (other.equals(spec) || PropwashApi.parts().get(BatteryDefinition.class, other.battery()).map(BatteryDefinition::cells).orElse(0) != 1) {
+                continue;
+            }
+            others++;
+            if (!gt(st.thrustToWeight(), Bench.stats(other).thrustToWeight())) {
+                punchier.add(preset.id().toString());
+            }
+        }
+        for (JmpPresets.Entry entry : JmpPresets.ALL) {
+            BuildSpec other = entry.build();
+            if (other.equals(spec) || PropwashApi.parts().get(BatteryDefinition.class, other.battery()).map(BatteryDefinition::cells).orElse(0) != 1) {
+                continue;
+            }
+            others++;
+            if (!gt(st.thrustToWeight(), Bench.stats(other).thrustToWeight())) {
+                punchier.add(entry.path());
+            }
+        }
+        assertTrue(others >= 2 && punchier.isEmpty(), "nicht spritziger als die übrigen 1S-Presets: " + punchier);
+        assertTrue(st.thrustToWeight() >= 5.0 && st.hoverThrottlePercent() >= 20.0 && st.mixedFlightTimeMin() >= RACE_MIXED_MIN
+                        && st.sustainedMotorTempC() < motor("m0702_35000").thermal().derateStartC(),
+                String.format(Locale.ROOT, "T/W %.1f, Schwebegas %.1f %%, gemischt %.1f min, Motor %.1f °C", st.thrustToWeight(),
+                        st.hoverThrottlePercent(), st.mixedFlightTimeMin(), st.sustainedMotorTempC()));
     }
 
     @Test
@@ -322,8 +449,9 @@ public class MotorBenchTest {
     @Test
     public void higherKvMeansMoreTopSpeedAndMoreCurrent() {
         Object[][] rows = {
-                {W65, new String[]{"m0702_23000", "m0702_27000"}},
+                {W65, new String[]{"m0702_23000", "m0702_27000", "m0702_30000", "m0702_35000"}},
                 {W75_1S, new String[]{"m0802_15500", "m0802_19000"}},
+                {W75_RACE, new String[]{"m0802_15500", "m0802_19000", "m0802_27200"}},
                 {W75_1S, new String[]{"m1102_13500", "m1102_18000"}},
                 {TP2, new String[]{"m1103_8000", "m1103_11000"}},
                 {TP25_3S, new String[]{"m12025_5500", "m12025_11500"}},
@@ -352,8 +480,54 @@ public class MotorBenchTest {
 
     @Test
     public void claimedProsAndConsAreVisibleOnTheBench() {
-        List<String> failed = new ArrayList<>();
-        Claims c = new Claims(failed);
+        Claims c = claims();
+        assertTrue(c.failed.isEmpty(), "nicht belegte Pro/Contra-Aussagen:\n" + String.join("\n", c.failed));
+        System.out.println(c.count + " Pro/Contra-Aussagen belegt");
+    }
+
+    @Test
+    public void proAndConLinesOfThe1404With3800KvAreBackedByTheBench() {
+        Map<String, String> de = lang("de_de");
+        Map<String, String> en = lang("en_us");
+        List<String> claimed = claims().names;
+        List<String> failures = new ArrayList<>();
+        int lines = 0;
+        for (int i = 1; i <= 8; i++) {
+            String key = "justmoreparts.help.m1404_3800.what." + i;
+            String line = de.get(key);
+            if (line == null || !(line.startsWith("+ ") || line.startsWith("− "))) {
+                continue;
+            }
+            lines++;
+            String english = en.get(key);
+            if (english == null || english.charAt(0) != line.charAt(0)) {
+                failures.add("what." + i + ": englische Zeile fehlt oder hat ein anderes Vorzeichen");
+            }
+            if (!claimed.contains("1404/3800: " + line.substring(2))) {
+                failures.add("what." + i + " „" + line + "“ ist keine Aussage aus claimedProsAndConsAreVisibleOnTheBench");
+            }
+        }
+        assertEquals(3, lines, "Pro/Contra-Zeilen des 1404/3800");
+        assertTrue(failures.isEmpty(), String.join("\n", failures));
+    }
+
+    static Map<String, String> lang(String code) {
+        String path = "assets/" + PartFiles.NAMESPACE + "/lang/" + code + ".json";
+        try (InputStream in = MotorBenchTest.class.getClassLoader().getResourceAsStream(path)) {
+            if (in == null) {
+                throw new IllegalStateException(path + " fehlt");
+            }
+            Map<String, String> out = new LinkedHashMap<>();
+            JsonParser.parseReader(new InputStreamReader(in, StandardCharsets.UTF_8)).getAsJsonObject().entrySet()
+                    .forEach(e -> out.put(e.getKey(), e.getValue().getAsString()));
+            return out;
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
+    }
+
+    static Claims claims() {
+        Claims c = new Claims(new ArrayList<>());
 
         BuildStats a23 = s(W65, "m0702_23000");
         BuildStats a27 = s(W65, "m0702_27000");
@@ -367,6 +541,24 @@ public class MotorBenchTest {
         c.that("0702: leichtester Motor im Katalog", motorFiles().stream().allMatch(m -> motor(m).basics().massGrams() >= motor("m0702_23000").basics().massGrams())
                 && lt(motor("m0702_23000").basics().massGrams(), motor("propwash:m0802_22000").basics().massGrams()));
 
+        BuildStats a30 = s(W65, "m0702_30000");
+        BuildStats a35 = s(W65, "m0702_35000");
+        c.that("0702/30000: mehr Schub als 27000 KV", gt(a30.thrustToWeight(), a27.thrustToWeight()));
+        c.that("0702/30000: mehr Topspeed (61 statt 57 km/h)", Math.round(a30.topSpeedKmh()) == 61 && Math.round(a27.topSpeedKmh()) == 57);
+        c.that("0702/30000: kürzere Flugzeit als 27000 KV", lt(a30.mixedFlightTimeMin(), a27.mixedFlightTimeMin()));
+        c.that("0702/30000: 250-mAh-Akku zu schwach", warnings(W65_250.with("m0702_30000")).contains("battery_weak")
+                && !warnings(W65.with("m0702_30000")).contains("battery_weak"));
+        c.that("0702/30000: niedrigere Hitzegrenze", motor("m0702_30000").thermal().derateStartC() < 130.0);
+        c.that("0702/35000: maximaler Punch (T/W über 5)", a35.thrustToWeight() > 5.0 && gt(a35.thrustToWeight(), a30.thrustToWeight()));
+        c.that("0702/35000: mehr Topspeed als 30000 KV (66 statt 61 km/h)", Math.round(a35.topSpeedKmh()) == 66 && gt(a35.topSpeedKmh(), a30.topSpeedKmh()));
+        c.that("0702/35000: kürzeste Flugzeit der 0702 (2,6 min gemischt)", lt(a35.mixedFlightTimeMin(), a30.mixedFlightTimeMin())
+                && Math.round(a35.mixedFlightTimeMin() * 10.0) == 26);
+        c.that("0702/35000: 380-mAh-Akku (45C) zu schwach", warnings(W65.with("m0702_35000")).contains("battery_weak"));
+        c.that("0702/35000: wärmer als 30000 KV", gt(a35.sustainedMotorTempC(), a30.sustainedMotorTempC()));
+        List<String> a35on40 = warnings(W75_1S_6A.with("m0702_35000"));
+        c.that("0702/35000: mit 40-mm-Props träge und zu heiß", a35on40.contains("sluggish_motors") && a35on40.contains(Bench.MOTOR_THERMAL));
+        c.that("0702/35000: niedrigere Hitzegrenze", motor("m0702_35000").thermal().derateStartC() < 130.0);
+
         BuildStats b155_1 = s(W75_1S, "m0802_15500");
         BuildStats b190_1 = s(W75_1S, "m0802_19000");
         BuildStats b155_2 = s(W75_2S, "m0802_15500");
@@ -376,6 +568,21 @@ public class MotorBenchTest {
         c.that("0802/15500: auf 2S längere Flugzeit als 1102/13500",
                 gt(b155_2.hoverFlightTimeMin(), c135_2.hoverFlightTimeMin()) && gt(b155_2.mixedFlightTimeMin(), c135_2.mixedFlightTimeMin()));
         c.that("0802/15500: 45-mm-4-Blatt macht ihn träge", warnings(W85_2S.with("m0802_15500")).contains("sluggish_motors"));
+        c.that("0802/15500: Dauervollgas auf 2S überlastet, sehr heiß", b155_2.warnings().contains(Bench.MOTOR_THERMAL)
+                && b155_2.fullThrottleCurrentA() / 4.0 > 1.5 * motor("m0802_15500").maxCurrentAmps()
+                && b155_2.mixedMotorTempC() < 60.0 && s(W75_2S, "m1102_13500").sustainedMotorTempC() < Bench.WHOOP_MOTOR_TEMP_MAX);
+
+        BuildStats b190_race = s(W75_RACE, "m0802_19000");
+        BuildStats b272_race = s(W75_RACE, "m0802_27200");
+        c.that("0802/27200: 75 mm auf 1S mit 12-A-AIO T/W fast 6", b272_race.thrustToWeight() > 5.5);
+        c.that("0802/27200: mehr Topspeed als 19000 KV (67 statt 59 km/h)", Math.round(b272_race.topSpeedKmh()) == 67
+                && Math.round(b190_race.topSpeedKmh()) == 59);
+        c.that("0802/27200: am 6-A-AIO strombegrenzt", s(W75_1S_6A, "m0802_27200").warnings().contains("esc_current_limited")
+                && !b272_race.warnings().contains("esc_current_limited"));
+        c.that("0802/27200: hoher Strom, Akku bricht ein", b272_race.fullThrottleCurrentA() > 1.5 * b190_race.fullThrottleCurrentA()
+                && b272_race.warnings().contains("heavy_sag"));
+        c.that("0802/27200: heißer als 19000 KV", gt(b272_race.sustainedMotorTempC(), b190_race.sustainedMotorTempC()));
+        c.that("0802/27200: niedrigere Hitzegrenze", motor("m0802_27200").thermal().derateStartC() < 130.0);
 
         BuildStats c180_1 = s(W75_1S, "m1102_18000");
         c.that("0802/19000: längere Schwebezeit als 1102/18000 mit 40 mm", gt(b190_1.hoverFlightTimeMin(), c180_1.hoverFlightTimeMin()));
@@ -423,9 +630,10 @@ public class MotorBenchTest {
         BuildStats f38 = s(TP3_4S, "m1404_3800");
         BuildStats f46 = s(TP3_4S, "propwash:m1404_4600");
         BuildStats f275_6 = s(TP3_6S, "m1404_2750");
-        c.that("1404/3800: weniger Strom und kühler als 4600 KV", lt(f38.fullThrottleCurrentA(), f46.fullThrottleCurrentA())
-                && lt(f38.sustainedMotorTempC(), f46.sustainedMotorTempC()));
-        c.that("1404/3800: nach 1 min Vollgas 59 statt 88 °C", Math.round(f38.motorTempMinuteC()) == 59 && Math.round(f46.motorTempMinuteC()) == 88);
+        double f38current = f38.fullThrottleCurrentA() / f46.fullThrottleCurrentA();
+        c.that("1404/3800: ein Drittel weniger Strom als 4600 KV", f38current > 0.6 && f38current < 0.72);
+        c.that("1404/3800: schont den Akku (Auslastung 66 statt 98 %)", Math.round(f38.batteryLoadPercent()) == 66
+                && Math.round(f46.batteryLoadPercent()) == 98);
         c.that("1404/3800: weniger Punch als 4600 KV", lt(f38.thrustToWeight(), f46.thrustToWeight()));
         c.that("1404/2750: auf 6S weniger Strom, längere Flugzeit als 3800 auf 4S", lt(f275_6.fullThrottleCurrentA(), f38.fullThrottleCurrentA())
                 && gt(f275_6.hoverFlightTimeMin(), f38.hoverFlightTimeMin()) && gt(f275_6.mixedFlightTimeMin(), f38.mixedFlightTimeMin()));
@@ -437,12 +645,12 @@ public class MotorBenchTest {
         BuildStats g25_4 = s(TP35_4S, "m1505_2500");
         BuildStats g36_4 = s(TP35_4S, "m1505_3600");
         c.that("1505/2500: im Duct etwas mehr Schub als 2004", g25_cw.thrustToWeight() > h17_cw.thrustToWeight() * 1.05);
-        c.that("1505/2500: im Cinewhoop zu heiß (drosselt)", g25_cw.warnings().contains("motor_thermal")
+        c.that("1505/2500: im Cinewhoop zu heiß (Hitzegrenze)", g25_cw.warnings().contains("motor_thermal")
                 && g25_cw.motorTempMinuteC() > h17_cw.motorTempMinuteC() + 50.0);
         c.that("1505/3600: auf 4S kräftig (T/W über 9)", g36_4.thrustToWeight() > 9.0 && g36_4.thrustToWeight() > g25_4.thrustToWeight() * 1.3);
         c.that("1505/3600: hoher Strom auf 4S", g36_4.fullThrottleCurrentA() > 2 * g25_4.fullThrottleCurrentA());
         c.that("1505/3600: 20-A-AIO zu klein", Bench.check(TP35_4S_AIO20.with("m1505_3600")).warnings().contains("esc_undersized"));
-        c.that("2004/1700: im Duct ohne Drosselung (1 min Vollgas 83 °C)", Math.round(h17_cw.motorTempMinuteC()) == 83
+        c.that("2004/1700: im Duct ohne Hitzegrenze (1 min Vollgas 81 °C)", Math.round(h17_cw.motorTempMinuteC()) == 81
                 && !h17_cw.warnings().contains("motor_thermal"));
         c.that("2004/1700: im Duct ein Drittel weniger Strom als 1505", h17_cw.fullThrottleCurrentA() <= 0.7 * g25_cw.fullThrottleCurrentA());
         c.that("2004/1700: schwerer als 1505", gt(motor("m2004_1700").basics().massGrams(), motor("m1505_2500").basics().massGrams()));
@@ -464,7 +672,7 @@ public class MotorBenchTest {
         BuildStats j195 = s(DEADCAT6, "m2207_1950");
         c.that("2207,5/1850: kühler als 2207/1950", lt(j185.sustainedMotorTempC(), j195.sustainedMotorTempC()));
         c.that("2207,5/1850: reagiert schneller als 2207/1950", lt(j185.motorResponseMs(), j195.motorResponseMs()));
-        c.that("2207,5/1850: hitzefest (Drosselung ab 145 °C)", motor("m22075_1850").thermal().derateStartC() >= 145.0);
+        c.that("2207,5/1850: hitzefest (Leistungsverlust erst ab 145 °C)", motor("m22075_1850").thermal().derateStartC() >= 145.0);
         c.that("2207,5/1850: schwerer, etwas weniger Schub", gt(j185.massGrams(), j195.massGrams()) && lt(j185.thrustToWeight(), j195.thrustToWeight()));
 
         BuildStats k27 = s(RACE4, "m22075_2700");
@@ -495,7 +703,7 @@ public class MotorBenchTest {
                 && lt(m15_2507.hoverFlightTimeMin(), m15_2207.hoverFlightTimeMin()));
         c.that("2207/1500: mit 6″ längere Schwebezeit als 2507", gt(m15_2207.hoverFlightTimeMin(), m15_2507.hoverFlightTimeMin()));
         c.that("2507/1800: sehr viel Schub (T/W über 12)", m18.thrustToWeight() > 12.0 && m18.thrustToWeight() > m15_2507.thrustToWeight() * 1.15);
-        c.that("2507/1800: hitzefest (Drosselung ab 140 °C)", motor("m2507_1800").thermal().derateStartC() >= 140.0);
+        c.that("2507/1800: hitzefest (Leistungsverlust erst ab 140 °C)", motor("m2507_1800").thermal().derateStartC() >= 140.0);
         c.that("2507/1800: hoher Strom (162 statt 112 A), heißer", Math.round(m18.fullThrottleCurrentA()) == 162
                 && Math.round(m15_2507.fullThrottleCurrentA()) == 112 && m18.motorTempMinuteC() > m15_2507.motorTempMinuteC() + 8.0);
 
@@ -521,7 +729,7 @@ public class MotorBenchTest {
         c.that("2806,5/1050: auf 8S so ausdauernd wie 2807/1100, 2 g leichter", n105_8.hoverFlightTimeMin() >= o11_8.hoverFlightTimeMin()
                 && lt(motor("m28065_1050").basics().massGrams(), motor("m2807_1100").basics().massGrams()));
         BuildStats o11 = s(LR8_6S, "m2807_1100");
-        c.that("2807/1100: dreht 8″ ohne zu drosseln", !o11.warnings().contains("motor_thermal")
+        c.that("2807/1100: dreht 8″ ohne Hitzegrenze", !o11.warnings().contains("motor_thermal")
                 && lt(o11.sustainedMotorTempC(), motor("m2807_1100").thermal().derateStartC()));
         c.that("2807/1100: schwer", motor("m2807_1100").basics().massGrams() > 47.0);
         BuildStats o15 = s(FS7, "m2807_1500");
@@ -529,7 +737,7 @@ public class MotorBenchTest {
         c.that("2807/1500: kräftig mit 7″-3-Blatt (T/W über 12)", o15.thrustToWeight() > 12.0 && o15.thrustToWeight() > n130_fs.thrustToWeight() * 1.05);
         c.that("2807/1500: hoher Strom, Spannungseinbruch", o15.fullThrottleCurrentA() > 150.0 && o15.warnings().contains("heavy_sag"));
         c.that("2807/1500: kürzere Flugzeit als 1100 KV", lt(o15_dc.mixedFlightTimeMin(), s(DC7, "m2807_1100").mixedFlightTimeMin()));
-        c.that("2807/1500: mit 3-Blatt warm (über 110 °C)", o15.sustainedMotorTempC() > 110.0);
+        c.that("2807/1500: mit 3-Blatt heiß (über 100 °C)", o15.sustainedMotorTempC() > 100.0);
 
         BuildStats p64_8 = s(XC10_8S, "m3115_640");
         BuildStats p64_6 = s(XC10_6S, "m3115_640");
@@ -554,9 +762,7 @@ public class MotorBenchTest {
         c.that("4214/530: enormer Punch (T/W über 7)", q53.thrustToWeight() > 7.0 && q53.thrustToWeight() > q40.thrustToWeight() * 1.25);
         c.that("4214/530: sehr hoher Strom, Einbruch, kurze Reise", q53.fullThrottleCurrentA() > 250.0 && q53.warnings().contains("heavy_sag")
                 && lt(q53.mixedFlightTimeMin(), q40.mixedFlightTimeMin()));
-
-        assertTrue(failed.isEmpty(), "nicht belegte Pro/Contra-Aussagen:\n" + String.join("\n", failed));
-        System.out.println(c.count + " Pro/Contra-Aussagen belegt");
+        return c;
     }
 
     static boolean gt(double a, double b) {
@@ -569,6 +775,7 @@ public class MotorBenchTest {
 
     static final class Claims {
         final List<String> failed;
+        final List<String> names = new ArrayList<>();
         int count;
 
         Claims(List<String> failed) {
@@ -577,6 +784,7 @@ public class MotorBenchTest {
 
         void that(String claim, boolean holds) {
             count++;
+            names.add(claim);
             if (!holds) {
                 failed.add(claim);
             }

@@ -15,6 +15,8 @@ public final class JmpPresets {
     public static final int NO_COLOR = -1;
 
     public static final List<Entry> ALL = List.of(
+            new Entry("whoop65_race_1s", SizeClass.WHOOP, "whoop_65_lite", "aio_whoop_1s_6a", "m0702_35000", "p31_14_3b_bi",
+                    "analog_whoop_25mw", "b1s_380_hv", 0x1B1D20, NO_COLOR, 0xFF3FA6),
             new Entry("whoop75_1s", SizeClass.WHOOP, "whoop_75_duct", "aio_whoop_1s_6a", "m0802_19000", "p40_17_3b_pc",
                     "analog_whoop_25mw", "b1s_450_hv", 0x3FB950, NO_COLOR, 0xE6EDF3),
             new Entry("whoop85_2s", SizeClass.WHOOP, "whoop_85_duct", "aio_whoop_2s_12a", "m1102_13500", "p45_17_4b_bi",

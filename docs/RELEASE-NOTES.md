@@ -8,6 +8,41 @@ Verweise auf die Design-Dokumente. Teile im Einzelnen: [`design/parts-catalog.md
 
 ---
 
+## 1.2.0
+
+Begleit-Release zu Propwash 0.6.0, gebaut und geprüft gegen Propwash 0.6.0 (Parts-API 1.8, verlangt 1.7). Propwash
+0.6.0 startet nicht mit Just More Parts 1.1.x; 1.2.0 startet nicht mit Propwash 0.5.x. Bereiche im Release: Fabric
+`"propwash": ">=0.6.0"`, NeoForge `[0.6.0,)` (die Vorab-Stände trugen `>=0.6.0-` und `[0.6.0-alpha,)`).
+
+### Drei 1S-Renn-Whoop-Motoren und ein Preset
+- `m0702_30000`, `m0702_35000` (65-mm-Renn-Whoops) und `m0802_27200` (75 mm) nach mindestens drei Datenblättern
+  verschiedener Hersteller (KV und Spitzenstrom als Median der Klasse, Quellen in `design/data-sources/`), mit Modellen,
+  Texturen, Rezepten, Beute und Texten. Neues Preset „Renn-Whoop 65 · 1S“ (`whoop65_race_1s`, 35000 KV): sehr spritzig,
+  kurze Flugzeit, braucht einen Akku mit hoher C-Rate.
+- In der Sharecode-Tabelle stehen die drei Motoren am Ende der Art `motor` mit `since` 1.2.0; Propwash 0.6.0 trägt sie
+  im Verzeichnis-Abzug mit dem Ersatzteil `propwash:m0802_22000`.
+
+### Sharecodes über Propwash (PW3)
+- JMP bringt keinen eigenen Codec mehr. Die Teile-Tabelle `data/justmoreparts/propwash_share/table.json`
+  (Kurzkennung 2) gibt jedem Teil eine kurze Nummer in den PW3-Codes von Propwash; alte PW1- und PW2-Codes liest
+  Propwash weiter. `/jmp code …` verweist nur noch auf `/propwash code …`. Ohne JMP nennt Propwash jedes Teil mit Namen
+  und schlägt ein Ersatzteil vor.
+
+### Akku gesteckt, Kühlung, Zubehör
+- Mit Propwash 0.6.0 zeigt ein gesteckter Akku an allen 22 Rahmen keine Stecker und keine Kabel
+  ([`battery-plug.md`](battery-plug.md)); `tools/connector_models.py` erzeugt die Varianten der 12 Stacks.
+- Kühlwerte der 7″- und X-Class-Motoren passend zur Motor-Hitze von Propwash 0.6.0: Die 3115-Motoren kühlen gleich
+  (der 640 KV läuft auf 8S nicht mehr an seine Hitzegrenze), der 2807 mit 1100 KV trifft nach einer Minute Vollgas das
+  7″-Datenblatt.
+- Jeder Rahmen nimmt das Zubehör seines Propwash-Gegenstücks an, mit Halterung vorne an 18 Rahmen. Kopf und Kappe der
+  Lollipop-Antennen der analogen Race- und Long-Range-Videosender heißen `antenna_tip`, damit Propwash die Antennen
+  hinten am Rahmen zeigt.
+- Shift-Hilfe des 1404/3800 nach den Werten der Werkbank („ein Drittel weniger Strom als 4600 KV“).
+
+### Tests
+- `FrameCorePendantTest` prüft den Anker vorne nur noch an den JMP-Rahmen; die Lage am Propwash-Cinewhoop hat Propwash
+  mit RC3P-5 absichtlich geändert (vorher veralteter Test, JMP-RC3-1).
+
 ## 1.1.1
 
 Begleit-Release zu Propwash 0.5.2. Keine neuen Teile, keine Änderung an Speicherformaten oder Sharecodes; läuft mit

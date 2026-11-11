@@ -10,6 +10,9 @@
     3,
     4
   ],
+  "thermal": {
+    "cooling_w_per_k_per_rad_s": 0.00016
+  },
   "sort": 113,
   "visual": {
     "accent": "#d8a41e"

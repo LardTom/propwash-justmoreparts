@@ -5,12 +5,30 @@ import de.lardtom.propwash.api.build.BuildCheck;
 import de.lardtom.propwash.api.build.BuildSpec;
 import de.lardtom.propwash.api.build.BuildStats;
 import de.lardtom.propwash.api.part.AccessorySlot;
+import de.lardtom.propwash.api.part.MotorDefinition;
 import net.minecraft.resources.Identifier;
 
+import java.util.Collection;
 import java.util.Locale;
 
 public final class Bench {
+    public static final String MOTOR_THERMAL = "motor_thermal";
+    public static final double WHOOP_MOTOR_TEMP_MAX = 100.0;
+
     private Bench() {
+    }
+
+    public static boolean escHeatOnly(BuildSpec spec) {
+        BuildStats stats = stats(spec);
+        double derate = PropwashApi.parts().get(MotorDefinition.class, spec.motor()).orElseThrow().thermal().derateStartC();
+        return stats.warnings().contains(MOTOR_THERMAL) && stats.sustainedMotorTempC() < derate;
+    }
+
+    public static <T extends Collection<String>> T withoutEscHeat(T warnings, BuildSpec spec) {
+        if (escHeatOnly(spec)) {
+            warnings.remove(MOTOR_THERMAL);
+        }
+        return warnings;
     }
 
     public static Identifier id(String text) {

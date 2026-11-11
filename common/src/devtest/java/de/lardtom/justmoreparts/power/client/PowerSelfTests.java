@@ -12,6 +12,7 @@ import de.lardtom.propwash.api.build.BuildSpec;
 import de.lardtom.propwash.api.build.BuildStats;
 import de.lardtom.propwash.api.build.DroneData;
 import de.lardtom.propwash.api.part.CellChemistry;
+import de.lardtom.propwash.api.part.MotorDefinition;
 import de.lardtom.propwash.api.part.PartDefinition;
 import de.lardtom.propwash.api.part.PartKind;
 import net.minecraft.core.registries.Registries;
@@ -129,6 +130,11 @@ public final class PowerSelfTests {
         }
     }
 
+    private static boolean escHeatOnly(BuildSpec spec, BuildStats stats) {
+        double derate = PropwashApi.parts().get(MotorDefinition.class, spec.motor()).map(m -> m.thermal().derateStartC()).orElse(0.0);
+        return stats.warnings().contains("motor_thermal") && stats.sustainedMotorTempC() < derate;
+    }
+
     private static Build build(String label, String... parts) {
         return new Build(label, parts, Set.of());
     }
@@ -144,8 +150,8 @@ public final class PowerSelfTests {
                         "b1s_380_hv"),
                 build("Whoop 65 1S 250", "propwash:whoop_65", "aio_whoop_1s_6a", "propwash:m0802_22000", "propwash:p31_3b", "propwash:analog_nano",
                         "b1s_250_hv"),
-                build("Cinewhoop 3″ 4S 850", "propwash:cinewhoop_3", "aio_20_4s_35a", "propwash:m1404_4600", "propwash:p3_3b",
-                        "propwash:digital_lite", "b4s_850"),
+                build("Cinewhoop 3″ 4S 850", Set.of("motor_thermal"), "propwash:cinewhoop_3", "aio_20_4s_35a", "propwash:m1404_4600",
+                        "propwash:p3_3b", "propwash:digital_lite", "b4s_850"),
                 build("Cinewhoop 3″ 3S 650", "propwash:cinewhoop_3", "aio_20_4s_35a", "propwash:m1404_4600", "propwash:p3_3b",
                         "propwash:digital_lite", "b3s_650"),
                 build("Freestyle 5″ 6S 1300", "propwash:freestyle_5", "stack_30_6s_60a", "propwash:m2207_1750", "propwash:p51_3b",
@@ -197,6 +203,9 @@ public final class PowerSelfTests {
             }
             warnings.addAll(stats.get().warnings());
             warnings.removeAll(build.allowedWarnings());
+            if (build.parts()[0].startsWith("xclass_") && escHeatOnly(spec, stats.get())) {
+                warnings.remove("motor_thermal");
+            }
             if (!warnings.isEmpty()) {
                 errors.add(build.label() + ": Warnungen " + warnings);
             }

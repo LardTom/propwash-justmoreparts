@@ -997,7 +997,7 @@
       }
     },
     {
-      "name": "lollipop",
+      "name": "antenna_tip",
       "from": [
         7.1875,
         11.875,
@@ -1081,7 +1081,7 @@
       }
     },
     {
-      "name": "lollipop_cap",
+      "name": "antenna_tip",
       "from": [
         7.4069,
         11.75,

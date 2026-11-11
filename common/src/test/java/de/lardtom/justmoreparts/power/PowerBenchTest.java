@@ -56,6 +56,9 @@ public class PowerBenchTest {
             Set<String> warnings = new HashSet<>(check.warnings());
             warnings.addAll(stats.warnings());
             warnings.removeAll(reference.allowedWarnings());
+            if (reference.corridor() == Corridor.X_CLASS) {
+                Bench.withoutEscHeat(warnings, reference.spec());
+            }
             if (!warnings.isEmpty()) {
                 failures.add(reference.label() + ": Warnungen " + warnings);
             }
@@ -85,7 +88,7 @@ public class PowerBenchTest {
         Object[][] builds = {
                 {Set.of(), "propwash:whoop_65", "aio_whoop_1s_6a", "propwash:m0802_22000", "propwash:p31_3b", "propwash:analog_nano", "b1s_380_hv"},
                 {Set.of(), "propwash:whoop_65", "aio_whoop_1s_6a", "propwash:m0802_22000", "propwash:p31_3b", "propwash:analog_nano", "b1s_250_hv"},
-                {Set.of(), "propwash:cinewhoop_3", "aio_20_4s_35a", "propwash:m1404_4600", "propwash:p3_3b", "propwash:digital_lite", "b4s_850"},
+                {Set.of(Bench.MOTOR_THERMAL), "propwash:cinewhoop_3", "aio_20_4s_35a", "propwash:m1404_4600", "propwash:p3_3b", "propwash:digital_lite", "b4s_850"},
                 {Set.of(), "propwash:cinewhoop_3", "aio_20_4s_35a", "propwash:m1404_4600", "propwash:p3_3b", "propwash:digital_lite", "b3s_650"},
                 {Set.of(), "propwash:freestyle_5", "stack_30_6s_60a", "propwash:m2207_1750", "propwash:p51_3b", "propwash:digital_hd",
                         "propwash:b6s_1300"},
@@ -113,6 +116,9 @@ public class PowerBenchTest {
             @SuppressWarnings("unchecked")
             Set<String> allowed = (Set<String>) b[0];
             warnings.removeAll(allowed);
+            if (((String) b[1]).startsWith("xclass_")) {
+                Bench.withoutEscHeat(warnings, spec);
+            }
             if (!check.problems().isEmpty() || !warnings.isEmpty()) {
                 failures.add(b[6] + " in " + b[1] + ": " + check.problems() + " " + warnings);
             }

@@ -6,7 +6,6 @@ import de.lardtom.justmoreparts.core.JmpTab;
 import de.lardtom.justmoreparts.platform.Services;
 import de.lardtom.justmoreparts.power.PowerModule;
 import de.lardtom.justmoreparts.preset.PresetModule;
-import de.lardtom.justmoreparts.share.ShareModule;
 import de.lardtom.justmoreparts.video.VideoModule;
 import de.lardtom.propwash.api.PropwashApi;
 import net.minecraft.resources.Identifier;
@@ -17,7 +16,7 @@ public final class JustMoreParts {
     public static final String MOD_ID = "justmoreparts";
     public static final String MOD_NAME = "Propwash: Just More Parts";
     public static final String PROPWASH_ID = PropwashApi.MOD_ID;
-    public static final String REQUIRED_API = "1.4";
+    public static final String REQUIRED_API = "1.7";
     public static final Logger LOG = LoggerFactory.getLogger(MOD_NAME);
 
     private static int bundledParts = -1;
@@ -39,7 +38,6 @@ public final class JustMoreParts {
         items = PropwashApi.partItems().registerItems(MOD_ID);
         PresetModule.init();
         JmpTab.init();
-        ShareModule.init();
         DevHooks.common();
         LOG.info("{} geladen ({}): {} Teile aus JSON, {} Teil-Items, {} Truhen-Einspeisungen, Propwash-API {}", MOD_NAME,
                 Services.PLATFORM.name(), bundledParts, items, loot, PropwashApi.API_VERSION);

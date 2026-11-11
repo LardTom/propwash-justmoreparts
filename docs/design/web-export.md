@@ -1,5 +1,11 @@
 # Web-Export — Datenpaket für den Web-Konfigurator
 
+> **Abgelöst ab Just More Parts 1.2.0:** Den Web-Export (Format 2) schreibt Propwash 0.6.0 mit
+> `/propwash webexport [<namensraum>|all]` (`docs/web-export.md` im Propwash-Repository). In JMP startet
+> `./gradlew webExport` (bzw. `:fabric:runWebExport`, `:neoforge:runWebExport`) nur noch diesen Befehl mit `all` auf dem
+> Dev-Server und kopiert das Ergebnis nach `build/web-export/`; das Paket `export` entfällt. Dieses Dokument beschreibt
+> Format 1 als Referenz.
+
 | | |
 |---|---|
 | Format | `web-export` **1** (Feld `format` in `manifest.json`) |

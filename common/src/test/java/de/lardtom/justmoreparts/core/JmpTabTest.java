@@ -75,7 +75,7 @@ public class JmpTabTest {
 
     @Test
     public void jmpNeedsTheApiWithOwnTabs() {
-        assertEquals("1.4", JustMoreParts.REQUIRED_API);
+        assertEquals("1.7", JustMoreParts.REQUIRED_API);
         assertTrue(PropwashApi.isCompatible(JustMoreParts.REQUIRED_API), "Propwash-API " + PropwashApi.API_VERSION);
     }
 

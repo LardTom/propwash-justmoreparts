@@ -264,7 +264,7 @@ public class FrameDataTest {
             }
             assertTrue(entry.paint().color("frame").isPresent() && entry.paint().color("motors").isPresent(), entry.path());
         }
-        assertEquals(22, seen.size());
+        assertEquals(23, seen.size());
         assertEquals(JmpPresets.SizeClass.values().length, JmpPresets.ALL.stream().map(JmpPresets.Entry::sizeClass).distinct().count());
     }
 

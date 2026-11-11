@@ -15,7 +15,9 @@
   "stack_mounts": [
     "propwash:whoop_aio"
   ],
-  "accessory_mounts": [],
+  "accessory_mounts": [
+    "bottom"
+  ],
   "battery": {
     "on_top": true,
     "plate_mm": 7.0
@@ -45,6 +47,17 @@
   },
   "visual": {
     "accent": "#f5c518"
+  },
+  "accessory_anchors": {
+    "bottom": {
+      "pos": [
+        0.0,
+        -2.8,
+        -22.5
+      ],
+      "tilt_deg": 30.0,
+      "length_mm": 20.0
+    }
   },
   "sort": 603
 }
